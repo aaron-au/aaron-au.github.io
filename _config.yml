@@ -11,9 +11,9 @@ github_username:  jekyll
 show_downloads: false
 
 # Build settings
-theme: minima
-plugins:
-  - jekyll-feed
+# theme: minima
+# plugins:
+#   - jekyll-feed
 
 exclude:
   - .sass-cache/
