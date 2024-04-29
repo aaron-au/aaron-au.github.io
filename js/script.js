@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	// OWL CAROUSEL INSTALLATION
-	$("#testimonial-carousel").owlCarousel({
+	$("#boomi-carousel").owlCarousel({
 		items:1,
 		itemsDesktop : [1000,1], //5 items between 1000px and 901px
       	itemsDesktopSmall : [900,1], // betweem 900px and 601px
@@ -9,6 +9,16 @@ $(document).ready(function() {
 		itemsMobile :[479,1],
 		pagination:true
 	});
+
+	$("#global-carousel").owlCarousel({
+		items:1,
+		itemsDesktop : [1000,1], //5 items between 1000px and 901px
+      	itemsDesktopSmall : [900,1], // betweem 900px and 601px
+      	itemsTablet: [600,1],
+		itemsMobile :[479,1],
+		pagination:true
+	});
+
 	$("#home-slider").owlCarousel({
 		items:1,
 		itemsDesktop : [1000,1], //5 items between 1000px and 901px
@@ -25,11 +35,11 @@ $(document).ready(function() {
 	var offsettop = $('.navbar').offset().top;
 	if (offsettop > 50) {
         $('.navbar').addClass('colored-nav');
-        $('.navbar').addClass('gradient-violat');
+        $('.navbar').addClass('gradient-atturra');
         $("#scroll-top-div").fadeIn('500');
     } else {
         $('.navbar').removeClass('colored-nav');
-        $('.navbar').removeClass('gradient-violat');
+        $('.navbar').removeClass('gradient-atturra');
         $("#scroll-top-div").fadeOut('500');
     }
 	var num = 50; //number of pixels before modifying styles
@@ -37,11 +47,11 @@ $(document).ready(function() {
 	$(window).bind('scroll', function () {
 	    if ($(window).scrollTop() > num) {
 	        $('.navbar').addClass('colored-nav');
-	        $('.navbar').addClass('gradient-violat');
+	        $('.navbar').addClass('gradient-atturra');
 	        $("#scroll-top-div").fadeIn('500');
 	    } else {
 	        $('.navbar').removeClass('colored-nav');
-	        $('.navbar').removeClass('gradient-violat');
+	        $('.navbar').removeClass('gradient-atturra');
 	        $("#scroll-top-div").fadeOut('500');
 	    }
 	});

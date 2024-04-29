@@ -1,11 +1,11 @@
 /****************************************TYPOGRAPHY ***************************************************/
 body{
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	font-size: 14px;
 	color: #999999;
 }
 h1,h2,h3,h4,h5,h6{
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	color: #433b88;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -29,7 +29,7 @@ p{
 }
 
 .btn{
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	font-size: 0.707em;
 	text-transform: uppercase;
 	font-weight: 600;
@@ -65,7 +65,7 @@ p{
 	max-height: 50px;
 }
 .navbar-default .navbar-nav>li>a {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #fff;
     text-transform: uppercase;
 }
@@ -145,7 +145,7 @@ header{
 }
 .slider-para{
 	font-size: 1.414em;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Poppins', sans-serif;
 }
 /*******************************************SLIDER***************************************************/
 .slider-content-wraper{
@@ -223,17 +223,56 @@ header{
 	background-color: #fff;
 	box-shadow: 0px 8px 21px 0px rgba(26, 31, 66, 0.29);
 }
-.testimonial-content{
-	padding: 2rem 8rem;
-    position: relative;
-    top: -45px;
-    color: #5a5a5a;
-    font-weight: 600;
+
+.project-work{
+	padding: 1em 2em;
+	background: #fff;
 }
-.testimonial-speech{
+
+.project-work .client-name{
+	font-size: 2em;
+}
+
+.project-work .client-designation{
+	margin-bottom: 0px;
+	font-size: 1em;
+	text-transform: uppercase;
+	color: #999999;
+	font-family: 'Poppins', sans-serif;
+}
+
+.project-work-content{
+	padding: 1rem 2rem;
+}
+
+.project-work-content .content-header{
+	padding-top: 1.5em;
+	color: #5a5a5a;
+	font-size: 1.25em;
+	text-transform: uppercase;
+	font-weight: 600;
+	border-bottom: #5a5a5a 1px solid;
+}
+
+.project-work-content .content-body{
+	padding-top: 1em;
+	color: #5a5a5a;
+	font-size: 1.2em
+}
+
+.project-work .client-logo img{
+	position: absolute;
+	top: 1em;
+	right: 2em;
+	max-width: 115px;
+	max-height: 115px;
+}
+
+
+/* .testimonial-speech{
 	font-size: 16px;
 	text-align: center;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	color: #5a5a5a;
 }
 .testimonial-container .client-details{
@@ -249,15 +288,15 @@ header{
 	font-size: 10px;
 	text-transform: uppercase;
 	color: #999999;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Poppins', sans-serif;
 }
 .client-name{
 	margin-bottom: 0px;
 	font-size: 16px;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	text-transform: capitalize;
 	font-weight: 400;
-}
+} */
 ul.social-list{
 	margin: 0;
 	padding: 0;
@@ -321,7 +360,7 @@ ul.social-list li a:hover, ul.social-list li a:focus{
 	border: 0px;
 	background-color: transparent!important;
 	padding-left: 0;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	color: #999999;
 }
 .footer-devider{
@@ -370,42 +409,40 @@ ul.social-list li a:hover, ul.social-list li a:focus{
 .btn-orange,.btn-violat{
 	color: #fff;
 }
-.btn-violat,.gradient-violat {
-  background-image: -moz-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
-  background-image: -webkit-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
-  background-image: -ms-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
+.btn-atturra,.gradient-atturra {
+  background-image: -moz-linear-gradient( 315deg, rgb(175,224,208) -30%, rgb(0,76,69) 25%);
+  background-image: -webkit-linear-gradient( 315deg, rgb(175,224,208) -30%, rgb(0,76,69) 25%);
+  background-image: -ms-linear-gradient( 315deg, rgb(175,224,208) -30%, rgb(0,76,69) 25%);
 }
-.btn-orange,.gradient-orange {
-  background-image: -webkit-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-  background-image: -o-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-  background-image: linear-gradient(125deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-  box-shadow: 0px 8px 27px 0px rgba(116, 44, 69, 0.21);
-}
+
+.btn-orange,.gradient-atturra-alt {
+	background-image: -webkit-linear-gradient(35deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	background-image: -o-linear-gradient(35deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	background-image: linear-gradient(125deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	box-shadow: 0px 8px 27px 0px rgba(116, 44, 69, 0.21);
+  }
 
 .btn-white,.gradient-white{
 	background-image:
-    linear-gradient(125deg, #ffffff, #e1e1e1);
+    linear-gradient(125deg, #f9f9f9, #ffffff);
     color: #6b6a8b;
 }
+
 .border-none{
 	border: 0px !important;
 }
 .btn-rounded-corner{
 	border-radius: 50px;
 }
-.btn-video{
-	display: inline-block;
-	vertical-align: middle;
-	white-space: nowrap;
-	cursor: pointer;
-    -webkit-user-select: none;
-}
+
 .text-center{
 	text-align: center;
 }
+
 .img-responsive{
 	max-width:100%;
 }
+
 .text-violat{
 	color: #6b6a8b;
 }
@@ -463,33 +500,6 @@ ul.social-list li a:hover, ul.social-list li a:focus{
   border-color: #e86c6c;
   box-shadow: 0px 8px 27px 0px rgba(116, 44, 69, 0.21);
   color: #e86c6c;
-}
-.btn.gradient-orange:hover{
-	background-color: #e86c6c!important;
-	background-image: none!important;
-}
-.btn-orange.active, .btn-orange:active{
-	color: #fff;
-	background-image: -webkit-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: -o-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: linear-gradient(125deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    border:0px;
-    border-color: transparent;
-}
-.btn-violat.active, .btn-violat:active{
-	color: #fff;
-	background-image: -moz-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
-    background-image: -webkit-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
-    background-image: -ms-linear-gradient( 135deg, rgb(244,202,216) 0%, rgb(129,112,137) 35%, rgb(14,21,58) 100%);
-    border:0px;
-    border-color: transparent;
-}
-.btn-violat:hover,.btn-white:hover{
-	background-image: -webkit-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: -o-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: linear-gradient(125deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    border:0px;
-    border-color: transparent;
 }
 
 .icon-rounded{
@@ -568,9 +578,10 @@ ul.social-list li a:hover, ul.social-list li a:focus{
     display: table;
     width: 100%;
     height: 100%;
-    background-image: -webkit-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: -o-linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-    background-image: linear-gradient(125deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
+    background-image: -webkit-linear-gradient(35deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	background-image: -o-linear-gradient(35deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	background-image: linear-gradient(125deg, rgb(219,138,6) 0%, rgb(190,84,0) 32%);
+	box-shadow: 0px 8px 27px 0px rgba(116, 44, 69, 0.21);
     color: #fff;
 }
 .scroll-top-icon-container i{
@@ -624,9 +635,10 @@ ul.social-list li a:hover, ul.social-list li a:focus{
 		padding: 2rem;
 	}
 	.navbar{
-	    background-image: -webkit-linear-gradient(305deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-	    background-image: -o-linear-gradient(305deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
-	    background-image: linear-gradient(35deg, rgb(232,88,137) 0%, rgb(232,98,123) 32%, rgb(232,108,108) 100%);
+	    background-image: -moz-linear-gradient( 225deg, rgb(175,224,208) 5%, rgb(0,76,69) 35%);
+		background-image: -webkit-linear-gradient( 225deg, rgb(175,224,208) 5%, rgb(0,76,69) 35%);
+		background-image: -ms-linear-gradient( 225deg, rgb(175,224,208) 5%, rgb(0,76,69) 35%);
+		background-color: #004c45;
 	}
 	.navbar-divider{
 		display: none;
