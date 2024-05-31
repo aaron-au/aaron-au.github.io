@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:schemas-qad-com:xml-services" xmlns:prodata="urn:schemas-progress-com:xml-prodata:0001" xmlns:qcom="urn:schemas-qad-com:xml-services:common" xmlns:qsvc="urn:schemas-qad-com:xml-services" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <wsdl:types>
+        <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="urn:schemas-qad-com:xml-services:common">
+            <xsd:element name="suppressResponseDetail" type="xsd:boolean"/>
+            <xsd:element name="dsSessionContext" type="qcom:DsSessionContext"/>
+            <xsd:element name="dsExceptions" type="qcom:DsExceptions"/>
+            <xsd:complexType name="Temp_err_msg">
+                <xsd:sequence>
+                    <xsd:element name="tt_level" nillable="true" type="xsd:int"/>
+                    <xsd:element name="tt_msg_context" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_data" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_datetime" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_desc" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_field" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_index" nillable="true" type="xsd:int"/>
+                    <xsd:element maxOccurs="6" name="tt_msg_keys" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_nbr" nillable="true" type="xsd:string"/>
+                    <xsd:element name="tt_msg_processed" nillable="true" type="xsd:boolean"/>
+                    <xsd:element name="tt_msg_sev" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="TtContext">
+                <xsd:sequence>
+                    <xsd:element name="propertyQualifier" nillable="true" type="xsd:string"/>
+                    <xsd:element name="propertyName" nillable="true" type="xsd:string"/>
+                    <xsd:element name="propertyValue" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DsExceptions">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="temp_err_msg" type="qcom:Temp_err_msg"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DsSessionContext">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="ttContext" type="qcom:TtContext"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.w3.org/2005/08/addressing">
+            <xsd:import namespace="urn:schemas-qad-com:xml-services:common"/>
+            <xsd:element name="Action" type="wsa:ActionType"/>
+            <xsd:element name="To" type="wsa:ToType"/>
+            <xsd:element name="RelatesTo" type="wsa:RelatesToType"/>
+            <xsd:element name="MessageID" type="wsa:MessageIDType"/>
+            <xsd:element name="ReferenceParameters" type="wsa:ReferenceParametersType"/>
+            <xsd:element name="ReplyTo" type="wsa:ReplyToType"/>
+            <xsd:simpleType name="ActionType">
+                <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="ToType">
+                <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="RelatesToType">
+                <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="MessageIDType">
+                <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+            <xsd:complexType name="ReferenceParametersType">
+                <xsd:sequence>
+                    <xsd:element ref="qcom:suppressResponseDetail"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ReplyToType">
+                <xsd:sequence>
+                    <xsd:element name="Address" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="urn:schemas-qad-com:xml-services">
+            <xsd:include schemaLocation="queryMaintainSalesOrder-eB21_1.xsd"/>
+            <xsd:include schemaLocation="queryMaintainSalesOrderResponse-eB21_1.xsd"/>
+            <xsd:import namespace="urn:schemas-qad-com:xml-services:common"/>
+            <xsd:element name="queryMaintainSalesOrder" type="qsvc:WSDLQueryMaintainSalesOrderType"/>
+            <xsd:element name="queryMaintainSalesOrderResponse" type="qsvc:WSDLQueryMaintainSalesOrderResponseType"/>
+            <xsd:complexType name="WSDLQueryMaintainSalesOrderType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="qcom:dsSessionContext"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="qsvc:dsQueryServiceRequest"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="WSDLQueryMaintainSalesOrderResponseType">
+                <xsd:sequence>
+                    <xsd:element name="result" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="qcom:dsSessionContext"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="qcom:dsExceptions"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="qsvc:maintainSalesOrder"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:portType name="QdocWebService">
+        <wsdl:operation name="queryMaintainSalesOrder">
+            <wsdl:input message="qsvc:processQueryMaintainSalesOrderRequest" name="processQueryMaintainSalesOrderRequest"/>
+            <wsdl:output message="qsvc:processQueryMaintainSalesOrderResponse" name="processQueryMaintainSalesOrderResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SoapBinding" type="qsvc:QdocWebService">
+        <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="queryMaintainSalesOrder">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="processQueryMaintainSalesOrderRequest">
+                <wsdlsoap:body parts="body" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderRequest" part="action" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderRequest" part="to" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderRequest" part="messageID" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderRequest" part="referenceParameters" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderRequest" part="replyTo" use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="processQueryMaintainSalesOrderResponse">
+                <wsdlsoap:body parts="body" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderResponse" part="to" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderResponse" part="action" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderResponse" part="messageID" use="literal"/>
+                <wsdlsoap:header message="qsvc:processQueryMaintainSalesOrderResponse" part="relatesTo" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="QdocWebService">
+        <wsdl:port binding="qsvc:SoapBinding" name="QdocWebService">
+            <wsdlsoap:address location="http://qssyhplldb02.qad.com:8190/qxitestdb/services/QdocWebService"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:message name="processQueryMaintainSalesOrderRequest">
+        <wsdl:part element="wsa:Action" name="action"/>
+        <wsdl:part element="wsa:To" name="to"/>
+        <wsdl:part element="wsa:MessageID" name="messageID"/>
+        <wsdl:part element="wsa:ReferenceParameters" name="referenceParameters"/>
+        <wsdl:part element="wsa:ReplyTo" name="replyTo"/>
+        <wsdl:part element="qsvc:queryMaintainSalesOrder" name="body"/>
+    </wsdl:message>
+    <wsdl:message name="processQueryMaintainSalesOrderResponse">
+        <wsdl:part element="wsa:To" name="to"/>
+        <wsdl:part element="wsa:Action" name="action"/>
+        <wsdl:part element="wsa:MessageID" name="messageID"/>
+        <wsdl:part element="wsa:RelatesTo" name="relatesTo"/>
+        <wsdl:part element="qsvc:queryMaintainSalesOrderResponse" name="body"/>
+    </wsdl:message>
+</wsdl:definitions>
