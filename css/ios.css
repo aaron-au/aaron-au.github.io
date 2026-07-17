@@ -1,0 +1,104 @@
+/* ============ iOS shell ============ */
+#ios-root {
+  position: fixed; inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ============ Status bar ============ */
+#ios-statusbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 70;
+  display: flex; align-items: center; justify-content: space-between;
+  height: calc(44px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 26px 0;
+  color: var(--bar-text);
+  font-size: 15px; font-weight: 600;
+  pointer-events: none;
+}
+#ios-clock { font-variant-numeric: tabular-nums; }
+.ios-status-glyphs { display: flex; align-items: center; gap: 7px; }
+#ios-battery svg { display: block; }
+
+/* ============ Home screen ============ */
+#ios-home {
+  position: absolute; inset: 0;
+  padding: calc(58px + env(safe-area-inset-top, 0px)) 20px 90px;
+  overflow-y: auto;
+}
+#ios-widgets {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  margin-bottom: 26px;
+}
+#ios-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  gap: 26px 12px;
+}
+.ios-app-icon {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  -webkit-tap-highlight-color: transparent;
+}
+.ios-app-icon .icon-tile {
+  width: min(62px, 100%); aspect-ratio: 1; height: auto;
+  border-radius: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+}
+.ios-app-icon .icon-tile svg { width: 32px; height: 32px; }
+.ios-app-icon:active .icon-tile { filter: brightness(0.8); }
+.ios-app-label {
+  font-size: 11.5px; font-weight: 500; color: var(--icon-label);
+  text-shadow: var(--icon-label-shadow);
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ============ App view ============ */
+#ios-appview {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; flex-direction: column;
+  background: var(--ios-app-bg);
+  visibility: hidden;
+  transform: scale(0.15);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0.25, 1), opacity 0.28s ease, visibility 0s linear 0.32s;
+}
+#ios-appview.open {
+  visibility: visible;
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0.25, 1), opacity 0.2s ease;
+}
+
+#ios-appview-header {
+  flex: none;
+  padding: calc(50px + env(safe-area-inset-top, 0px)) 20px 10px;
+  border-bottom: 1px solid var(--win-border);
+}
+#ios-appview-header h1 {
+  margin: 0; font-size: 17px; font-weight: 650; text-align: center;
+}
+#ios-appview-body {
+  flex: 1; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+}
+/* Hide the app content's own h1 in iOS mode: the header already names the app */
+#ios-appview-body .app-content > h1:first-child,
+#ios-appview-body .about-hero h1 { font-size: 22px; }
+
+/* ============ Home indicator ============ */
+#ios-home-indicator {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: 0; z-index: 100;
+  width: 60%; height: calc(30px + env(safe-area-inset-bottom, 0px));
+  display: grid; place-items: center;
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#ios-home-indicator .pill {
+  width: 134px; height: 5px; border-radius: 3px;
+  background: var(--bar-text); opacity: 0.85;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}

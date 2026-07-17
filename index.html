@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Aaron Lees — personal site and blog.">
+  <title>Aaron Lees</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235b5fe9'/%3E%3Ctext x='32' y='44' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='34' font-weight='700' fill='white' text-anchor='middle'%3EAL%3C/text%3E%3C/svg%3E">
+  <script>
+    /* Applied before styles load: stored theme (avoids a flash of the wrong
+       theme) and logged-in state (avoids a flash of the login screen). */
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/macos.css">
+  <link rel="stylesheet" href="./css/ios.css">
+</head>
+<body>
+
+  <!-- ======================= Login screen ======================= -->
+  <div id="login-screen">
+    <div class="login-clock">
+      <time class="login-clock-time"></time>
+      <span class="login-clock-date"></span>
+    </div>
+
+    <div class="login-users">
+      <button class="login-user" data-user="aaron">
+        <img class="login-avatar" src="./assets/headshot.svg" alt="" width="84" height="84">
+        <span>Aaron Lees</span>
+      </button>
+      <button class="login-user" data-user="guest">
+        <span class="login-avatar login-avatar-guest">
+          <svg class="icon" width="42" height="42" aria-hidden="true"><use href="#icon-user"/></svg>
+        </span>
+        <span>Guest Account</span>
+      </button>
+    </div>
+
+    <div class="login-aaron" hidden>
+      <img class="login-avatar login-avatar-big" src="./assets/headshot.svg" alt="" width="96" height="96">
+      <span class="login-aaron-name">Aaron Lees</span>
+      <div class="login-pw-box">
+        <!-- contenteditable, masked via CSS — a real password input would summon
+             password managers for a password that can never be correct -->
+        <span class="login-pw-field" contenteditable="true" role="textbox" aria-label="Password"
+              spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="go"></span>
+        <button class="login-pw-go" aria-label="Log in">→</button>
+      </div>
+      <p class="login-hint" role="status"></p>
+      <button class="login-back">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ======================= macOS shell ======================= -->
+  <div id="macos-root">
+    <header id="menubar">
+      <div class="menubar-left">
+        <button id="menu-logo" class="menubar-item" aria-label="Site menu" aria-haspopup="true" aria-expanded="false">
+          <img class="menubar-avatar" src="./assets/headshot.svg" alt="" width="18" height="18">
+        </button>
+        <span class="menubar-item menubar-title">Aaron Lees</span>
+        <button class="menubar-item menubar-nav" data-open-app="about">About</button>
+        <button class="menubar-item menubar-nav" data-open-app="resume">Résumé</button>
+        <button class="menubar-item menubar-nav" data-open-app="blog">Blog</button>
+        <button class="menubar-item menubar-nav" data-open-app="projects">Projects</button>
+        <button class="menubar-item menubar-nav" data-open-app="contact">Contact</button>
+      </div>
+      <div class="menubar-right">
+        <span id="menubar-battery" class="menubar-item" role="img"></span>
+        <button id="theme-toggle" class="menubar-item" aria-label="Toggle light or dark appearance" aria-pressed="false">
+          <svg class="icon theme-icon-sun" width="15" height="15" aria-hidden="true"><use href="#icon-sun"/></svg>
+          <svg class="icon theme-icon-moon" width="15" height="15" aria-hidden="true"><use href="#icon-moon"/></svg>
+        </button>
+        <time id="menubar-clock" class="menubar-item"></time>
+      </div>
+      <ul id="logo-menu" class="menu-dropdown" hidden>
+        <li><button data-open-app="sysinfo">About This Site</button></li>
+        <li><button id="menu-logout">Log Out Guest…</button></li>
+        <li><button id="menu-restart">Restart…</button></li>
+      </ul>
+    </header>
+
+    <main id="desktop" aria-label="Desktop">
+      <div id="desktop-widgets" aria-label="World clocks"></div>
+      <p class="ai-credit">✦ Work in Progress - Assisted by Claude</p>
+    </main>
+
+    <nav id="dock" aria-label="Dock"></nav>
+  </div>
+
+  <!-- ======================= iOS shell ======================= -->
+  <div id="ios-root">
+    <header id="ios-statusbar">
+      <time id="ios-clock"></time>
+      <span class="ios-status-glyphs">
+        <svg class="icon" width="17" height="12" aria-hidden="true"><use href="#icon-wifi"/></svg>
+        <span id="ios-battery" role="img"></span>
+      </span>
+    </header>
+
+    <main id="ios-home" aria-label="Home Screen">
+      <div id="ios-widgets" aria-label="World clocks"></div>
+      <div id="ios-icon-grid"></div>
+      <p class="ai-credit ai-credit-ios">✦ Work in Progress - Assisted by Claude</p>
+    </main>
+
+    <section id="ios-appview" role="dialog" aria-modal="false" aria-hidden="true">
+      <header id="ios-appview-header"><h1 id="ios-appview-title"></h1></header>
+      <div id="ios-appview-body"></div>
+    </section>
+
+    <button id="ios-home-indicator" aria-label="Go to Home Screen"><span class="pill"></span></button>
+  </div>
+
+  <div id="content-stash" hidden></div>
+
+  <!-- ======================= SVG symbols ======================= -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8.2" r="3.6" fill="currentColor"/>
+      <path d="M4.5 19.5 C4.5 15.4 7.8 13.4 12 13.4 C16.2 13.4 19.5 15.4 19.5 19.5 Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-blog" viewBox="0 0 24 24">
+      <rect x="4" y="3.5" width="16" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <line x1="7.5" y1="8.5" x2="16.5" y2="8.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="7.5" y1="12" x2="16.5" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="7.5" y1="15.5" x2="13" y2="15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-projects" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2" fill="currentColor"/>
+      <rect x="13" y="3.5" width="7.5" height="7.5" rx="2" fill="currentColor" opacity="0.6"/>
+      <rect x="3.5" y="13" width="7.5" height="7.5" rx="2" fill="currentColor" opacity="0.6"/>
+      <rect x="13" y="13" width="7.5" height="7.5" rx="2" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M4 7 L12 13 L20 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
+      <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/>
+        <line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/>
+        <line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/>
+      </g>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24">
+      <path d="M20 14.5 A8.5 8.5 0 1 1 9.5 4 A7 7 0 0 0 20 14.5 Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-wifi" viewBox="0 0 17 12">
+      <path d="M1 4.2 A11 11 0 0 1 16 4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M3.7 7 A7 7 0 0 1 13.3 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="8.5" cy="10.3" r="1.5" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M7 9.5 L10.5 12.5 L7 15.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="12.5" y1="15.7" x2="17" y2="15.7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24">
+      <path d="M3 7 A2 2 0 0 1 5 5 H9.2 L11.2 7.4 H19 A2 2 0 0 1 21 9.4 V17 A2 2 0 0 1 19 19 H5 A2 2 0 0 1 3 17 Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-quake" viewBox="0 0 24 24">
+      <path d="M12 2.5 L14 9 L21 9.5 L15.5 13.5 L17.5 21.5 L12 16.5 L6.5 21.5 L8.5 13.5 L3 9.5 L10 9 Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="12" cy="11.6" r="1.7" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-lemmings" viewBox="0 0 24 24">
+      <path d="M4 12 A8 8 0 0 1 20 12 Z" fill="currentColor"/>
+      <line x1="12" y1="12" x2="12" y2="19" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+      <path d="M12 19 A2.4 2.4 0 0 1 7.4 19.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-skull" viewBox="0 0 24 24">
+      <path fill-rule="evenodd" fill="currentColor" d="M12 2.5 C7 2.5 3.8 6 3.8 10.3 C3.8 12.9 5.1 14.9 7 16 L7 18.2 A1.8 1.8 0 0 0 8.8 20 L9.2 20 L9.2 21.5 L11 21.5 L11 20 L13 20 L13 21.5 L14.8 21.5 L14.8 20 L15.2 20 A1.8 1.8 0 0 0 17 18.2 L17 16 C18.9 14.9 20.2 12.9 20.2 10.3 C20.2 6 17 2.5 12 2.5 Z M8.9 8.8 A2 2 0 1 1 8.89 8.8 Z M15.1 8.8 A2 2 0 1 1 15.09 8.8 Z M12 12.6 L13.3 15 L10.7 15 Z"/>
+    </symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24">
+      <rect x="3" y="7.5" width="18" height="12.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M9 7.5 V6 A2 2 0 0 1 11 4 H13 A2 2 0 0 1 15 6 V7.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M3.5 12.5 C7 14 10 14.6 12 14.6 C14 14.6 17 14 20.5 12.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <rect x="10.7" y="13.2" width="2.6" height="2.6" rx="0.8" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-github" viewBox="0 0 16 16">
+      <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+    </symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/>
+    </symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24">
+      <path d="M10 14 L14 10 M8.5 12.5 L6.5 14.5 A3.5 3.5 0 0 0 11.5 19.5 L13.5 17.5 M15.5 11.5 L17.5 9.5 A3.5 3.5 0 0 0 12.5 4.5 L10.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ======================= App content templates ======================= -->
+  <!-- Edit these to change what appears inside each window / iOS app. -->
+
+  <template id="app-about">
+    <div class="about-hero">
+      <span class="about-avatar" aria-hidden="true">AL</span>
+      <div>
+        <h1>Aaron Lees</h1>
+        <p class="about-tagline">Technology consultant &middot; Australia</p>
+      </div>
+    </div>
+    <p>G'day — I'm Aaron. I work in technology consulting, spending most of my time in cloud platforms and systems integration: designing, building, and running the plumbing that keeps businesses talking to themselves.</p>
+    <p>This site is my desk on the internet — a home for the occasional blog post, things I've built, and ways to get in touch. It's built with plain HTML, CSS, and JavaScript, no frameworks, and yes: the windows really drag.</p>
+    <h2>Things I work with</h2>
+    <ul class="chip-list">
+      <li>Azure</li><li>Kubernetes</li><li>Integration</li><li>Automation</li><li>Platform engineering</li>
+    </ul>
+    <p class="fine-print">Want the longer version? Open <button class="inline-link" data-open-app="projects">Projects</button> or say hello via <button class="inline-link" data-open-app="contact">Contact</button>.</p>
+  </template>
+
+  <template id="app-resume">
+    <!-- Position-led history, deliberately without company names.
+         Sourced from Aaron's public LinkedIn; sectors stand in for logos. -->
+    <h1>Résumé</h1>
+    <p class="resume-intro">I started on the IT helpdesk of a pipeline engineering company in 2010 and never really left the trenches — I just kept upgrading the tools. Databases, then systems, then building the apps myself, then automating Linux fleets, then a decade of wiring organisations together with Boomi. These days I architect managed cloud platforms: Kubernetes on Azure, everything as code, everything observable. The through-line has always been the same — I like being the person who makes systems talk to each other.</p>
+    <div class="resume-stats">
+      <div class="rs-stat"><span class="rs-num">15+</span><span class="rs-label">years in tech</span></div>
+      <div class="rs-stat"><span class="rs-num">7+</span><span class="rs-label">years of Boomi</span></div>
+      <div class="rs-stat"><span class="rs-num">7</span><span class="rs-label">industries served</span></div>
+      <div class="rs-stat"><span class="rs-num">1</span><span class="rs-label">fake OS (this one)</span></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-entry current" style="--dot: #7f8cff">
+        <span class="tl-period">2022 — now</span>
+        <h2>Principal Architect</h2>
+        <p class="tl-org">National technology consultancy</p>
+        <ul>
+          <li>Architecture and delivery lead for a managed Azure cloud platform: AKS/Kubernetes fleets, Terraform, GitOps with ArgoCD, CI/CD on GitHub Actions.</li>
+          <li>Boomi integration architecture across enterprise and government customers — designing it, building it, and carrying the pager for it.</li>
+        </ul>
+        <ul class="tl-tags"><li>Boomi</li><li>Azure</li><li>AKS</li><li>Terraform</li><li>ArgoCD</li><li>GitHub Actions</li></ul>
+      </div>
+      <div class="timeline-entry" style="--dot: #35c4d4">
+        <span class="tl-period">2021 — 2024</span>
+        <h2>Senior Integration Consultant</h2>
+        <p class="tl-org">Consulting — utilities, energy, retail &amp; government engagements</p>
+        <ul>
+          <li>Boomi delivery for a major metropolitan water utility (a two-year engagement), the national energy market operator, a global pizza brand, and a city council — same platform, wildly different plumbing.</li>
+          <li>A stint as Data Architect for a large university along the way.</li>
+        </ul>
+        <ul class="tl-tags"><li>Boomi</li><li>API design</li><li>Data architecture</li></ul>
+      </div>
+      <div class="timeline-entry" style="--dot: #fca94c">
+        <span class="tl-period">2019 — 2021</span>
+        <h2>Integration / Boomi Consultant</h2>
+        <p class="tl-org">Integration consultancy — embedded with a major energy retailer</p>
+        <ul>
+          <li>Two years of Boomi builds and interface design in the energy sector, where the data volumes are large and the deadlines regulatory.</li>
+        </ul>
+        <ul class="tl-tags"><li>Boomi</li><li>Integration patterns</li><li>Energy market data</li></ul>
+      </div>
+      <div class="timeline-entry" style="--dot: #46c470">
+        <span class="tl-period">2017 — 2019</span>
+        <h2>Lead System Developer</h2>
+        <p class="tl-org">Infrastructure engineering services company</p>
+        <ul>
+          <li>Led the software team: iOS field apps in Swift, SharePoint, and PHP line-of-business systems for crews who fix pipes, not printers.</li>
+        </ul>
+        <ul class="tl-tags"><li>Swift / iOS</li><li>SharePoint</li><li>PHP</li><li>Team leadership</li></ul>
+      </div>
+      <div class="timeline-entry" style="--dot: #b06ef2">
+        <span class="tl-period">2016 — 2017</span>
+        <h2>DevOps Engineer — Web</h2>
+        <p class="tl-org">The country's domain-name administrator</p>
+        <ul>
+          <li>Linux automation development with SaltStack — infrastructure as code before that was the fashionable phrase for it.</li>
+        </ul>
+        <ul class="tl-tags"><li>Linux</li><li>SaltStack</li><li>Automation</li></ul>
+      </div>
+      <div class="timeline-entry" style="--dot: #9aa0ad">
+        <span class="tl-period">2010 — 2015</span>
+        <h2>Helpdesk → DBA → Systems Support → App Developer / IT PM</h2>
+        <p class="tl-org">Infrastructure engineering services company</p>
+        <ul>
+          <li>Where it started: five years wearing every IT hat in the building, which turns out to be excellent training for consulting.</li>
+        </ul>
+        <ul class="tl-tags"><li>SQL / DBA</li><li>Systems support</li><li>Project delivery</li></ul>
+      </div>
+    </div>
+    <h2 class="resume-sub">Focus areas</h2>
+    <ul class="chip-list">
+      <li>Solution architecture</li><li>Boomi</li><li>Azure</li><li>Kubernetes</li><li>Terraform</li><li>ArgoCD</li><li>GitHub Actions</li>
+    </ul>
+    <p class="fine-print">Want specifics? Say hello via <button class="inline-link" data-open-app="contact">Contact</button>.</p>
+  </template>
+
+  <template id="app-blog">
+    <nav class="blog-rail" aria-label="Topics"></nav>
+    <aside class="blog-channels">
+      <header class="blog-channels-head">Conversations</header>
+      <div class="blog-channels-list"></div>
+    </aside>
+    <div class="channels-resizer" aria-hidden="true"></div>
+    <section class="blog-chat">
+      <header class="chat-header">
+        <button class="chat-back" aria-label="Back to conversations">‹</button>
+        <div class="chat-header-text">
+          <span class="chat-title">Pick a conversation</span>
+          <span class="chat-meta">Posts here read like chats. Because they are.</span>
+        </div>
+      </header>
+      <div class="chat-scroll"></div>
+      <footer class="chat-input-bar">
+        <span class="chat-input" contenteditable="true" role="textbox" aria-label="Add a comment"
+              spellcheck="true" enterkeyhint="send" data-placeholder="Say something (only you will see it)…"></span>
+        <button class="chat-send" aria-label="Send">↑</button>
+      </footer>
+    </section>
+  </template>
+
+  <template id="app-projects">
+    <h1>Projects</h1>
+    <p class="projects-intro">Things I've built — the projects themselves. The stories behind them live in the <button class="inline-link" data-open-app="blog">Blog</button>.</p>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h2>A managed cloud platform</h2>
+        <span class="project-period">2026 — ongoing</span>
+      </div>
+      <p>A managed Boomi-on-Kubernetes hosting platform on Azure: dedicated AKS clusters per customer, driven entirely from git. One flat Terraform state per customer-environment, ArgoCD ApplicationSets selecting clusters by label, and an onboarding pipeline where an API call becomes a reviewed PR becomes a running cluster. A company project — I architect it, my employer owns it — so the details here stay deliberately generic.</p>
+      <ul class="tech-chips">
+        <li><span class="tc" style="--tc:#0078d4">Az</span>Azure</li>
+        <li><span class="tc" style="--tc:#326ce5">K8s</span>Kubernetes</li>
+        <li><span class="tc" style="--tc:#7b42bc">Tf</span>Terraform</li>
+        <li><span class="tc" style="--tc:#ef7b4d">Ar</span>ArgoCD</li>
+        <li><span class="tc" style="--tc:#1a73c9">Bo</span>Boomi</li>
+        <li><span class="tc" style="--tc:#2088ff">GA</span>GitHub Actions</li>
+        <li><span class="tc" style="--tc:#f46800">Gr</span>Grafana</li>
+      </ul>
+      <button class="project-link" data-open-app="blog" data-blog-tag="kubernetes">Read the blog series — Platform Diaries →</button>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h2>This website</h2>
+        <span class="project-period">2026 — ongoing</span>
+      </div>
+      <p>A personal site pretending to be two operating systems: macOS on desktop (draggable windows, dock, login screen), iOS on phones. Plain HTML, CSS, and JavaScript — no framework, no build step, no telemetry. Ships with DOOM, Quake, and Lemmings, all legally. You are inside this project right now.</p>
+      <ul class="tech-chips">
+        <li><span class="tc" style="--tc:#e34f26">H5</span>HTML</li>
+        <li><span class="tc" style="--tc:#1572b6">CSS</span>CSS</li>
+        <li><span class="tc" style="--tc:#b8a018">JS</span>JavaScript</li>
+        <li><span class="tc" style="--tc:#333a45">GH</span>GitHub Pages</li>
+      </ul>
+      <button class="project-link" data-open-app="blog" data-blog-tag="meta">Read: So I built a fake operating system →</button>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h2>The Temporary Integration</h2>
+        <span class="project-period">2015 — 2020 †</span>
+      </div>
+      <p>My first Application Developer role: a "five days, tops" stopgap — a PHP script on an IIS server, shelling out to WinSCP to collect data over SFTP every night. It ran for over five years with zero code changes, outliving my employment there by four and a half of them. No source survives (it wasn't mine to keep); the annual check-ins survive as a blog series.</p>
+      <ul class="tech-chips">
+        <li><span class="tc" style="--tc:#777bb4">php</span>PHP</li>
+        <li><span class="tc" style="--tc:#2d8c4e">SCP</span>WinSCP</li>
+        <li><span class="tc" style="--tc:#5c2d91">IIS</span>IIS</li>
+        <li><span class="tc" style="--tc:#4a5568">SF</span>SFTP</li>
+      </ul>
+      <button class="project-link" data-open-app="blog" data-blog-tag="php">Read the check-ins — five days, tops →</button>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h2>Home automation</h2>
+        <span class="project-period">perpetually 80% done</span>
+      </div>
+      <p>The house has a dependency graph. Sensors, containers, and a hallway with an SLA. Production infrastructure where the stakeholders know where I sleep.</p>
+      <ul class="tech-chips">
+        <li><span class="tc" style="--tc:#2496ed">Dk</span>Containers</li>
+        <li><span class="tc" style="--tc:#660066">MQ</span>MQTT</li>
+        <li><span class="tc" style="--tc:#cb2431">Ym</span>YAML regret</li>
+      </ul>
+      <button class="project-link" data-open-app="blog" data-blog-tag="home automation">Read: my house has a dependency graph →</button>
+    </div>
+  </template>
+
+  <template id="app-contact">
+    <h1>Contact</h1>
+    <p>The best ways to find me:</p>
+    <ul class="contact-list">
+      <li>
+        <a class="contact-row" href="https://www.linkedin.com/in/aaron-lees" rel="me noopener" target="_blank">
+          <span class="contact-badge" style="--cb:#0a66c2"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#icon-linkedin"/></svg></span>
+          <span class="contact-text"><strong>LinkedIn</strong><small>linkedin.com/in/aaron-lees — messages here reach an actual human</small></span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-row" href="https://github.com/aaron-au" rel="me noopener" target="_blank">
+          <span class="contact-badge" style="--cb:#24292f"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#icon-github"/></svg></span>
+          <span class="contact-text"><strong>GitHub</strong><small>github.com/aaron-au — sparse, I know. The good stuff is in corporate repos.</small></span>
+        </a>
+      </li>
+    </ul>
+    <p class="fine-print">No email address here, on purpose — a public static site is a scraper buffet. LinkedIn works, and a human reads it.</p>
+  </template>
+
+  <template id="app-game">
+    <div class="game-intro">
+      <h1 class="game-title"></h1>
+      <p class="game-blurb"></p>
+      <ul class="game-controls"></ul>
+      <button class="game-launch"></button>
+      <p class="fine-print game-note"></p>
+    </div>
+    <div class="game-stage"><p class="game-status" role="status"></p></div>
+  </template>
+
+  <template id="app-sysinfo">
+    <div class="sysinfo">
+      <svg class="sysinfo-mac" viewBox="0 0 160 100" width="150" aria-hidden="true">
+        <rect x="30" y="6" width="100" height="66" rx="6" fill="#1a1a1e"/>
+        <rect x="35" y="11" width="90" height="56" rx="2.5" fill="url(#sysinfo-screen)"/>
+        <rect x="70" y="11" width="20" height="4.5" rx="2.25" fill="#1a1a1e"/>
+        <path d="M14 76 H146 L142 84 Q141 86 138 86 H22 Q19 86 18 84 Z" fill="#2c2c32"/>
+        <rect x="68" y="76" width="24" height="3.5" rx="1.75" fill="#1f1f24"/>
+        <defs>
+          <linearGradient id="sysinfo-screen" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#57a8ff"/><stop offset="1" stop-color="#2f6fed"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h1>aaronlees.id.au</h1>
+      <p class="sysinfo-sub">Static Edition, Mid 2026</p>
+      <dl class="sysinfo-specs">
+        <dt>Chip</dt><dd>Vanilla JS, no framework</dd>
+        <dt>Memory</dt><dd>One localStorage</dd>
+        <dt>Startup disk</dt><dd>GitHub Pages</dd>
+        <dt>Serial number</dt><dd>AL–1991–AU</dd>
+        <dt>OS</dt><dd>aaronOS 1.0</dd>
+      </dl>
+      <button class="sysinfo-more" data-open-app="about">More Info…</button>
+      <p class="sysinfo-legal">Regulatory certification: none whatsoever.<br>
+      ™ and © 1991–2026 Aaron Lees.<br>Some rights reserved. The demons aren't mine.</p>
+    </div>
+  </template>
+
+  <template id="app-terminal">
+    <div class="term" tabindex="-1">
+      <div class="term-out"></div>
+      <!-- contenteditable span, not <input>: password managers (iCloud
+           Passwords etc.) attach to form controls and ignore autocomplete
+           hints, but they leave plain editable text alone -->
+      <div class="term-line">
+        <span class="term-prompt"></span>
+        <span class="term-input" contenteditable="true" role="textbox" aria-label="Terminal input"
+              spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="go"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="./vendor/marked.min.js"></script>
+  <script src="./posts/index.js"></script>
+  <script src="./js/util.js"></script>
+  <script src="./js/apps.js"></script>
+  <script src="./js/wm.js"></script>
+  <script src="./js/dock.js"></script>
+  <script src="./js/ios.js"></script>
+  <script src="./js/blog.js"></script>
+  <script src="./js/games.js"></script>
+  <script src="./js/terminal.js"></script>
+  <script src="./js/widgets.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
