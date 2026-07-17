@@ -74,6 +74,10 @@ The registered episodes of DOOM/Quake and the full Lemmings are commercial — d
 
 A toy shell over the app registry: `ls` lists the apps as a fake home directory, `open <name>` (or just the app's name) opens windows, and there are the traditional easter eggs (`sudo`, `rm -rf /`, `neofetch`, `battery`, interpreter switching via `zsh`/`bash`/`fish`/`python`, `color fg|bg <css-color>`). `exit` closes the window. All fake, all client-side — see `js/terminal.js`.
 
+## Shipping changes
+
+Local CSS/JS references in `index.html` carry a `?v=YYYYMMDDx` cache-buster. **Bump it whenever you change JS or CSS** (one find-and-replace) — GitHub Pages caches assets for ~10 minutes, and without the pin a visitor can get new HTML with old scripts (or vice versa), which is how someone once got trapped in Windows with no Start button.
+
 ## Deploying to GitHub Pages
 
 1. Push this repo to GitHub.

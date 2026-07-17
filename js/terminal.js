@@ -80,6 +80,7 @@ const Terminal = (() => {
           "  <b>theme</b> dark|light  switch appearance<br>" +
           "  <b>color</b> fg|bg &lt;css-color&gt;  restyle the terminal (color reset to undo)<br>" +
           "  <b>zsh</b> | <b>bash</b> | <b>fish</b> | <b>sh</b> | <b>python</b>  change interpreter<br>" +
+          "  <b>reboot</b> windows|macos  switch operating systems<br>" +
           "  <b>whoami</b>, <b>pwd</b>, <b>date</b>, <b>uname</b>, <b>echo</b>, <b>battery</b>, <b>neofetch</b>, <b>clear</b>, <b>exit</b>");
       },
       ls(args) {
@@ -192,6 +193,13 @@ const Terminal = (() => {
         }
       },
       man(args) { print("No manual entry for " + (args[0] || "man") + ". Have you tried guessing?"); },
+      reboot(args) {
+        const t = (args[0] || "").toLowerCase();
+        if (t === "windows" || t === "win") { print("Rebooting into Windows…"); window.System.rebootInto("win"); }
+        else if (t === "macos" || t === "mac") { print("Rebooting into macOS…"); window.System.rebootInto("mac"); }
+        else print("usage: reboot windows|macos   (currently: " + (window.System.currentSkin() === "win" ? "Windows" : "macOS") + ")");
+      },
+      winver() { print("aaronOS 1.0 (" + (window.System.currentSkin() === "win" ? "Windows flavour" : "macOS flavour") + ") — all versions equally fake"); },
       vim() { print("vim: you're already trapped in one fake environment. Two seems unwise."); },
       hello() { print("G'day."); },
       games() { CMDS.ls(["Games"]); },

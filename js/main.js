@@ -74,6 +74,9 @@
     }, 1600);
   }
 
+  // Escape hatch for other modules (the Terminal's `reboot` command)
+  window.System = { rebootInto, currentSkin };
+
   /* ---------- mode switching ---------- */
 
   let macosBooted = false;
