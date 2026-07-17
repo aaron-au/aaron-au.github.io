@@ -133,7 +133,7 @@ const Terminal = (() => {
         const t = (args[0] || "").toLowerCase();
         if (t !== "dark" && t !== "light") { print("usage: theme dark|light"); return; }
         document.documentElement.dataset.theme = t;
-        safeStore.set("theme", t);
+        try { localStorage.setItem("theme", t); } catch (e) {}
         document.documentElement.dataset.effectiveTheme = t;
         print("Appearance set to " + t + ".");
       },

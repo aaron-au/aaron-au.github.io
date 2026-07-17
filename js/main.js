@@ -21,7 +21,8 @@
   function toggleTheme() {
     const next = effectiveTheme() === "dark" ? "light" : "dark";
     root.dataset.theme = next;
-    safeStore.set("theme", next);
+    // Raw string (not JSON) — the inline head script reads it before paint
+    try { localStorage.setItem("theme", next); } catch (e) {}
     reflectTheme();
   }
 

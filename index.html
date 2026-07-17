@@ -10,14 +10,21 @@
   <script>
     /* Applied before styles load: stored theme (avoids a flash of the wrong
        theme) and logged-in state (avoids a flash of the login screen). */
-    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    try {
+      var t = localStorage.getItem('theme');
+      if (t) {
+        t = t.replace(/"/g, ''); // migrate legacy JSON-quoted values
+        localStorage.setItem('theme', t);
+        if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      }
+    } catch (e) {}
     try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
     try { var sk = localStorage.getItem('skin'); if (sk === 'win') document.documentElement.dataset.skin = 'win'; } catch (e) {}
   </script>
-  <link rel="stylesheet" href="./css/base.css?v=20260718a">
-  <link rel="stylesheet" href="./css/macos.css?v=20260718a">
-  <link rel="stylesheet" href="./css/ios.css?v=20260718a">
-  <link rel="stylesheet" href="./css/windows.css?v=20260718a">
+  <link rel="stylesheet" href="./css/base.css?v=20260718b">
+  <link rel="stylesheet" href="./css/macos.css?v=20260718b">
+  <link rel="stylesheet" href="./css/ios.css?v=20260718b">
+  <link rel="stylesheet" href="./css/windows.css?v=20260718b">
 </head>
 <body>
 
@@ -483,17 +490,17 @@
   </template>
 
   <script src="./vendor/marked.min.js"></script>
-  <script src="./posts/index.js?v=20260718a"></script>
-  <script src="./js/util.js?v=20260718a"></script>
-  <script src="./js/apps.js?v=20260718a"></script>
-  <script src="./js/wm.js?v=20260718a"></script>
-  <script src="./js/dock.js?v=20260718a"></script>
-  <script src="./js/ios.js?v=20260718a"></script>
-  <script src="./js/blog.js?v=20260718a"></script>
-  <script src="./js/games.js?v=20260718a"></script>
-  <script src="./js/terminal.js?v=20260718a"></script>
-  <script src="./js/widgets.js?v=20260718a"></script>
-  <script src="./js/login.js?v=20260718a"></script>
-  <script src="./js/main.js?v=20260718a"></script>
+  <script src="./posts/index.js?v=20260718b"></script>
+  <script src="./js/util.js?v=20260718b"></script>
+  <script src="./js/apps.js?v=20260718b"></script>
+  <script src="./js/wm.js?v=20260718b"></script>
+  <script src="./js/dock.js?v=20260718b"></script>
+  <script src="./js/ios.js?v=20260718b"></script>
+  <script src="./js/blog.js?v=20260718b"></script>
+  <script src="./js/games.js?v=20260718b"></script>
+  <script src="./js/terminal.js?v=20260718b"></script>
+  <script src="./js/widgets.js?v=20260718b"></script>
+  <script src="./js/login.js?v=20260718b"></script>
+  <script src="./js/main.js?v=20260718b"></script>
 </body>
 </html>
