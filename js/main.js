@@ -184,6 +184,7 @@
     });
 
     Widgets.init();
+    Todos.init();
 
     // Escape: close the dropdown if open, otherwise the focused window
     document.addEventListener("keydown", (e) => {

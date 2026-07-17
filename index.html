@@ -21,10 +21,10 @@
     try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
     try { var sk = localStorage.getItem('skin'); if (sk === 'win') document.documentElement.dataset.skin = 'win'; } catch (e) {}
   </script>
-  <link rel="stylesheet" href="./css/base.css?v=20260718b">
-  <link rel="stylesheet" href="./css/macos.css?v=20260718b">
-  <link rel="stylesheet" href="./css/ios.css?v=20260718b">
-  <link rel="stylesheet" href="./css/windows.css?v=20260718b">
+  <link rel="stylesheet" href="./css/base.css?v=20260718c">
+  <link rel="stylesheet" href="./css/macos.css?v=20260718c">
+  <link rel="stylesheet" href="./css/ios.css?v=20260718c">
+  <link rel="stylesheet" href="./css/windows.css?v=20260718c">
 </head>
 <body>
 
@@ -98,6 +98,13 @@
 
     <main id="desktop" aria-label="Desktop">
       <div id="desktop-widgets" aria-label="World clocks"></div>
+      <section id="todo-widget" class="todo-panel" aria-label="Todo list">
+        <header class="todo-head">Todo <span class="todo-count"></span></header>
+        <ul class="todo-list"></ul>
+        <form class="todo-form">
+          <input class="todo-input" type="text" placeholder="Add a task…" autocomplete="off" maxlength="200" aria-label="Add a task">
+        </form>
+      </section>
       <p class="ai-credit">✦ Work in Progress - Assisted by Claude</p>
     </main>
 
@@ -131,6 +138,13 @@
     </header>
 
     <main id="ios-home" aria-label="Home Screen">
+      <section id="ios-todo" class="todo-panel" aria-label="Todo list">
+        <header class="todo-head">Todo <span class="todo-count"></span></header>
+        <ul class="todo-list"></ul>
+        <form class="todo-form">
+          <input class="todo-input" type="text" placeholder="Add a task…" autocomplete="off" maxlength="200" aria-label="Add a task">
+        </form>
+      </section>
       <div id="ios-widgets" aria-label="World clocks"></div>
       <div id="ios-icon-grid"></div>
       <p class="ai-credit ai-credit-ios">✦ Work in Progress - Assisted by Claude</p>
@@ -490,17 +504,18 @@
   </template>
 
   <script src="./vendor/marked.min.js"></script>
-  <script src="./posts/index.js?v=20260718b"></script>
-  <script src="./js/util.js?v=20260718b"></script>
-  <script src="./js/apps.js?v=20260718b"></script>
-  <script src="./js/wm.js?v=20260718b"></script>
-  <script src="./js/dock.js?v=20260718b"></script>
-  <script src="./js/ios.js?v=20260718b"></script>
-  <script src="./js/blog.js?v=20260718b"></script>
-  <script src="./js/games.js?v=20260718b"></script>
-  <script src="./js/terminal.js?v=20260718b"></script>
-  <script src="./js/widgets.js?v=20260718b"></script>
-  <script src="./js/login.js?v=20260718b"></script>
-  <script src="./js/main.js?v=20260718b"></script>
+  <script src="./posts/index.js?v=20260718c"></script>
+  <script src="./js/util.js?v=20260718c"></script>
+  <script src="./js/apps.js?v=20260718c"></script>
+  <script src="./js/wm.js?v=20260718c"></script>
+  <script src="./js/dock.js?v=20260718c"></script>
+  <script src="./js/ios.js?v=20260718c"></script>
+  <script src="./js/blog.js?v=20260718c"></script>
+  <script src="./js/games.js?v=20260718c"></script>
+  <script src="./js/terminal.js?v=20260718c"></script>
+  <script src="./js/widgets.js?v=20260718c"></script>
+  <script src="./js/todos.js?v=20260718c"></script>
+  <script src="./js/login.js?v=20260718c"></script>
+  <script src="./js/main.js?v=20260718c"></script>
 </body>
 </html>
