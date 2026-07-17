@@ -10,6 +10,7 @@ const Apps = (() => {
     { id: "about",    title: "About Me",  icon: "icon-user",     tile: "tile-about",    defaultOpen: false, width: 560, height: 460 },
     // hidden: true — only reachable via the system menu, like the real thing
     { id: "sysinfo",  title: "",          icon: "icon-user",     tile: "tile-about",    hidden: true, resizable: false, width: 300, height: 545 },
+    { id: "tasks",    title: "Tasks",     icon: "icon-kanban",   tile: "tile-tasks",    defaultOpen: false, width: 780, height: 540 },
     { id: "resume",   title: "Résumé",    icon: "icon-briefcase", tile: "tile-resume",  defaultOpen: false, width: 640, height: 560 },
     { id: "blog",     title: "Blog",      icon: "icon-blog",     tile: "tile-blog",     defaultOpen: false, width: 860, height: 580 },
     { id: "projects", title: "Projects",  icon: "icon-projects", tile: "tile-projects", defaultOpen: false, width: 560, height: 480 },

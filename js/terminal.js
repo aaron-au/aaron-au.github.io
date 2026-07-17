@@ -13,6 +13,7 @@ const Terminal = (() => {
   const HOME = [
     { name: "About Me.app", id: "about" },
     { name: "Résumé.app", id: "resume" },
+    { name: "Tasks.app", id: "tasks" },
     { name: "Blog.app", id: "blog" },
     { name: "Projects.app", id: "projects" },
     { name: "Contact.app", id: "contact" },
