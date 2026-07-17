@@ -34,6 +34,9 @@
   const iosFmt = new Intl.DateTimeFormat(undefined, {
     hour: "numeric", minute: "2-digit",
   });
+  const winDateFmt = new Intl.DateTimeFormat(undefined, {
+    day: "2-digit", month: "2-digit", year: "numeric",
+  });
   let lastClock = "";
 
   function tickClock() {
@@ -43,6 +46,32 @@
     lastClock = text;
     document.getElementById("menubar-clock").textContent = text;
     document.getElementById("ios-clock").textContent = iosFmt.format(now);
+    document.getElementById("win-clock").textContent = iosFmt.format(now);
+    document.getElementById("win-date").textContent = winDateFmt.format(now);
+  }
+
+  /* ---------- skins: macOS (default) ⇄ Windows ---------- */
+
+  function currentSkin() { return root.dataset.skin === "win" ? "win" : "mac"; }
+
+  function applySkin(skin) {
+    if (skin === "win") root.dataset.skin = "win";
+    else delete root.dataset.skin;
+    // Raw string (not JSON) — the inline head script reads it before paint
+    try { localStorage.setItem("skin", skin === "win" ? "win" : "mac"); } catch (e) {}
+    document.getElementById("menu-skin").textContent =
+      skin === "win" ? "Restart into macOS…" : "Restart into Windows…";
+    Dock.closeFan();
+    WM.reclampAll();
+  }
+
+  function rebootInto(skin) {
+    const screen = document.getElementById("reboot-screen");
+    screen.hidden = false;
+    setTimeout(() => {
+      applySkin(skin);
+      setTimeout(() => { screen.hidden = true; }, 500);
+    }, 1600);
   }
 
   /* ---------- mode switching ---------- */
@@ -115,6 +144,11 @@
     menu.addEventListener("click", () => setOpen(false));
     document.getElementById("menu-restart").addEventListener("click", () => location.reload());
     document.getElementById("menu-logout").addEventListener("click", () => Login.lock());
+    document.getElementById("menu-skin").addEventListener("click", () =>
+      rebootInto(currentSkin() === "win" ? "mac" : "win"));
+    document.getElementById("win-theme-toggle").addEventListener("click", toggleTheme);
+    // Reflect a pre-applied skin (set by the head script) in the menu label
+    applySkin(currentSkin());
 
     return { isOpen: () => !menu.hidden, close: () => setOpen(false) };
   }

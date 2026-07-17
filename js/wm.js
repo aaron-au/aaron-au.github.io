@@ -15,13 +15,15 @@ const WM = (() => {
   let suspendedOpenIds = null;
 
   const desktop = () => document.getElementById("desktop");
+  // Windows skin has no menu bar, so windows may reach (almost) the top
+  const topLimit = () => (document.documentElement.dataset.skin === "win" ? 4 : MENUBAR_H);
 
   /* ---------- geometry ---------- */
 
   function clampPos(x, y, w) {
     return {
       x: clamp(x, MIN_VISIBLE - w, window.innerWidth - MIN_VISIBLE),
-      y: clamp(y, MENUBAR_H, Math.max(MENUBAR_H, window.innerHeight - 48)),
+      y: clamp(y, topLimit(), Math.max(topLimit(), window.innerHeight - 48)),
     };
   }
 
@@ -174,7 +176,8 @@ const WM = (() => {
             // enforce minimums without letting the anchored edge drift
             if (w < MIN_W) { if (dir.includes("w")) x -= MIN_W - w; w = MIN_W; }
             if (h < MIN_H) { if (dir.includes("n")) y -= MIN_H - h; h = MIN_H; }
-            if (y < MENUBAR_H) { h -= MENUBAR_H - y; y = MENUBAR_H; }
+            const top = topLimit();
+            if (y < top) { h -= top - y; y = top; }
             el.style.left = x + "px";
             el.style.top = y + "px";
             el.style.width = Math.min(w, window.innerWidth) + "px";

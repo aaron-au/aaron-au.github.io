@@ -1,6 +1,6 @@
 # aaronlees.id.au
 
-A personal site that looks and behaves like **macOS** on desktop (menu bar, draggable/resizable windows, dock with magnification, sticky note) and like **iOS** on phones (home screen, full-screen apps, home indicator). Pure HTML/CSS/vanilla JS — no frameworks, no build step — designed for GitHub Pages.
+A personal site that looks and behaves like **macOS** on desktop (menu bar, draggable/resizable windows, dock) and like **iOS** on phones (home screen, full-screen apps, home indicator). The system menu offers **"Restart into Windows…"** — same window manager, reskinned: bottom taskbar with a Start button, window controls on the right, appropriately blue wallpaper. Pure HTML/CSS/vanilla JS — no frameworks, no build step — designed for GitHub Pages.
 
 ## Local development
 

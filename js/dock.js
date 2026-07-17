@@ -30,6 +30,20 @@ const Dock = (() => {
     items.clear();
     folderAppIds = Apps.all().filter((a) => a.folder).map((a) => a.id);
 
+    // Start button (visible only under the Windows skin; opens the system menu)
+    const start = document.createElement("button");
+    start.className = "dock-item win-start";
+    start.setAttribute("aria-label", "Start");
+    const startTile = document.createElement("span");
+    startTile.className = "icon-tile";
+    startTile.appendChild(svgIcon("icon-winlogo", 22));
+    start.appendChild(startTile);
+    start.addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.getElementById("menu-logo").click();
+    });
+    dock.appendChild(start);
+
     Apps.all().filter((a) => !a.folder && !a.hidden).forEach((app) => {
       const btn = document.createElement("button");
       btn.className = "dock-item";
@@ -106,10 +120,18 @@ const Dock = (() => {
   }
 
   function openFan() {
-    // Anchor the fan next to the folder's dock position
+    // Anchor the fan to the folder: rightward from the macOS dock,
+    // upward from the Windows taskbar
     const r = folderBtn.getBoundingClientRect();
-    fanEl.style.left = (r.right + 14) + "px";
-    fanEl.style.top = (r.top + r.height / 2) + "px";
+    if (document.documentElement.dataset.skin === "win") {
+      fanEl.style.left = (r.left + r.width / 2) + "px";
+      fanEl.style.top = "auto";
+      fanEl.style.bottom = (window.innerHeight - r.top + 12) + "px";
+    } else {
+      fanEl.style.left = (r.right + 14) + "px";
+      fanEl.style.top = (r.top + r.height / 2) + "px";
+      fanEl.style.bottom = "auto";
+    }
     fanEl.hidden = false;
     folderBtn.setAttribute("aria-expanded", "true");
     requestAnimationFrame(() => fanEl.classList.add("open"));

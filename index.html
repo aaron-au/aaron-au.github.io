@@ -12,10 +12,12 @@
        theme) and logged-in state (avoids a flash of the login screen). */
     try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
     try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
+    try { var sk = localStorage.getItem('skin'); if (sk === 'win') document.documentElement.dataset.skin = 'win'; } catch (e) {}
   </script>
   <link rel="stylesheet" href="./css/base.css">
   <link rel="stylesheet" href="./css/macos.css">
   <link rel="stylesheet" href="./css/ios.css">
+  <link rel="stylesheet" href="./css/windows.css">
 </head>
 <body>
 
@@ -78,6 +80,7 @@
       </div>
       <ul id="logo-menu" class="menu-dropdown" hidden>
         <li><button data-open-app="sysinfo">About This Site</button></li>
+        <li><button id="menu-skin">Restart into Windows…</button></li>
         <li><button id="menu-logout">Log Out Guest…</button></li>
         <li><button id="menu-restart">Restart…</button></li>
       </ul>
@@ -89,6 +92,22 @@
     </main>
 
     <nav id="dock" aria-label="Dock"></nav>
+
+    <div id="win-tray">
+      <button id="win-theme-toggle" aria-label="Toggle light or dark appearance">
+        <svg class="icon theme-icon-sun" width="15" height="15" aria-hidden="true"><use href="#icon-sun"/></svg>
+        <svg class="icon theme-icon-moon" width="15" height="15" aria-hidden="true"><use href="#icon-moon"/></svg>
+      </button>
+      <span id="win-battery" role="img"></span>
+      <span class="win-datetime"><time id="win-clock"></time><span id="win-date"></span></span>
+    </div>
+  </div>
+
+  <div id="reboot-screen" hidden>
+    <div class="reboot-spinner" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="reboot-text">Restarting…</p>
   </div>
 
   <!-- ======================= iOS shell ======================= -->
@@ -187,6 +206,12 @@
     </symbol>
     <symbol id="icon-linkedin" viewBox="0 0 24 24">
       <path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/>
+    </symbol>
+    <symbol id="icon-winlogo" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="8.6" height="8.6" rx="1" fill="currentColor"/>
+      <rect x="12.4" y="3" width="8.6" height="8.6" rx="1" fill="currentColor"/>
+      <rect x="3" y="12.4" width="8.6" height="8.6" rx="1" fill="currentColor"/>
+      <rect x="12.4" y="12.4" width="8.6" height="8.6" rx="1" fill="currentColor"/>
     </symbol>
     <symbol id="icon-link" viewBox="0 0 24 24">
       <path d="M10 14 L14 10 M8.5 12.5 L6.5 14.5 A3.5 3.5 0 0 0 11.5 19.5 L13.5 17.5 M15.5 11.5 L17.5 9.5 A3.5 3.5 0 0 0 12.5 4.5 L10.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>

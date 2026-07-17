@@ -115,7 +115,9 @@ const Widgets = (() => {
     menubarEl.innerHTML = '<span class="batt-pct">' + state.pct + "%</span>" + svg;
     const iosEl = document.getElementById("ios-battery");
     iosEl.innerHTML = svg;
-    [menubarEl, iosEl].forEach((el) => {
+    const winEl = document.getElementById("win-battery");
+    if (winEl) winEl.innerHTML = svg;
+    [menubarEl, iosEl, winEl].filter(Boolean).forEach((el) => {
       el.title = label;
       el.setAttribute("aria-label", label);
     });
