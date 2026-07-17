@@ -78,13 +78,16 @@
         </button>
         <time id="menubar-clock" class="menubar-item"></time>
       </div>
-      <ul id="logo-menu" class="menu-dropdown" hidden>
-        <li><button data-open-app="sysinfo">About This Site</button></li>
-        <li><button id="menu-skin">Restart into Windows…</button></li>
-        <li><button id="menu-logout">Log Out Guest…</button></li>
-        <li><button id="menu-restart">Restart…</button></li>
-      </ul>
     </header>
+
+    <!-- System menu: sibling of the menubar, NOT a child — the Windows skin
+         hides #menubar with display:none, which would take the menu with it -->
+    <ul id="logo-menu" class="menu-dropdown" hidden>
+      <li><button data-open-app="sysinfo">About This Site</button></li>
+      <li><button id="menu-skin">Restart into Windows…</button></li>
+      <li><button id="menu-logout">Log Out Guest…</button></li>
+      <li><button id="menu-restart">Restart…</button></li>
+    </ul>
 
     <main id="desktop" aria-label="Desktop">
       <div id="desktop-widgets" aria-label="World clocks"></div>
