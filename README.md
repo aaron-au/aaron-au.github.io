@@ -2,6 +2,8 @@
 
 A personal site that looks and behaves like **macOS** on desktop (menu bar, draggable/resizable windows, dock) and like **iOS** on phones (home screen, full-screen apps, home indicator). The system menu offers **"Restart into Windows…"** — same window manager, reskinned: bottom taskbar with a Start button, window controls on the right, appropriately blue wallpaper. Pure HTML/CSS/vanilla JS — no frameworks, no build step — designed for GitHub Pages.
 
+**For AI agents / future maintainers:** start with [CLAUDE.md](CLAUDE.md) (hard rules) and [docs/HANDOFF.md](docs/HANDOFF.md) (architecture, decisions, test recipes, backlog).
+
 ## Local development
 
 ```sh

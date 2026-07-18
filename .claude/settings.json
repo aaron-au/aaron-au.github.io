@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m http.server:*)",
+      "Bash(node --check:*)",
+      "Bash(node:*)",
+      "Bash(curl -s:*)",
+      "Bash(curl -sI:*)",
+      "Bash(curl -sL:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(grep:*)",
+      "Bash(lsof -ti tcp\\:8123:*)",
+      "Bash(pkill -f remote-debugging-port:*)",
+      "Bash(/Applications/Google Chrome.app/Contents/MacOS/Google Chrome:*)"
+    ]
+  }
+}
