@@ -7,6 +7,7 @@
 const Widgets = (() => {
   const ZONES = [
     { label: "Canada",      tz: "America/Vancouver",    flag: "🇨🇦" },
+    { label: "US Central",  tz: "America/Chicago",      flag: "🇺🇸" },
     { label: "US East",     tz: "America/New_York",     flag: "🇺🇸" },
     { label: "US West",     tz: "America/Los_Angeles",  flag: "🇺🇸" },
     { label: "Hong Kong",   tz: "Asia/Hong_Kong",       flag: "🇭🇰" },
