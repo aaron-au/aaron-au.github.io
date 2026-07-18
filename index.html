@@ -21,10 +21,10 @@
     try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
     try { var sk = localStorage.getItem('skin'); if (sk === 'win') document.documentElement.dataset.skin = 'win'; } catch (e) {}
   </script>
-  <link rel="stylesheet" href="./css/base.css?v=20260718d">
-  <link rel="stylesheet" href="./css/macos.css?v=20260718d">
-  <link rel="stylesheet" href="./css/ios.css?v=20260718d">
-  <link rel="stylesheet" href="./css/windows.css?v=20260718d">
+  <link rel="stylesheet" href="./css/base.css?v=20260718g">
+  <link rel="stylesheet" href="./css/macos.css?v=20260718g">
+  <link rel="stylesheet" href="./css/ios.css?v=20260718g">
+  <link rel="stylesheet" href="./css/windows.css?v=20260718g">
 </head>
 <body>
 
@@ -256,6 +256,11 @@
          Sourced from Aaron's public LinkedIn; sectors stand in for logos. -->
     <h1>Résumé</h1>
     <p class="resume-intro">I started on the IT helpdesk of a pipeline engineering company in 2010 and never really left the trenches — I just kept upgrading the tools. Databases, then systems, then building the apps myself, then automating Linux fleets, then a decade of wiring organisations together with Boomi. These days I architect managed cloud platforms: Kubernetes on Azure, everything as code, everything observable. The through-line has always been the same — I like being the person who makes systems talk to each other.</p>
+    <button class="resume-play" data-open-app="career">
+      <span class="resume-play-tile" aria-hidden="true">▲</span>
+      <span class="resume-play-text"><strong>View Interactive Résumé</strong>
+      <small>the same 15 years as an 8-bit platformer — climb each era, find me at the top</small></span>
+    </button>
     <div class="resume-stats">
       <div class="rs-stat"><span class="rs-num">15+</span><span class="rs-label">years in tech</span></div>
       <div class="rs-stat"><span class="rs-num">7+</span><span class="rs-label">years of Boomi</span></div>
@@ -325,6 +330,53 @@
       <li>Solution architecture</li><li>Boomi</li><li>Azure</li><li>Kubernetes</li><li>Terraform</li><li>ArgoCD</li><li>GitHub Actions</li>
     </ul>
     <p class="fine-print">Want specifics? Say hello via <button class="inline-link" data-open-app="contact">Contact</button>.</p>
+  </template>
+
+  <template id="app-career">
+    <!-- Career Ladder: the résumé as an 8-bit platformer (js/career.js).
+         Content comes from #app-resume at runtime — nothing to keep in sync. -->
+    <div class="cq">
+      <div class="cq-menu">
+        <h1 class="cq-title">CAREER LADDER</h1>
+        <p class="cq-tag">The résumé, playable. One vertical area per era — climb to the top of each and I'll tell you about it. No death, no timer, no HR involvement.</p>
+        <div class="cq-custom">
+          <div class="cq-preview-box"><canvas class="cq-preview" width="14" height="17" aria-label="Character preview"></canvas></div>
+          <div class="cq-pickers">
+            <div class="cq-picker" data-opt="hair"><span class="cq-opt-name">Hair</span><button data-dir="-1" aria-label="Previous hair style">‹</button><span class="cq-opt-val"></span><button data-dir="1" aria-label="Next hair style">›</button></div>
+            <div class="cq-picker" data-opt="hairc"><span class="cq-opt-name">Colour</span><button data-dir="-1" aria-label="Previous hair colour">‹</button><span class="cq-opt-val"></span><button data-dir="1" aria-label="Next hair colour">›</button></div>
+            <div class="cq-picker" data-opt="skin"><span class="cq-opt-name">Skin</span><button data-dir="-1" aria-label="Previous skin tone">‹</button><span class="cq-opt-val"></span><button data-dir="1" aria-label="Next skin tone">›</button></div>
+            <div class="cq-picker" data-opt="outfit"><span class="cq-opt-name">Attire</span><button data-dir="-1" aria-label="Previous outfit">‹</button><span class="cq-opt-val"></span><button data-dir="1" aria-label="Next outfit">›</button></div>
+          </div>
+        </div>
+        <div class="cq-modes">
+          <button class="cq-start cq-btn cq-btn-primary" data-diff="easy">START · EASY MODE</button>
+          <button class="cq-start cq-btn" data-diff="hard">START · HARD MODE</button>
+        </div>
+        <p class="cq-help">← → move &nbsp;·&nbsp; <b>Z</b>/Space jump, again mid-air to double &nbsp;·&nbsp; <b>X</b> grapple the hooks &nbsp;·&nbsp; <b>E</b> talk &nbsp;·&nbsp; Esc pause</p>
+      </div>
+      <div class="cq-play" hidden>
+        <div class="cq-stage"><canvas class="cq-canvas" width="320" height="240"></canvas></div>
+        <div class="cq-hud"><span class="cq-area"></span><div class="cq-progress"><span></span></div></div>
+        <p class="cq-hint" hidden>E / GRAB — talk</p>
+        <div class="cq-toast" hidden></div>
+        <div class="cq-touch" aria-hidden="true">
+          <div class="cq-touch-l"><button class="cq-t-left">◀</button><button class="cq-t-right">▶</button></div>
+          <div class="cq-touch-r"><button class="cq-t-grab">GRAB</button><button class="cq-t-jump">JUMP</button></div>
+        </div>
+        <div class="cq-dialog" hidden></div>
+        <div class="cq-pause" hidden>
+          <div class="cq-card">
+            <h2>PAUSED</h2>
+            <div class="cq-card-btns cq-btns-col">
+              <button class="cq-btn cq-btn-primary cq-p-resume">RESUME</button>
+              <button class="cq-btn cq-p-restart">RESTART AREA</button>
+              <button class="cq-btn cq-p-mute">SOUND: ON</button>
+              <button class="cq-btn cq-p-quit">QUIT TO MENU</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </template>
 
   <template id="app-blog">
@@ -511,18 +563,19 @@
   </template>
 
   <script src="./vendor/marked.min.js"></script>
-  <script src="./posts/index.js?v=20260718d"></script>
-  <script src="./js/util.js?v=20260718d"></script>
-  <script src="./js/apps.js?v=20260718d"></script>
-  <script src="./js/wm.js?v=20260718d"></script>
-  <script src="./js/dock.js?v=20260718d"></script>
-  <script src="./js/ios.js?v=20260718d"></script>
-  <script src="./js/blog.js?v=20260718d"></script>
-  <script src="./js/games.js?v=20260718d"></script>
-  <script src="./js/terminal.js?v=20260718d"></script>
-  <script src="./js/widgets.js?v=20260718d"></script>
-  <script src="./js/tasks.js?v=20260718d"></script>
-  <script src="./js/login.js?v=20260718d"></script>
-  <script src="./js/main.js?v=20260718d"></script>
+  <script src="./posts/index.js?v=20260718g"></script>
+  <script src="./js/util.js?v=20260718g"></script>
+  <script src="./js/apps.js?v=20260718g"></script>
+  <script src="./js/wm.js?v=20260718g"></script>
+  <script src="./js/dock.js?v=20260718g"></script>
+  <script src="./js/ios.js?v=20260718g"></script>
+  <script src="./js/blog.js?v=20260718g"></script>
+  <script src="./js/games.js?v=20260718g"></script>
+  <script src="./js/career.js?v=20260718g"></script>
+  <script src="./js/terminal.js?v=20260718g"></script>
+  <script src="./js/widgets.js?v=20260718g"></script>
+  <script src="./js/tasks.js?v=20260718g"></script>
+  <script src="./js/login.js?v=20260718g"></script>
+  <script src="./js/main.js?v=20260718g"></script>
 </body>
 </html>

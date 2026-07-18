@@ -454,6 +454,183 @@ body.dragging { user-select: none; -webkit-user-select: none; }
 }
 .game-frame { width: 100%; height: 100%; border: 0; display: block; background: #000; }
 
+/* ============ Career Ladder (interactive résumé platformer) ============ */
+/* Entry button inside the Résumé app */
+.resume-play {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  margin: 14px 0 2px; padding: 10px 14px; border-radius: 12px;
+  background: linear-gradient(160deg, #35c4d4, #1691a5); color: #fff;
+  text-align: left;
+  box-shadow: 0 4px 14px rgba(22, 145, 165, 0.35);
+}
+.resume-play:hover { filter: brightness(1.08); }
+.resume-play-tile {
+  flex: none; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  font-family: var(--font-mono); font-size: 16px;
+  image-rendering: pixelated;
+}
+.resume-play-text { display: flex; flex-direction: column; }
+.resume-play-text strong { font-size: 14px; }
+.resume-play-text small { font-size: 11.5px; opacity: 0.85; }
+
+/* Game chrome: its own dark 8-bit world, independent of site theme */
+.app-content-career {
+  padding: 0; height: 100%; min-height: 100%;
+  display: flex;
+  background: #10111c; color: #e8e8ee;
+  font-family: var(--font-mono);
+}
+.cq { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; }
+/* display:flex/grid children below would beat `hidden` without this (rule 4) */
+.cq [hidden] { display: none !important; }
+
+/* ---- menu screen ---- */
+.cq-menu {
+  flex: 1; overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; justify-content: safe center;
+  gap: 14px; padding: 26px 24px; text-align: center;
+}
+.cq-title {
+  margin: 0; font-size: 26px; letter-spacing: 0.14em; font-weight: 700;
+  color: #ffe071; text-shadow: 3px 3px 0 #8a2f3c, 6px 6px 0 rgba(0, 0, 0, 0.4);
+}
+.cq-tag { margin: 0; max-width: 420px; font-size: 12px; line-height: 1.6; color: #9aa0b8; }
+.cq-custom {
+  display: flex; align-items: center; gap: 18px;
+  padding: 14px 18px; background: #181a2a;
+  border: 2px solid #2c2e44; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+}
+.cq-preview-box {
+  display: grid; place-items: center;
+  width: 92px; height: 112px; background: #10111c; border: 2px solid #2c2e44;
+}
+.cq-preview { width: 84px; height: 102px; image-rendering: pixelated; }
+.cq-pickers { display: flex; flex-direction: column; gap: 7px; }
+.cq-picker { display: grid; grid-template-columns: 52px 24px 108px 24px; align-items: center; gap: 2px; font-size: 11px; }
+.cq-opt-name { text-align: left; color: #9aa0b8; text-transform: uppercase; letter-spacing: 0.08em; }
+.cq-opt-val { text-transform: uppercase; letter-spacing: 0.05em; }
+.cq-picker button {
+  width: 24px; height: 24px; background: #2c2e44; color: #ffe071;
+  font-size: 14px; line-height: 1;
+}
+.cq-picker button:hover { background: #3a3d5c; }
+.cq-modes { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.cq-help { margin: 0; font-size: 10.5px; color: #6d7290; line-height: 1.8; max-width: 460px; }
+.cq-help b { color: #9aa0b8; }
+
+/* ---- shared 8-bit buttons ---- */
+.cq-btn {
+  padding: 10px 18px; font-family: inherit; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em;
+  background: #2c2e44; color: #e8e8ee;
+  border: 2px solid #454866; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+}
+.cq-btn:hover { filter: brightness(1.15); }
+.cq-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45); }
+.cq-btn-primary { background: #1691a5; border-color: #35c4d4; color: #fff; }
+
+/* ---- play screen ---- */
+.cq-play { flex: 1; position: relative; min-height: 0; display: flex; }
+.cq-stage { flex: 1; min-height: 0; display: flex; }
+.cq-canvas { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+.cq-hud {
+  position: absolute; top: 8px; left: 10px; right: 10px;
+  display: flex; align-items: center; gap: 10px;
+  pointer-events: none;
+}
+.cq-area {
+  font-size: 10px; letter-spacing: 0.1em; color: #fff;
+  background: rgba(10, 11, 22, 0.62); padding: 4px 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cq-progress {
+  flex: 1; max-width: 150px; height: 8px; margin-left: auto;
+  background: rgba(10, 11, 22, 0.62); border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.cq-progress span { display: block; height: 100%; width: 0; background: #ffe071; transition: width 0.25s linear; }
+.cq-hint {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  margin: 0; padding: 4px 10px; font-size: 10px; letter-spacing: 0.1em;
+  color: #ffe071; background: rgba(10, 11, 22, 0.7);
+  animation: cq-blink 1.1s steps(2) infinite;
+  pointer-events: none;
+}
+@keyframes cq-blink { 50% { opacity: 0.45; } }
+.cq-toast {
+  position: absolute; top: 34%; left: 50%; transform: translateX(-50%);
+  padding: 10px 16px; max-width: 84%;
+  font-size: 12px; line-height: 1.7; letter-spacing: 0.08em; text-align: center;
+  white-space: pre-line;
+  color: #fff; background: rgba(10, 11, 22, 0.78);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  pointer-events: none; opacity: 0;
+}
+.cq-toast.show { animation: cq-toast 2.6s ease forwards; }
+@keyframes cq-toast { 0% { opacity: 0; } 8%, 78% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ---- touch controls (coarse pointers only) ---- */
+.cq-touch { display: none; }
+@media (hover: none) {
+  .cq-touch { display: block; position: absolute; inset: auto 0 0 0; pointer-events: none; }
+  .cq-touch-l, .cq-touch-r {
+    position: absolute; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex; gap: 10px; pointer-events: auto;
+  }
+  .cq-touch-l { left: 12px; }
+  .cq-touch-r { right: 12px; }
+  .cq-touch button {
+    min-width: 54px; height: 54px; padding: 0 12px;
+    background: rgba(44, 46, 68, 0.7); color: #e8e8ee;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    touch-action: none; user-select: none; -webkit-user-select: none;
+  }
+  .cq-touch button:active { background: rgba(22, 145, 165, 0.8); }
+  .cq-hint { bottom: 78px; }
+}
+
+/* ---- dialog / pause overlays ---- */
+.cq-dialog, .cq-pause {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px; background: rgba(6, 7, 14, 0.72);
+}
+.cq-card {
+  --era: #7f8cff;
+  max-width: 440px; max-height: 100%; overflow-y: auto;
+  padding: 16px 18px;
+  background: #181a2a; border: 2px solid var(--era);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5);
+  text-align: left;
+}
+.cq-card h2 { font-size: 14px; letter-spacing: 0.06em; margin: 0 0 2px; color: #fff; }
+.cq-card-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+.cq-card-face {
+  flex: none; width: 56px; height: 64px; image-rendering: pixelated;
+  background: #10111c; border: 2px solid #2c2e44;
+}
+.cq-card-period { font-size: 10px; letter-spacing: 0.12em; color: var(--era); text-transform: uppercase; }
+.cq-card-org { margin: 2px 0 0; font-size: 11px; color: #9aa0b8; }
+.cq-card-say { font-size: 11.5px; line-height: 1.65; color: #cfd3e8; margin: 0 0 10px; }
+.cq-card-bullets { margin: 0 0 10px; padding-left: 16px; font-size: 11.5px; line-height: 1.65; color: #e8e8ee; }
+.cq-card-bullets li { margin-bottom: 5px; }
+.cq-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.cq-card-tags span {
+  font-size: 9.5px; letter-spacing: 0.06em; padding: 2px 7px;
+  color: var(--era); border: 1px solid var(--era);
+}
+.cq-card-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.cq-btns-col { flex-direction: column; }
+.cq-btns-col .cq-btn { width: 100%; }
+.cq-card-end { text-align: center; }
+.cq-card-end h2 { color: #ffe071; font-size: 16px; margin-bottom: 8px; }
+.cq-card-end .cq-card-btns { justify-content: center; }
+.cq-pause .cq-card { min-width: 220px; text-align: center; }
+.cq-pause h2 { letter-spacing: 0.2em; margin-bottom: 12px; }
+
 /* ============ About This Site (system menu panel) ============ */
 .sysinfo {
   display: flex; flex-direction: column; align-items: center;

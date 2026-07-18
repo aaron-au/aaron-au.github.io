@@ -12,6 +12,9 @@ const Apps = (() => {
     { id: "sysinfo",  title: "",          icon: "icon-user",     tile: "tile-about",    hidden: true, resizable: false, width: 300, height: 545 },
     { id: "tasks",    title: "Tasks",     icon: "icon-kanban",   tile: "tile-tasks",    defaultOpen: false, width: 780, height: 540 },
     { id: "resume",   title: "Résumé",    icon: "icon-briefcase", tile: "tile-resume",  defaultOpen: false, width: 640, height: 560 },
+    // hidden: true — the résumé-as-platformer, reachable only from the Résumé
+    // app (and the terminal). escCloses: false — Esc is the pause key.
+    { id: "career",   title: "Career Ladder", icon: "icon-briefcase", tile: "tile-resume", hidden: true, escCloses: false, width: 660, height: 640 },
     { id: "blog",     title: "Blog",      icon: "icon-blog",     tile: "tile-blog",     defaultOpen: false, width: 860, height: 580 },
     { id: "projects", title: "Projects",  icon: "icon-projects", tile: "tile-projects", defaultOpen: false, width: 560, height: 480 },
     { id: "contact",  title: "Contact",   icon: "icon-mail",     tile: "tile-contact",  defaultOpen: false, width: 440, height: 380 },

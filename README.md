@@ -45,6 +45,7 @@ js/dock.js        dock rendering + running indicators
 js/ios.js         iOS shell + zoom animations
 js/blog.js        blog list/post rendering
 js/games.js       game launcher (js-dos + iframe engines, exit detection)
+js/career.js      Career Ladder — the résumé as an 8-bit platformer
 js/terminal.js    toy shell over the app registry
 js/widgets.js     world clocks + battery easter egg
 vendor/marked.min.js   markdown parser (marked v12, MIT, pinned)
@@ -71,6 +72,8 @@ Nothing downloads at page load — emulator and game files fetch only when a vis
 DOS Quake doesn't work under this DOSBox build (protected-mode crash), hence WebQuake. `vendor/webquake/WebQuake/COM.js` carries a small local patch: a fallback for static servers that ignore HTTP Range requests (GitHub Pages honours them; `python -m http.server` doesn't — without the patch Quake only works in production).
 
 The registered episodes of DOOM/Quake and the full Lemmings are commercial — do not add them.
+
+There's also a home-grown one: **Career Ladder**, the résumé as an 8-bit vertical platformer (double jump, bounce pads, grapple hooks; Easy/Hard). It opens from the "View Interactive Résumé" button in the Résumé app and pulls its content from the résumé template at runtime, so the two can never disagree. Pure canvas + vanilla JS, no assets — see `js/career.js`.
 
 ## Terminal
 

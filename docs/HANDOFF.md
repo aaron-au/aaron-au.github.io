@@ -29,7 +29,8 @@ in the wallpaper corner).
 | Tasks (kanban) | `js/tasks.js` | Todo/In Progress/Done. Mouse drag with ghost + drop highlight; touch uses ‹ › buttons on purpose (drag fights scroll). Dbl-click edits. localStorage `kanban`; migrated from the older todo-widget format. |
 | Blog | `js/blog.js`, `posts/` | Chat-app UI: topic rail from tags, channel list (pinned first, resizable via divider), posts render as conversations (`@handle ` lines). Local-only visitor comments with one canned reply + typing indicator. Conversations open scrolled to TOP. |
 | Blog content | `posts/*.md` | Two real Boomi discoveries (Gateway auth-header bug 2026-07-05 — Aaron may extend it; NetSuite concurrency 2026-06-18). "Platform Diaries" ×12 (2026, from real work-repo git history, fully anonymised). "The Temporary Integration" ×6 (2015–2020, invented annual check-ins about a real PHP/WinSCP job — details are fiction by request). hello-world + home-automation are placeholder fun, editable freely. |
-| Résumé | template in `index.html` | REAL history from Aaron's LinkedIn, position-led, sector descriptors instead of company names (his rule). Era-coloured gradient timeline, stats strip, per-role tech tags, pulsing "now" dot. |
+| Résumé | template in `index.html` | REAL history from Aaron's LinkedIn, position-led, sector descriptors instead of company names (his rule). Era-coloured gradient timeline, stats strip, per-role tech tags, pulsing "now" dot. "View Interactive Résumé" button opens Career Ladder. |
+| Career Ladder (interactive résumé) | `js/career.js`, `app-career` template | 8-bit vertical platformer, one area per timeline entry (2010 at the bottom → now at the top); reach each summit and talk to pixel-Aaron (E) to read that entry. Hidden app — only the Résumé button and terminal `open career` reach it. Content is parsed from `#app-resume` at init, so it can't drift from the real résumé. Mechanics all on from the start: double jump, bounce pads, grapple hooks (attach only to placed hooks, X). No death — falls cost height ("career setback"). Easy/Hard = generation parameters; levels are seeded-RNG and **feasible by construction** (each step's max horizontal reach is derived from the jump physics — see `airFrames`). Customisation: hair/colour/skin + business-attire ladder (Basement Dev → Full Suit CEO), persisted as `career-prefs`; NPC-Aaron wears the outfit tier of the area you're in. Esc pauses (`escCloses:false`), M mutes the WebAudio bleeps, touch buttons appear on coarse pointers. Closing resets like the games (arcade rules; prefs survive). `Career.debug` powers the CDP tests. |
 | Projects | template in `index.html` | Four cards with letter-tile tech chips (deliberately not vendor logo SVGs) and deep-links into blog topics via `data-blog-tag`. |
 | Contact | template in `index.html` | LinkedIn + GitHub brand-badge rows only. **No email by choice** (scraping). |
 | Terminal | `js/terminal.js` | Toy shell: ls/open/cat, theme/color, zsh/bash/fish/python prompts, sudo / rm -rf / / neofetch / battery / winver / reboot easter eggs. contenteditable input (password-manager avoidance). |
@@ -87,7 +88,8 @@ getBoundingClientRect, never just attributes.
   that's why hard-refresh detection is keydown-based, and why shift-clicking
   Firefox's reload button (no key event) stays logged in. Accepted.
 - The `-v2`-style historical scars: session keys `wm-windows`, `ios-app`,
-  storage keys `win:<id>`, `blog-channels-w`, `kanban`, `theme`, `skin`.
+  storage keys `win:<id>`, `blog-channels-w`, `kanban`, `theme`, `skin`,
+  `career-prefs`.
   Renaming any of them silently loses user state — don't.
 - `vendor/webquake/WebQuake/COM.js` carries a local Range-fallback patch —
   re-vendoring WebQuake would lose it.
