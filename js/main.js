@@ -184,12 +184,14 @@
     });
 
     Widgets.init();
+    WiFi.init();
 
     // Escape: close the dropdown if open, otherwise the focused window
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
       if (Login.isLocked()) return; // the login screen handles its own keys
       if (logoMenu.isOpen()) { logoMenu.close(); return; }
+      if (WiFi.handleEscape()) return;
       if (Dock.isFanOpen()) { Dock.closeFan(); return; }
       if (document.body.dataset.mode === "macos") {
         const focused = Apps.get(WM.focusedApp());

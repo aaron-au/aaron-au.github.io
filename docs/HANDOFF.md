@@ -36,8 +36,10 @@ in the wallpaper corner).
 | Terminal | `js/terminal.js` | Toy shell: ls/open/cat, theme/color, zsh/bash/fish/python prompts, sudo / rm -rf / / neofetch / battery / winver / reboot easter eggs. contenteditable input (password-manager avoidance). |
 | Games | `js/games.js`, `vendor/`, `assets/` | DOOM + Lemmings via self-hosted js-dos v6.22; Quake via WebQuake iframe (DOS Quake crashes this DOSBox build's protected mode). Exit↔close symmetry: js-dos games use a tick-cessation watchdog (this wdosbox never calls Module.onExit/quit — verified empirically); WebQuake is watched for its end-screen. Closing tears down and resets via `Apps.resetContent`. Lemmings demo intro is in German (period-authentic disc; Aaron kept it). |
 | About This Site | `app-sysinfo` template | "About This Mac"-style fixed panel from the system menu (hidden app, `resizable:false`); More Info… opens About Me. |
+| Wi-Fi menu | `js/wifi.js`, `#wifi-menu` | Fake network picker behind Wi-Fi icons in the menubar, Windows tray, and iOS status bar — one shared menu element, direct child of `<body>` (rule 5). The connected network is `github-pages` and mirrors githubstatus.com: fetched on load + menu open only (2-min throttle, no background polling); major/critical/unreachable ⇒ struck-through icons + a "this site is technically down" sub-line. Secured SSIDs: masked contenteditable password (rule 3) that never works — 5 escalating refusals (some SSIDs have a custom first quip), then the network hides for the session. "Free Public Wi-Fi ✨" springs the trap: body-level glitch animation → fake "Recovering…" reboot → pink-on-black CRT `#pwned-screen` ("NEVER. TRUST. OPEN. WI-FI."); Esc or the button reconnects. `WiFi.handleEscape()` is called first in main.js's Escape chain. |
 | Wallpaper | `assets/pattern-*.svg` → data URIs in `css/base.css` | Circuit-trace tile over the gradient; edit the SVGs then re-inline. |
-| AI credit | `.ai-credit` in `index.html` | Aaron's text (he edited it); keep it wallpaper-level and non-interactive. |
+| AI credit → AI opinion | `.ai-credit`, `app-ai` template | The wallpaper tagline is now a `data-open-app="ai"` button opening "AI at Work" (hidden app): Aaron's opinion piece on AI-assisted coding. Keep it wallpaper-level and subtle (opacity 0.45, brightens on hover). Terminal `open ai` also works. |
+| Wallpaper scribble | `.wall-scribble` in `index.html`/`base.css` | "trust but verify" hand-scrawled on the wallpaper (rotated SVG, cursive font stack, double underline) on desktop, iOS home, and the login screen. The desktop/iOS copies are disguised buttons opening the same AI app — kept at z-index 0 so windows stacked above always win the click. The login-screen copy is decorative (`pointer-events:none`; nothing to open pre-login). |
 
 ## Decisions and their reasons (don't relitigate casually)
 
@@ -107,6 +109,22 @@ getBoundingClientRect, never just attributes.
    within a column.
 5. About Me copy is still v1 boilerplate-ish; headshot is a dummy SVG
    (`assets/headshot.svg`) awaiting a real photo.
+6. **Settings app for phone sizes** (Aaron, 2026-07-18). iOS mode inherits
+   desktop-ish affordances that get cramped on small screens; a real phone
+   would put them in a Settings app (gear tile, probably `defaultOpen`-ish on
+   iOS only, or at least prominent on the home grid). Should own: Wi-Fi
+   (reuse the network list/join/trap logic from `js/wifi.js` as a full-page
+   view — the status-bar popover is tight at 390px), appearance (theme
+   toggle), "Restart into Windows/macOS" (the system menu doesn't exist on
+   iOS), and an About row (reuse `app-sysinfo` content). Grow it as more
+   controls appear rather than adding new status-bar buttons.
+7. **iOS home swipe pages** (Aaron, 2026-07-18). The home screen should page
+   like a real phone: page 1 = clock widgets, page 2+ = the app grid, with
+   paging dots and touch swipe. Mind the existing rules: Pointer Events +
+   `touch-action` (swipe must not fight vertical scroll or the shared
+   `makeDraggable` consumers), and keep everything reachable in both
+   modes — the widgets currently share `#ios-home` with the grid, so this
+   is a layout restructure, not just a gesture.
 
 ## Working with Aaron
 

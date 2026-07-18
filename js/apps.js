@@ -18,6 +18,9 @@ const Apps = (() => {
     { id: "blog",     title: "Blog",      icon: "icon-blog",     tile: "tile-blog",     defaultOpen: false, width: 860, height: 580 },
     { id: "projects", title: "Projects",  icon: "icon-projects", tile: "tile-projects", defaultOpen: false, width: 560, height: 480 },
     { id: "contact",  title: "Contact",   icon: "icon-mail",     tile: "tile-contact",  defaultOpen: false, width: 440, height: 380 },
+    // hidden: true — the fine print behind the wallpaper's AI credit. Only the
+    // tagline (and terminal `open ai`) reaches it; it's not a dock/home app.
+    { id: "ai",       title: "AI at Work", icon: "icon-spark",   tile: "tile-ai",       hidden: true, width: 620, height: 600 },
     { id: "terminal", title: "Terminal",  icon: "icon-terminal", tile: "tile-terminal", defaultOpen: false, width: 640, height: 430, escCloses: false },
     // Games live in the dock's "Games" folder (folder: "games") and share the
     // generic app-game template. escCloses: false — they need Escape themselves.

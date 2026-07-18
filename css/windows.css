@@ -115,6 +115,14 @@ html[data-skin="win"] .menu-dropdown button { padding: 8px 12px; border-radius: 
 /* fan-out opens upward */
 html[data-skin="win"] .dock-fan { transform: translate(-50%, 0); }
 
+/* AI credit: lift it clear of the taskbar (52px bar + the usual 12px gap) */
+html[data-skin="win"] .ai-credit { bottom: 64px; }
+
+/* Wi-Fi menu pops up from the tray instead of down from the menubar */
+html[data-skin="win"] #wifi-menu { top: auto; bottom: 62px; right: 8px; }
+#win-wifi-toggle { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; }
+html[data-skin="win"] #win-wifi-toggle:hover { background: var(--surface-strong); }
+
 /* ---- tray: theme toggle, battery, clock/date (bottom right) ---- */
 #win-tray { display: none; }
 html[data-skin="win"] #win-tray {

@@ -135,6 +135,9 @@ body.dragging { user-select: none; -webkit-user-select: none; }
 .inline-link { color: var(--accent); }
 .inline-link:hover { text-decoration: underline; }
 
+/* AI opinion piece */
+.ai-doc-byline { color: var(--text-secondary); font-size: 12.5px; margin-top: -4px; }
+
 /* About */
 .about-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
 .about-avatar {
@@ -701,6 +704,7 @@ body.dragging { user-select: none; -webkit-user-select: none; }
 .tile-contact  { background: linear-gradient(160deg, #b06ef2, #8341d6); }
 .tile-terminal { background: linear-gradient(160deg, #3a3d45, #17181d); }
 .tile-games    { background: linear-gradient(160deg, #7f8cff, #4a55c4); }
+.tile-ai       { background: linear-gradient(160deg, #e46ad8, #7645e0); }
 .tile-doom     { background: linear-gradient(160deg, #e0483e, #7d1812); }
 .tile-quake    { background: linear-gradient(160deg, #a98457, #5e4326); }
 .tile-lemmings { background: linear-gradient(160deg, #6fd06f, #2c8f3e); }
@@ -727,18 +731,167 @@ body.dragging { user-select: none; -webkit-user-select: none; }
 }
 .cw-sub { font-size: 11px; color: var(--text-secondary); }
 
-/* ============ AI credit (wallpaper-level, non-interactive) ============ */
+/* ============ AI credit (wallpaper-level; opens the AI at Work app) ============ */
 .ai-credit {
   position: absolute; right: 18px; bottom: 12px; margin: 0;
   font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
   color: var(--icon-label); text-shadow: var(--icon-label-shadow);
   opacity: 0.45;
-  pointer-events: none; user-select: none; -webkit-user-select: none;
+  user-select: none; -webkit-user-select: none;
   z-index: 0;
+  transition: opacity 0.15s ease;
 }
+.ai-credit:hover, .ai-credit:focus-visible { opacity: 0.95; text-decoration: underline; }
 .ai-credit-ios {
   position: fixed; right: auto; left: 50%; transform: translateX(-50%);
   bottom: calc(34px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ============ Wallpaper scribble (a frustrated developer was here) ============
+   A disguised button opening the same app as the AI credit. Must stay at
+   z-index 0: windows and shells stack above it, so they always win the click. */
+.wall-scribble {
+  position: absolute; left: max(150px, 17%); bottom: 21%;
+  width: clamp(200px, 24vw, 340px);
+  transform: rotate(-7deg);
+  color: var(--icon-label); opacity: 0.32;
+  user-select: none; -webkit-user-select: none;
+  z-index: 0;
+  transition: opacity 0.15s ease;
+}
+.wall-scribble:hover, .wall-scribble:focus-visible { opacity: 0.6; }
+.wall-scribble svg { display: block; width: 100%; height: auto; aspect-ratio: 360 / 100; }
+svg.wall-scribble { display: block; height: auto; aspect-ratio: 360 / 100; }
+.wall-scribble text {
+  font-family: "Bradley Hand", "Marker Felt", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 42px;
+  fill: currentColor;
+}
+.wall-scribble path {
+  stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round;
+}
+.wall-scribble-ios {
+  position: fixed; left: 50%; right: auto;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  width: 200px;
+  transform: translateX(-50%) rotate(-6deg);
+  opacity: 0.28;
+}
+/* Decorative on the lock screen — no app to open before login */
+.wall-scribble-login { left: 10%; bottom: 11%; pointer-events: none; }
+
+/* ============ Wi-Fi menu (shared by all three shells) ============ */
+#wifi-menu {
+  position: fixed; top: calc(var(--menubar-h) + 4px); right: 8px; z-index: 1100;
+  width: 304px; padding: 10px 8px 8px;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+  border: 1px solid var(--win-border); border-radius: 12px;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.3);
+  font-size: 13px;
+}
+#wifi-menu[hidden] { display: none; }
+.wifi-head { font-weight: 700; padding: 0 8px 6px; }
+.wifi-sep {
+  padding: 10px 8px 4px;
+  font-size: 10.5px; font-weight: 650; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text-secondary);
+}
+.wifi-list { list-style: none; margin: 0; padding: 0; }
+.wifi-row {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 7px 8px; border-radius: 8px;
+  text-align: left;
+}
+button.wifi-row:hover { background: var(--surface-strong); }
+.wifi-check { flex: none; width: 15px; color: var(--accent); font-weight: 700; }
+#wifi-menu.wifi-down .wifi-current .wifi-check { color: #e0483e; }
+.wifi-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wifi-glyphs { flex: none; display: flex; align-items: center; gap: 6px; color: var(--text-secondary); }
+.wifi-glyphs .wifi-bars-1 { opacity: 0.35; }
+.wifi-glyphs .wifi-bars-2 { opacity: 0.65; }
+.wifi-sub {
+  display: block; padding: 1px 8px 5px 31px;
+  font-size: 11px; line-height: 1.45; color: var(--text-secondary);
+}
+.wifi-sub[hidden] { display: none; }
+
+/* join prompt (masked contenteditable — rule 3, same reasons as the login) */
+.wifi-join { padding: 3px 8px 8px 31px; }
+.wifi-join[hidden] { display: none; }
+.wifi-pw-box {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 8px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--surface-strong);
+}
+.wifi-pw-box.shake { animation: login-shake 0.4s ease; }
+.wifi-pw {
+  flex: 1; min-height: 1.25em; outline: none;
+  font-size: 12.5px; caret-color: var(--text);
+  -webkit-text-security: disc;
+  white-space: nowrap; overflow: hidden;
+}
+/* the placeholder inherits text-security and would render as dots — unmask it */
+.wifi-pw:empty::before { content: "Password"; opacity: 0.5; -webkit-text-security: none; }
+.wifi-join-go { flex: none; font-size: 12px; font-weight: 650; color: var(--accent); }
+.wifi-join-go:hover { text-decoration: underline; }
+.wifi-hint { margin: 6px 0 0; font-size: 11px; line-height: 1.45; color: var(--text-secondary); }
+
+/* offline: dim the icon and strike it through */
+#wifi-toggle, #win-wifi-toggle, #ios-wifi-toggle { position: relative; }
+#wifi-toggle.wifi-off svg, #win-wifi-toggle.wifi-off svg, #ios-wifi-toggle.wifi-off svg { opacity: 0.4; }
+#wifi-toggle.wifi-off::after, #win-wifi-toggle.wifi-off::after, #ios-wifi-toggle.wifi-off::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 17px; height: 1.6px;
+  border-radius: 1px; background: currentColor;
+  transform: translate(-50%, -50%) rotate(-42deg);
+}
+
+/* ============ Free Public Wi-Fi: the consequences ============ */
+body.wifi-glitch { animation: wifi-glitch 1.05s steps(1, jump-none) both; }
+@keyframes wifi-glitch {
+  0%   { filter: none; transform: none; }
+  8%   { filter: invert(1) hue-rotate(90deg); transform: translate(-7px, 3px) skewX(2deg); }
+  18%  { filter: none; transform: translate(5px, -2px); }
+  30%  { filter: saturate(8) hue-rotate(-50deg); transform: translate(-3px, 1px) scale(1.012); }
+  44%  { filter: invert(1); transform: translate(9px, -5px) skewY(-1.5deg); }
+  58%  { filter: contrast(3) hue-rotate(160deg); transform: translate(-8px, 5px); }
+  72%  { filter: none; transform: translate(3px, -1px); }
+  88%  { filter: invert(1) saturate(5); transform: translate(-5px, 2px) skewX(-2deg); }
+  100% { filter: none; transform: none; }
+}
+
+#pwned-screen {
+  position: fixed; inset: 0; z-index: 8500;
+  display: flex; align-items: center; justify-content: center;
+  background: #070008; color: #ff2d95;
+  font-family: var(--font-mono);
+}
+#pwned-screen[hidden] { display: none; }
+#pwned-screen::after { /* scanlines + flicker */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 45, 149, 0.07) 0 1px, transparent 1px 3px);
+  animation: pwned-flicker 0.12s steps(2) infinite;
+}
+@keyframes pwned-flicker { 50% { opacity: 0.6; } }
+.pwned-inner { width: min(660px, 92vw); padding: 24px; }
+.pwned-lines {
+  margin: 0 0 26px; white-space: pre-wrap; overflow-wrap: break-word;
+  font-family: inherit; font-size: 14px; line-height: 1.8;
+  text-shadow: 0 0 9px rgba(255, 45, 149, 0.55);
+}
+.pwned-lines::after { content: "█"; animation: pwned-cursor 0.9s steps(1) infinite; }
+@keyframes pwned-cursor { 50% { opacity: 0; } }
+.pwned-return {
+  padding: 10px 16px; border: 1px solid #ff2d95; border-radius: 6px;
+  font-family: inherit; font-size: 13.5px; color: #ff2d95;
+  text-shadow: 0 0 9px rgba(255, 45, 149, 0.55);
+}
+.pwned-return:hover, .pwned-return:focus-visible { background: rgba(255, 45, 149, 0.14); }
+.pwned-return[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.wifi-glitch { animation: none; }
+  #pwned-screen::after { animation: none; }
 }
 
 /* ============ Tasks (kanban) ============ */
@@ -874,7 +1027,7 @@ html[data-logged-in] #login-screen { display: none; }
   -webkit-text-security: disc;
   white-space: nowrap; overflow: hidden;
 }
-.login-pw-field:empty::before { content: "Enter Password"; opacity: 0.55; }
+.login-pw-field:empty::before { content: "Enter Password"; opacity: 0.55; -webkit-text-security: none; }
 .login-pw-go {
   width: 24px; height: 24px; border-radius: 50%;
   background: rgba(255, 255, 255, 0.3); color: var(--icon-label);

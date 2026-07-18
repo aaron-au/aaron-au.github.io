@@ -19,6 +19,13 @@
 #ios-clock { font-variant-numeric: tabular-nums; }
 .ios-status-glyphs { display: flex; align-items: center; gap: 7px; }
 #ios-battery svg { display: block; }
+/* The status bar itself is pointer-events:none so taps fall through to the
+   home screen — the Wi-Fi button opts back in */
+#ios-wifi-toggle { pointer-events: auto; display: grid; place-items: center; padding: 4px; }
+body[data-mode="ios"] #wifi-menu {
+  top: calc(env(safe-area-inset-top, 0px) + 48px);
+  left: auto; right: 10px; width: min(304px, calc(100vw - 20px));
+}
 
 /* ============ Home screen ============ */
 #ios-home {
