@@ -30,6 +30,14 @@ window.BLOG_INDEX = [
     summary: "Concurrency is per connection per JVM — and the default is 1.",
     tags: ["boomi", "netsuite"],
   },
+  // ---- SHIFT: building a streaming iPaaS in Go, in order ----
+  {
+    slug: "2026-07-19-shift-review",
+    title: "SHIFT #1 — The review that killed the prototype",
+    date: "2026-07-19",
+    summary: "5.5k LOC, zero tests, zero commits. Verdict: keep the schema, start clean.",
+    tags: ["shift", "go"],
+  },
   // ---- Platform Diaries: an Azure/Kubernetes rebuild, in order ----
   {
     slug: "2026-07-13-platform-gets-a-tailnet",

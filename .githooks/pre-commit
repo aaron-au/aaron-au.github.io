@@ -1,0 +1,26 @@
+#!/bin/sh
+# Cache-buster guard (CLAUDE.md hard rule 1): committing a local JS/CSS
+# change without bumping ?v= in index.html serves visitors mixed old/new
+# bundles for ~10 min. Enabled via: git config core.hooksPath .githooks
+
+staged=$(git diff --cached --name-only)
+
+if echo "$staged" | grep -qE '^(js|css)/|^posts/index\.js$'; then
+  if ! git diff --cached -U0 -- index.html | grep -qE '^\+.*\?v='; then
+    echo "pre-commit: js/css changed but index.html's ?v= cache-buster was not bumped." >&2
+    echo "Find-and-replace the ?v=YYYYMMDDx token in index.html, stage it, and retry." >&2
+    exit 1
+  fi
+fi
+
+# One version string only — a partial bump is worse than no bump.
+if echo "$staged" | grep -qx 'index.html'; then
+  count=$(git show :index.html | grep -o 'v=[0-9a-z]*' | sort -u | wc -l)
+  if [ "$count" -gt 1 ]; then
+    echo "pre-commit: index.html has $count different ?v= values — the bump missed some tags:" >&2
+    git show :index.html | grep -o 'v=[0-9a-z]*' | sort -u >&2
+    exit 1
+  fi
+fi
+
+exit 0

@@ -44,7 +44,7 @@ const Dock = (() => {
     });
     dock.appendChild(start);
 
-    Apps.all().filter((a) => !a.folder && !a.hidden).forEach((app) => {
+    Apps.all().filter((a) => !a.folder && !a.hidden && !a.iosOnly).forEach((app) => {
       const btn = document.createElement("button");
       btn.className = "dock-item";
       btn.setAttribute("aria-label", "Open " + app.title);

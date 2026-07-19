@@ -30,13 +30,47 @@ body[data-mode="ios"] #wifi-menu {
 /* ============ Home screen ============ */
 #ios-home {
   position: absolute; inset: 0;
-  padding: calc(58px + env(safe-area-inset-top, 0px)) 20px 90px;
-  overflow-y: auto;
+  overflow: hidden;
 }
+/* Swipe pages: horizontal scroll-snap (native touch, axis-locked by the
+   browser, so vertical scrolling inside a page never fights the swipe) */
+#ios-pages {
+  height: 100%;
+  display: flex;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+#ios-pages::-webkit-scrollbar { display: none; }
+.ios-page {
+  flex: none; width: 100%;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  overflow-y: auto;
+  padding: calc(58px + env(safe-area-inset-top, 0px)) 20px calc(96px + env(safe-area-inset-bottom, 0px));
+}
+.ios-page-widgets { display: flex; flex-direction: column; }
 #ios-widgets {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
-  margin-bottom: 26px;
 }
+
+/* Paging dots, pinned above the home indicator */
+#ios-page-dots {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+  z-index: 55;
+  display: flex; gap: 9px;
+  padding: 7px 11px; border-radius: 999px;
+  background: rgba(120, 120, 128, 0.22);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+#ios-page-dots button {
+  width: 7px; height: 7px; border-radius: 50%; padding: 0;
+  background: var(--icon-label); opacity: 0.35;
+  transition: opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+#ios-page-dots button.active { opacity: 0.95; }
 #ios-icon-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

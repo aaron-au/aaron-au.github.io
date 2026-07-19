@@ -38,6 +38,34 @@ const IOS = (() => {
     makeDraggable(indicator, {
       onEnd({ dy }) { if (dy < -50) goHome(); },
     });
+
+    setupPages();
+  }
+
+  /* Home pages (widgets / apps): scroll-snap does the swiping, this just
+     keeps the dots honest and makes them clickable (mouse fallback). */
+  function setupPages() {
+    const pages = document.getElementById("ios-pages");
+    const dotsNav = document.getElementById("ios-page-dots");
+    dotsNav.textContent = "";
+    const dots = [...pages.children].map((page, i) => {
+      const dot = document.createElement("button");
+      dot.setAttribute("aria-label", "Page " + (i + 1) + ": " + (page.getAttribute("aria-label") || ""));
+      dot.addEventListener("click", () =>
+        pages.scrollTo({ left: i * pages.clientWidth, behavior: "smooth" }));
+      dotsNav.appendChild(dot);
+      return dot;
+    });
+    const reflect = () => {
+      // clientWidth is 0 while iOS mode is display:none — treat as page 0
+      const w = pages.clientWidth;
+      const i = w ? clamp(Math.round(pages.scrollLeft / w), 0, dots.length - 1) : 0;
+      dots.forEach((d, j) => d.classList.toggle("active", j === i));
+    };
+    pages.addEventListener("scroll", () => requestAnimationFrame(reflect), { passive: true });
+    // Mode switches arrive via browser resize; re-sync the dots then too
+    window.addEventListener("resize", () => requestAnimationFrame(reflect));
+    reflect();
   }
 
   function open(id, originEl) {

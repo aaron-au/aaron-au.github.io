@@ -659,6 +659,61 @@ body.dragging { user-select: none; -webkit-user-select: none; }
   color: var(--text-secondary); opacity: 0.8;
 }
 
+/* ============ Settings ============ */
+.app-content-settings {
+  padding: 16px 16px 22px;
+  height: 100%; min-height: 100%;
+  font-size: 14px;
+}
+/* drill-in pages via classes, not [hidden] — see CLAUDE.md rule 4 */
+.set-wifi-page { display: none; }
+.settings.show-wifi .set-main { display: none; }
+.settings.show-wifi .set-wifi-page { display: block; }
+.set-group {
+  background: var(--win-bg); border: 1px solid var(--win-border);
+  border-radius: 12px; margin-bottom: 13px; overflow: hidden;
+}
+.set-row {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 10px 14px; text-align: left;
+  font-size: 14px; color: var(--text);
+}
+button.set-row:hover { background: var(--surface); }
+.set-ic {
+  flex: none; display: grid; place-items: center;
+  width: 29px; height: 29px; border-radius: 7px;
+  background: var(--si, var(--accent)); color: #fff;
+}
+.set-label { flex: 1; min-width: 0; }
+.set-value { color: var(--text-secondary); font-size: 13px; }
+.set-chev { color: var(--text-secondary); font-size: 18px; line-height: 1; }
+.set-foot { text-align: center; margin-top: 18px; }
+
+/* iOS-style switch */
+.set-switch {
+  flex: none; position: relative;
+  width: 47px; height: 28px; border-radius: 999px;
+  background: var(--surface-strong);
+  transition: background 0.2s ease;
+}
+.set-switch[aria-checked="true"] { background: #34c759; }
+.set-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: left 0.2s ease;
+}
+.set-switch[aria-checked="true"] .set-knob { left: 21px; }
+
+/* Wi-Fi drill-in page */
+.set-back { display: block; color: var(--accent); font-size: 14px; margin-bottom: 8px; }
+.set-back:hover { text-decoration: underline; }
+.set-wifi-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.set-wifi-list {
+  background: var(--win-bg); border: 1px solid var(--win-border);
+  border-radius: 12px; padding: 8px; font-size: 13px;
+}
+
 /* ============ Terminal ============ */
 .app-content-terminal {
   padding: 0; height: 100%; min-height: 100%;
@@ -703,6 +758,7 @@ body.dragging { user-select: none; -webkit-user-select: none; }
 .tile-projects { background: linear-gradient(160deg, #46c470, #1f9e50); }
 .tile-contact  { background: linear-gradient(160deg, #b06ef2, #8341d6); }
 .tile-terminal { background: linear-gradient(160deg, #3a3d45, #17181d); }
+.tile-settings { background: linear-gradient(160deg, #9aa2b1, #5b6270); }
 .tile-games    { background: linear-gradient(160deg, #7f8cff, #4a55c4); }
 .tile-ai       { background: linear-gradient(160deg, #e46ad8, #7645e0); }
 .tile-doom     { background: linear-gradient(160deg, #e0483e, #7d1812); }
@@ -742,9 +798,9 @@ body.dragging { user-select: none; -webkit-user-select: none; }
   transition: opacity 0.15s ease;
 }
 .ai-credit:hover, .ai-credit:focus-visible { opacity: 0.95; text-decoration: underline; }
+/* iOS: lives in flow on the widgets page, under the scribble */
 .ai-credit-ios {
-  position: fixed; right: auto; left: 50%; transform: translateX(-50%);
-  bottom: calc(34px + env(safe-area-inset-bottom, 0px));
+  position: static; margin: 16px auto 0;
 }
 
 /* ============ Wallpaper scribble (a frustrated developer was here) ============
@@ -770,11 +826,12 @@ svg.wall-scribble { display: block; height: auto; aspect-ratio: 360 / 100; }
 .wall-scribble path {
   stroke: currentColor; stroke-width: 2.6; fill: none; stroke-linecap: round;
 }
+/* iOS: in flow on the widgets page, filling the space below the clocks */
 .wall-scribble-ios {
-  position: fixed; left: 50%; right: auto;
-  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  position: static;
   width: 200px;
-  transform: translateX(-50%) rotate(-6deg);
+  margin: clamp(32px, 9vh, 80px) auto 0;
+  transform: rotate(-6deg);
   opacity: 0.28;
 }
 /* Decorative on the lock screen — no app to open before login */
@@ -805,7 +862,7 @@ svg.wall-scribble { display: block; height: auto; aspect-ratio: 360 / 100; }
 }
 button.wifi-row:hover { background: var(--surface-strong); }
 .wifi-check { flex: none; width: 15px; color: var(--accent); font-weight: 700; }
-#wifi-menu.wifi-down .wifi-current .wifi-check { color: #e0483e; }
+.wifi-nets.wifi-down .wifi-current .wifi-check { color: #e0483e; }
 .wifi-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .wifi-glyphs { flex: none; display: flex; align-items: center; gap: 6px; color: var(--text-secondary); }
 .wifi-glyphs .wifi-bars-1 { opacity: 0.35; }

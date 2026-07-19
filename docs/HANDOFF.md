@@ -8,8 +8,9 @@ else: what exists, why it's shaped this way, how to test it, and what's left.
 
 Aaron's daily homepage/work page across devices, and his public face. It
 imitates macOS on desktop (login screen, menu bar, draggable/resizable
-windows, left dock with a Games fan-out folder), iOS under 700px (home grid,
-zoom-from-icon app views, home indicator), and optionally Windows
+windows, left dock with a Games fan-out folder), iOS under 700px (paged home
+— widgets page + app grid with paging dots, zoom-from-icon app views, home
+indicator, Settings app), and optionally Windows
 ("Restart into Windows…" in the system menu: bottom taskbar, Start button,
 right-side window controls). Everything is hand-written vanilla HTML/CSS/JS.
 The identity of the site: useful first (clocks, tasks, blog), playful second
@@ -33,19 +34,55 @@ in the wallpaper corner).
 | Career Ladder (interactive résumé) | `js/career.js`, `app-career` template | 8-bit vertical platformer, one area per timeline entry (2010 at the bottom → now at the top); reach each summit and talk to pixel-Aaron (E) to read that entry. Hidden app — only the Résumé button and terminal `open career` reach it. Content is parsed from `#app-resume` at init, so it can't drift from the real résumé. Mechanics all on from the start: double jump, bounce pads, grapple hooks (attach only to placed hooks, X). No death — falls cost height ("career setback"). Easy/Hard = generation parameters; levels are seeded-RNG and **feasible by construction** (each step's max horizontal reach is derived from the jump physics — see `airFrames`). Customisation: hair/colour/skin + business-attire ladder (Basement Dev → Full Suit CEO), persisted as `career-prefs`; NPC-Aaron wears the outfit tier of the area you're in. Esc pauses (`escCloses:false`), M mutes the WebAudio bleeps, touch buttons appear on coarse pointers. Closing resets like the games (arcade rules; prefs survive). `Career.debug` powers the CDP tests. |
 | Projects | template in `index.html` | Four cards with letter-tile tech chips (deliberately not vendor logo SVGs) and deep-links into blog topics via `data-blog-tag`. |
 | Contact | template in `index.html` | LinkedIn + GitHub brand-badge rows only. **No email by choice** (scraping). |
-| Terminal | `js/terminal.js` | Toy shell: ls/open/cat, theme/color, zsh/bash/fish/python prompts, sudo / rm -rf / / neofetch / battery / winver / reboot easter eggs. contenteditable input (password-manager avoidance). |
+| Terminal | `js/terminal.js` | Toy shell: ls/open/cat, theme/color, zsh/bash/fish/python/powershell prompts, sudo / rm -rf / / neofetch / battery / winver / reboot easter eggs. contenteditable input (password-manager avoidance). Under the Windows skin it boots as PowerShell (`PS C:\Users\guest>`, console-blue via `windows.css`, cmdlet aliases like `Get-ChildItem`/`cls`, PS-style not-found errors); rebooting between skins live-switches the interpreter via the `skinchange` event on `document` (dispatched by `applySkin` in main.js). |
 | Games | `js/games.js`, `vendor/`, `assets/` | DOOM + Lemmings via self-hosted js-dos v6.22; Quake via WebQuake iframe (DOS Quake crashes this DOSBox build's protected mode). Exit↔close symmetry: js-dos games use a tick-cessation watchdog (this wdosbox never calls Module.onExit/quit — verified empirically); WebQuake is watched for its end-screen. Closing tears down and resets via `Apps.resetContent`. Lemmings demo intro is in German (period-authentic disc; Aaron kept it). |
 | About This Site | `app-sysinfo` template | "About This Mac"-style fixed panel from the system menu (hidden app, `resizable:false`); More Info… opens About Me. |
 | Wi-Fi menu | `js/wifi.js`, `#wifi-menu` | Fake network picker behind Wi-Fi icons in the menubar, Windows tray, and iOS status bar — one shared menu element, direct child of `<body>` (rule 5). The connected network is `github-pages` and mirrors githubstatus.com: fetched on load + menu open only (2-min throttle, no background polling); major/critical/unreachable ⇒ struck-through icons + a "this site is technically down" sub-line. Secured SSIDs: masked contenteditable password (rule 3) that never works — 5 escalating refusals (some SSIDs have a custom first quip), then the network hides for the session. "Free Public Wi-Fi ✨" springs the trap: body-level glitch animation → fake "Recovering…" reboot → pink-on-black CRT `#pwned-screen` ("NEVER. TRUST. OPEN. WI-FI."); Esc or the button reconnects. `WiFi.handleEscape()` is called first in main.js's Escape chain. |
+| iOS home pages | `js/ios.js` (`setupPages`), `css/ios.css` | Home screen pages like a real phone: page 1 = clock widgets (+ the wallpaper scribble/AI credit, now in-flow there), page 2 = app grid. Horizontal CSS scroll-snap does the swiping (native axis-locking — never fights vertical scroll or `makeDraggable`); JS only keeps the paging dots honest and makes them clickable (the mouse fallback, since mice can't drag scroll containers). Dot reflow handles `clientWidth === 0` while iOS mode is hidden. |
+| Settings | `js/settings.js`, `app-settings` template | The phone-sized home for controls desktop keeps in the menubar/system menu. `iosOnly: true` — on the iOS home grid but skipped by the dock (still opens as a window via `#settings` or terminal `open settings`). Rows: Wi-Fi (drill-in page reusing `WiFi.renderNetworks` — same join/trap logic, shared attempt counts), Dark Appearance switch (`System.setTheme`, mirrors other toggles via MutationObserver on `data-effective-theme`), Restart into Windows/macOS (label tracks `skinchange`), About (opens `sysinfo`). Grow this app rather than adding status-bar buttons. |
 | Wallpaper | `assets/pattern-*.svg` → data URIs in `css/base.css` | Circuit-trace tile over the gradient; edit the SVGs then re-inline. |
 | AI credit → AI opinion | `.ai-credit`, `app-ai` template | The wallpaper tagline is now a `data-open-app="ai"` button opening "AI at Work" (hidden app): Aaron's opinion piece on AI-assisted coding. Keep it wallpaper-level and subtle (opacity 0.45, brightens on hover). Terminal `open ai` also works. |
 | Wallpaper scribble | `.wall-scribble` in `index.html`/`base.css` | "trust but verify" hand-scrawled on the wallpaper (rotated SVG, cursive font stack, double underline) on desktop, iOS home, and the login screen. The desktop/iOS copies are disguised buttons opening the same AI app — kept at z-index 0 so windows stacked above always win the click. The login-screen copy is decorative (`pointer-events:none`; nothing to open pre-login). |
+
+## Where things live (navigate by this, don't re-explore)
+
+`index.html` is ~45KB — never read it whole. Find an app's markup with
+`grep -n 'template id=' index.html` and read that slice; SVG icon symbols
+are in the `<svg>` block near the top; script tags (load order + shared
+`?v=` cache-buster) are at the bottom.
+
+| File | Owns |
+|---|---|
+| `js/util.js` | `safeStore` (JSON localStorage), `sessionStore`, `makeDraggable` (5+ consumers), `setUrlHash`, `clamp`, `svgIcon` |
+| `js/apps.js` | app registry + content-node lifecycle — the keystone, read it first (80 lines) |
+| `js/wm.js` | macOS window manager: drag, resize, focus stack, minimize/maximize, geometry persistence |
+| `js/dock.js` | dock (macOS) / taskbar + Start (Windows), Games fan-out |
+| `js/ios.js` | iOS shell: home pages + grid, app views, status bar, mode switch suspend/resume |
+| `js/blog.js` | blog app: topic rail, channel list, conversation rendering, local comments |
+| `js/games.js` | js-dos + WebQuake embedding, exit watchdogs, teardown |
+| `js/career.js` | Career Ladder platformer (largest file; self-contained; `Career.debug` for tests) |
+| `js/terminal.js` | toy shell (+ PowerShell persona under the Windows skin) |
+| `js/widgets.js` | world clocks + battery easter egg |
+| `js/tasks.js` | kanban board |
+| `js/login.js` | login screen theatre, guest unlock |
+| `js/wifi.js` | fake Wi-Fi picker, githubstatus mirror, open-Wi-Fi trap |
+| `js/settings.js` | Settings app (Wi-Fi drill-in, appearance, skin restart, about) |
+| `js/main.js` | boot, menubar + system menu, skin/theme, Escape chain, `applyHash` deep links |
+| `css/base.css` | tokens, wallpaper, shared app-content styles |
+| `css/macos.css` / `css/ios.css` / `css/windows.css` | desktop shell / phone shell / Windows skin overrides |
+| `posts/` | blog markdown + `index.js` manifest |
+| `.claude/skills/` | project skills: `verify` (browser checks + `cdp.mjs`), `deploy`, `new-app`, `blog-post` |
+| `.githooks/pre-commit` | cache-buster guard (`git config core.hooksPath .githooks` on fresh clones) |
+
+Storage/session key names are load-bearing — the list lives under "Known
+quirks" below.
 
 ## Decisions and their reasons (don't relitigate casually)
 
 - **No modules/build step**: hand-maintainable is the point. Script order in
   `index.html` matters (util → apps → wm → dock → ios → blog/games/terminal
-  → widgets/tasks → login → main).
+  → widgets/tasks → login → wifi → settings → main; settings must follow
+  wifi — its init hook calls `WiFi.renderNetworks`).
 - **Content nodes move, never clone**: app state survival is a feature
   (blog post stays open across a mode switch).
 - **Mode switches don't close apps** (`suspend/resume`); explicit close does
@@ -64,23 +101,15 @@ in the wallpaper corner).
 
 ## Test recipe (the established pattern)
 
-```js
-// verify.mjs — run: node verify.mjs  (server: python3 -m http.server 8123)
-import { spawn } from "node:child_process";
-const chrome = spawn("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-  ["--headless=new","--remote-debugging-port=9333","--window-size=1440,900",
-   "--user-data-dir=/tmp/cdp-profile","about:blank"],{stdio:"ignore"});
-// fetch http://127.0.0.1:9333/json/list → new WebSocket(page.webSocketDebuggerUrl)
-// send Runtime.evaluate / Input.dispatch{Mouse,Key}Event / Page.captureScreenshot
-```
-Gotchas learned the hard way: desktop headless Chrome clamps window width to
-~500px (use `Emulation.setDeviceMetricsOverride` for phone sizes); WebGL
-needs `--use-angle=swiftshader` (WebQuake alert()s without it and a dialog
-hangs everything — auto-accept via `Page.handleJavaScriptDialog`); kill stray
-`remote-debugging-port` processes between runs or you'll connect to a stale
-instance with stale emulation (this produced a very confusing iOS screenshot
-once); log in as Guest before poking the desktop; assert computed style +
-getBoundingClientRect, never just attributes.
+Packaged as the **`verify` project skill** (`.claude/skills/verify/`):
+`cdp.mjs` is a ready, smoke-tested CDP helper (launch with the right flags,
+eval, click/keys, phone emulation, screenshots, `loginAsGuest`, `geometry`)
+and SKILL.md carries the gotcha list learned the hard way (headless width
+clamp, swiftshader for WebGL, stale debug instances, dialog auto-accept).
+Invoke the skill instead of rebuilding any of this. Server:
+`python3 -m http.server 8123`; write throwaway test scripts in the
+scratchpad, never the repo. Assert computed style + getBoundingClientRect,
+never just attributes — and look at the screenshots.
 
 ## Known quirks / soft spots
 
@@ -109,22 +138,10 @@ getBoundingClientRect, never just attributes.
    within a column.
 5. About Me copy is still v1 boilerplate-ish; headshot is a dummy SVG
    (`assets/headshot.svg`) awaiting a real photo.
-6. **Settings app for phone sizes** (Aaron, 2026-07-18). iOS mode inherits
-   desktop-ish affordances that get cramped on small screens; a real phone
-   would put them in a Settings app (gear tile, probably `defaultOpen`-ish on
-   iOS only, or at least prominent on the home grid). Should own: Wi-Fi
-   (reuse the network list/join/trap logic from `js/wifi.js` as a full-page
-   view — the status-bar popover is tight at 390px), appearance (theme
-   toggle), "Restart into Windows/macOS" (the system menu doesn't exist on
-   iOS), and an About row (reuse `app-sysinfo` content). Grow it as more
-   controls appear rather than adding new status-bar buttons.
-7. **iOS home swipe pages** (Aaron, 2026-07-18). The home screen should page
-   like a real phone: page 1 = clock widgets, page 2+ = the app grid, with
-   paging dots and touch swipe. Mind the existing rules: Pointer Events +
-   `touch-action` (swipe must not fight vertical scroll or the shared
-   `makeDraggable` consumers), and keep everything reachable in both
-   modes — the widgets currently share `#ios-home` with the grid, so this
-   is a layout restructure, not just a gesture.
+
+(Backlog items #6 Settings app and #7 iOS home swipe pages shipped
+2026-07-19 — see the feature inventory. The PowerShell-under-Windows
+terminal shipped the same day, on a suggestion from a friend of Aaron's.)
 
 ## Working with Aaron
 

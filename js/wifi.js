@@ -61,6 +61,8 @@ const WiFi = (() => {
   ];
 
   let menu, pwned, trapping = false;
+  const roots = []; // every container the network list is rendered into
+                    // (the status-bar menu + the Settings app's Wi-Fi page)
   const attempts = new Map(); // ssid -> failed attempt count (survives menu close)
   let gh = { state: "unknown", description: "", at: 0 };
 
@@ -90,18 +92,19 @@ const WiFi = (() => {
 
   function reflectStatus() {
     toggles().forEach((b) => b.classList.toggle("wifi-off", isDown()));
-    if (!menu) return;
-    menu.classList.toggle("wifi-down", isDown());
-    menu.querySelector(".wifi-check").textContent = isDown() ? "✕" : "✓";
-    const sub = menu.querySelector(".wifi-current .wifi-sub");
-    if (gh.state === "none")
-      sub.textContent = "Connected — you are literally on it right now.";
-    else if (gh.state === "minor")
-      sub.textContent = "Connected, mostly. GitHub says: “" + gh.description + "”.";
-    else if (gh.state === "unreachable")
-      sub.textContent = "Can't reach GitHub Status — either you're offline, or the status page is. Awkward either way.";
-    else
-      sub.textContent = "GitHub is having an incident, so this site is technically down. Yet here you are, reading it. Don't think about it too hard.";
+    roots.forEach((root) => {
+      root.classList.toggle("wifi-down", isDown());
+      root.querySelector(".wifi-current .wifi-check").textContent = isDown() ? "✕" : "✓";
+      const sub = root.querySelector(".wifi-current .wifi-sub");
+      if (gh.state === "none")
+        sub.textContent = "Connected — you are literally on it right now.";
+      else if (gh.state === "minor")
+        sub.textContent = "Connected, mostly. GitHub says: “" + gh.description + "”.";
+      else if (gh.state === "unreachable")
+        sub.textContent = "Can't reach GitHub Status — either you're offline, or the status page is. Awkward either way.";
+      else
+        sub.textContent = "GitHub is having an incident, so this site is technically down. Yet here you are, reading it. Don't think about it too hard.";
+    });
   }
 
   /* ---------- menu ---------- */
@@ -116,10 +119,10 @@ const WiFi = (() => {
   }
 
   function collapseJoins() {
-    menu.querySelectorAll(".wifi-join").forEach((j) => {
+    roots.forEach((root) => root.querySelectorAll(".wifi-join").forEach((j) => {
       j.hidden = true;
       j.querySelector(".wifi-pw").textContent = "";
-    });
+    }));
   }
 
   const barsSvg = (bars) =>
@@ -128,8 +131,19 @@ const WiFi = (() => {
     '<svg class="icon" width="11" height="11" aria-hidden="true"><use href="#icon-lock"/></svg>';
 
   function render() {
-    menu.innerHTML =
-      '<div class="wifi-head">Wi-Fi</div>' +
+    menu.innerHTML = '<div class="wifi-head">Wi-Fi</div>';
+    const nets = document.createElement("div");
+    menu.appendChild(nets);
+    renderNetworks(nets);
+  }
+
+  /* Build the network list (current network + join/trap logic) into any
+     container. Used by the status-bar menu and the Settings app's Wi-Fi
+     page — attempt counts and GitHub status are shared module state. */
+  function renderNetworks(root) {
+    roots.push(root);
+    root.classList.add("wifi-nets");
+    root.innerHTML =
       '<div class="wifi-current">' +
         '<div class="wifi-row"><span class="wifi-check">✓</span>' +
           '<span class="wifi-name">' + HOME_SSID + "</span>" +
@@ -139,7 +153,7 @@ const WiFi = (() => {
       '<div class="wifi-sep">Other Networks</div>' +
       '<ul class="wifi-list"></ul>';
 
-    const list = menu.querySelector(".wifi-list");
+    const list = root.querySelector(".wifi-list");
     NETWORKS.forEach((net) => {
       const li = document.createElement("li");
       li.innerHTML =
@@ -202,6 +216,10 @@ const WiFi = (() => {
       }
       list.appendChild(li);
     });
+
+    // A container rendered after boot (Settings) shouldn't sit on
+    // "Checking with GitHub…" when the answer is already in
+    if (gh.state !== "unknown") reflectStatus();
   }
 
   /* ---------- the trap ---------- */
@@ -287,5 +305,6 @@ const WiFi = (() => {
     refreshStatus();
   }
 
-  return { init, isOpen, close: () => setOpen(false), handleEscape };
+  return { init, isOpen, close: () => setOpen(false), handleEscape,
+           renderNetworks, refresh: refreshStatus };
 })();

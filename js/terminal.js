@@ -17,6 +17,7 @@ const Terminal = (() => {
     { name: "Blog.app", id: "blog" },
     { name: "Projects.app", id: "projects" },
     { name: "Contact.app", id: "contact" },
+    { name: "Settings.app", id: "settings" },
     { name: "Terminal.app", id: "terminal" },
     { name: "Games", dir: true },
     { name: "README.md", file: true },
@@ -33,7 +34,13 @@ const Terminal = (() => {
     fish: () => USER + "@" + HOST + " ~> ",
     sh: () => "$ ",
     python: () => ">>> ",
+    powershell: () => "PS C:\\Users\\" + USER + "> ",
   };
+
+  /* The Windows skin boots into PowerShell — the friend who suggested it
+     was right, a zsh prompt on Windows would be unforgivable. */
+  const defaultShell = () =>
+    window.System && window.System.currentSkin() === "win" ? "powershell" : "zsh";
 
   function openApp(id) {
     if (document.body.dataset.mode === "ios") IOS.open(id);
@@ -55,7 +62,7 @@ const Terminal = (() => {
     const promptEl = node.querySelector(".term-prompt");
     const input = node.querySelector(".term-input");
 
-    const st = { shell: "zsh", history: [], histIdx: -1 };
+    const st = { shell: defaultShell(), history: [], histIdx: -1 };
 
     const print = (text, cls) => {
       const div = document.createElement("div");
@@ -80,7 +87,7 @@ const Terminal = (() => {
           "  <b>cat</b> README.md   read the fine print<br>" +
           "  <b>theme</b> dark|light  switch appearance<br>" +
           "  <b>color</b> fg|bg &lt;css-color&gt;  restyle the terminal (color reset to undo)<br>" +
-          "  <b>zsh</b> | <b>bash</b> | <b>fish</b> | <b>sh</b> | <b>python</b>  change interpreter<br>" +
+          "  <b>zsh</b> | <b>bash</b> | <b>fish</b> | <b>sh</b> | <b>python</b> | <b>powershell</b>  change interpreter<br>" +
           "  <b>reboot</b> windows|macos  switch operating systems<br>" +
           "  <b>whoami</b>, <b>pwd</b>, <b>date</b>, <b>uname</b>, <b>echo</b>, <b>battery</b>, <b>neofetch</b>, <b>clear</b>, <b>exit</b>");
       },
@@ -115,7 +122,7 @@ const Terminal = (() => {
         }
       },
       clear() { out.textContent = ""; },
-      pwd() { print("/Users/" + USER); },
+      pwd() { print(st.shell === "powershell" ? "C:\\Users\\" + USER : "/Users/" + USER); },
       whoami() { print(USER + "   (you could be anyone. that's the beauty of it)"); },
       date() { print(new Date().toString()); },
       echo(args) { print(args.join(" ")); },
@@ -215,6 +222,36 @@ const Terminal = (() => {
       print('Python 3.∞.0 (fake, ' + new Date().getFullYear() + ') [wasm] on aaronOS');
       print('Type "exit()" to escape.');
     };
+    const psBanner = () => {
+      print("aaronOS PowerShell (the PowerShell is also fake)");
+      printHtml('<span class="t-dim">Install the latest PowerShell for new features and improvements!' +
+        " (there is no latest PowerShell)</span>");
+    };
+    CMDS.powershell = () => { st.shell = "powershell"; setPrompt(); psBanner(); };
+    CMDS.pwsh = CMDS.powershell;
+    // cmdlet aliases — case-insensitive via run()'s toLowerCase, work anywhere
+    CMDS.dir = CMDS.ls;
+    CMDS.gci = CMDS.ls;
+    CMDS["get-childitem"] = CMDS.ls;
+    CMDS.cls = CMDS.clear;
+    CMDS["clear-host"] = CMDS.clear;
+    CMDS["get-location"] = CMDS.pwd;
+    CMDS["get-date"] = CMDS.date;
+    CMDS["get-help"] = CMDS.help;
+    CMDS["write-host"] = CMDS.echo;
+
+    // Rebooting between skins switches the interpreter to match the OS
+    document.addEventListener("skinchange", (e) => {
+      if (e.detail.skin === "win" && st.shell !== "powershell") {
+        st.shell = "powershell";
+        setPrompt();
+        print("(rebooted into Windows — this is PowerShell now. Sorry.)", "t-dim");
+      } else if (e.detail.skin !== "win" && st.shell === "powershell") {
+        st.shell = "zsh";
+        setPrompt();
+        print("(rebooted into macOS — zsh restored. You may exhale.)", "t-dim");
+      }
+    });
 
     function runPython(line) {
       const l = line.trim();
@@ -244,7 +281,12 @@ const Terminal = (() => {
       if (CMDS[c]) { CMDS[c](args); return; }
       const id = resolveApp(cmd);
       if (id) { print("Opening " + Apps.get(id).title + "…"); openApp(id); return; }
-      print(st.shell + ": command not found: " + cmd + "   (try: help)");
+      if (st.shell === "powershell") {
+        print(cmd + " : The term '" + cmd + "' is not recognized as the name of a " +
+          "cmdlet, function, or anything else, really.   (try: help)");
+      } else {
+        print(st.shell + ": command not found: " + cmd + "   (try: help)");
+      }
     }
 
     function escapeHtml(s) {
@@ -294,8 +336,13 @@ const Terminal = (() => {
     });
 
     setPrompt();
-    print("aaronOS Terminal — type 'help' to see what this thing pretends to do.");
-    printHtml('<span class="t-dim">Last login: never. First login, actually. Welcome.</span>');
+    if (st.shell === "powershell") {
+      psBanner();
+      printHtml('<span class="t-dim">Type \'help\' to see what this thing pretends to do.</span>');
+    } else {
+      print("aaronOS Terminal — type 'help' to see what this thing pretends to do.");
+      printHtml('<span class="t-dim">Last login: never. First login, actually. Welcome.</span>');
+    }
   }
 
   return { init };

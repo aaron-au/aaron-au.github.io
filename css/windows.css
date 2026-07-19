@@ -118,6 +118,13 @@ html[data-skin="win"] .dock-fan { transform: translate(-50%, 0); }
 /* AI credit: lift it clear of the taskbar (52px bar + the usual 12px gap) */
 html[data-skin="win"] .ai-credit { bottom: 64px; }
 
+/* Terminal is PowerShell here: the classic console blue. A visitor's own
+   `color` command sets inline properties, which still win over this. */
+html[data-skin="win"] .app-content-terminal {
+  --term-bg: #012456;
+  --term-fg: #eeedf0;
+}
+
 /* Wi-Fi menu pops up from the tray instead of down from the menubar */
 html[data-skin="win"] #wifi-menu { top: auto; bottom: 62px; right: 8px; }
 #win-wifi-toggle { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; }

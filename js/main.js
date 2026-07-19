@@ -18,12 +18,15 @@
     btn.setAttribute("aria-pressed", String(effectiveTheme() === "dark"));
   }
 
-  function toggleTheme() {
-    const next = effectiveTheme() === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
+  function setTheme(t) {
+    root.dataset.theme = t;
     // Raw string (not JSON) — the inline head script reads it before paint
-    try { localStorage.setItem("theme", next); } catch (e) {}
+    try { localStorage.setItem("theme", t); } catch (e) {}
     reflectTheme();
+  }
+
+  function toggleTheme() {
+    setTheme(effectiveTheme() === "dark" ? "light" : "dark");
   }
 
   /* ---------- clock (shared by menu bar + iOS status bar) ---------- */
@@ -64,6 +67,8 @@
       skin === "win" ? "Restart into macOS…" : "Restart into Windows…";
     Dock.closeFan();
     WM.reclampAll();
+    // Settings and the Terminal reflect the skin live (labels, PowerShell)
+    document.dispatchEvent(new CustomEvent("skinchange", { detail: { skin } }));
   }
 
   function rebootInto(skin) {
@@ -75,8 +80,9 @@
     }, 1600);
   }
 
-  // Escape hatch for other modules (the Terminal's `reboot` command)
-  window.System = { rebootInto, currentSkin };
+  // Escape hatch for other modules (the Terminal's `reboot` command,
+  // the Settings app's appearance/restart rows)
+  window.System = { rebootInto, currentSkin, setTheme };
 
   /* ---------- mode switching ---------- */
 

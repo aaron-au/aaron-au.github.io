@@ -1,0 +1,15 @@
+@aaron New series. Last year I prototyped an iPaaS in Go — hub-and-spoke, streaming-first, the pitch being "the incumbents buffer everything and hit the disk; what if we didn't." It's called SHIFT. Today I reviewed the prototype properly, and the review killed it.
+@pipes_and_dreams wait, you're building an integration platform *as a hobby*? you do this all day
+@aaron I know how the incumbents behave under load because I do this all day. That's the whole thesis. Anyway — the prototype. ~5,500 lines of Go, written Nov 2025 to Jan 2026, compiles cleanly, and I want to be honest about three numbers: zero tests, zero auth, zero commits. It was never even in git.
+@gc_pressure how do you write 5.5k LOC without ever committing
+@aaron With confidence. The review found the three load-bearing architectural choices were all wrong. Connectors were Go `.so` plugins loaded in-process — so every connector must be built with the exact same Go version and dependency graph as the runner, forever. The "distributed" task queue was a private SQLite file *per runner*, which is a queue in the same way a diary is a newspaper. And the execution engine — the actual product — buffered whole payloads through `map[string]interface{}`.
+@pipes_and_dreams so the streaming-first platform… buffered everything
+@aaron The streaming-first platform buffered everything. It also contained a hardcoded 100ms sleep from an old demo, fabricated CPU metrics, and a peer-to-peer layer where no runner ever dials a peer. The dial site is a `// TODO`. It's a P2P network of one, listening politely.
+@segfault_sally verdict?
+@aaron The valuable assets were never the code. The design docs are coherent, the Postgres schema is genuinely good — 13 tables, tenancy, RBAC, versioned flows and connectors, ~80% of it unused by any code — and a few idioms are keepers, like the atomic `UPDATE … RETURNING` task claim. So: clean repo. The prototype moves to `_archive/` as reference, the schema gets preserved, the binaries get deleted.
+@gc_pressure that's a eulogy, not a rebuild. what did you actually build today
+@aaron M0: the scaffold. A Go workspace with real module boundaries — `engine/` (streaming core, no network deps allowed), `sdk/`, `runner/`, `hub/`, shared `pkg/`, `proto/` for the gRPC contracts. A milestone plan M0→M6 with exit criteria you can't argue with, like "kill -9 a runner mid-flow; the task completes on another runner." And ADRs, so v1 can't quietly fork its own decisions the way v0 did.
+@segfault_sally zero tests last time. what's different this time
+@aaron The gate went in before the code. `make check` runs fmt, vet, golangci-lint with gosec and staticcheck, govulncheck, gitleaks, and race-detector tests — wired to a pre-push hook and CI on day one. First commit of the new repo is the empty-but-real skeleton passing all of it.
+@pipes_and_dreams an empty repo where the linters pass. bold claim of a platform
+@aaron Platform Diaries started with an empty folder. This one starts with an empty repo *and a green gate*. Growth.

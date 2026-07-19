@@ -21,10 +21,10 @@
     try { if (sessionStorage.getItem('loggedIn') === '1') document.documentElement.dataset.loggedIn = '1'; } catch (e) {}
     try { var sk = localStorage.getItem('skin'); if (sk === 'win') document.documentElement.dataset.skin = 'win'; } catch (e) {}
   </script>
-  <link rel="stylesheet" href="./css/base.css?v=20260718i">
-  <link rel="stylesheet" href="./css/macos.css?v=20260718i">
-  <link rel="stylesheet" href="./css/ios.css?v=20260718i">
-  <link rel="stylesheet" href="./css/windows.css?v=20260718i">
+  <link rel="stylesheet" href="./css/base.css?v=20260719b">
+  <link rel="stylesheet" href="./css/macos.css?v=20260719b">
+  <link rel="stylesheet" href="./css/ios.css?v=20260719b">
+  <link rel="stylesheet" href="./css/windows.css?v=20260719b">
 </head>
 <body>
 
@@ -169,16 +169,27 @@
       </span>
     </header>
 
-    <main id="ios-home" aria-label="Home Screen">      <div id="ios-widgets" aria-label="World clocks"></div>
-      <div id="ios-icon-grid"></div>
-      <button class="wall-scribble wall-scribble-ios" data-open-app="ai" aria-label="Trust but verify — my opinion on utilising AI for code">
-        <svg viewBox="0 0 360 100" aria-hidden="true">
-          <text x="8" y="46" textLength="330" lengthAdjust="spacingAndGlyphs">trust but verify</text>
-          <path d="M12 64 C 74 74, 176 56, 344 66"/>
-          <path d="M56 79 C 128 87, 214 70, 308 78"/>
-        </svg>
-      </button>
-      <button class="ai-credit ai-credit-ios" data-open-app="ai">✦ Assisted by Claude — here's my take</button>
+    <main id="ios-home" aria-label="Home Screen">
+      <!-- Home pages like a real phone: page 1 = widgets, page 2 = apps.
+           Horizontal scroll-snap does the swiping natively, so it can't fight
+           vertical scroll or the shared makeDraggable consumers. -->
+      <div id="ios-pages">
+        <section class="ios-page ios-page-widgets" aria-label="Clocks">
+          <div id="ios-widgets" aria-label="World clocks"></div>
+          <button class="wall-scribble wall-scribble-ios" data-open-app="ai" aria-label="Trust but verify — my opinion on utilising AI for code">
+            <svg viewBox="0 0 360 100" aria-hidden="true">
+              <text x="8" y="46" textLength="330" lengthAdjust="spacingAndGlyphs">trust but verify</text>
+              <path d="M12 64 C 74 74, 176 56, 344 66"/>
+              <path d="M56 79 C 128 87, 214 70, 308 78"/>
+            </svg>
+          </button>
+          <button class="ai-credit ai-credit-ios" data-open-app="ai">✦ Assisted by Claude — here's my take</button>
+        </section>
+        <section class="ios-page ios-page-apps" aria-label="Apps">
+          <div id="ios-icon-grid"></div>
+        </section>
+      </div>
+      <nav id="ios-page-dots" aria-label="Home screen pages"></nav>
     </main>
 
     <section id="ios-appview" role="dialog" aria-modal="false" aria-hidden="true">
@@ -283,6 +294,16 @@
     </symbol>
     <symbol id="icon-link" viewBox="0 0 24 24">
       <path d="M10 14 L14 10 M8.5 12.5 L6.5 14.5 A3.5 3.5 0 0 0 11.5 19.5 L13.5 17.5 M15.5 11.5 L17.5 9.5 A3.5 3.5 0 0 0 12.5 4.5 L10.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-gear" viewBox="0 0 24 24">
+      <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+        <line x1="12" y1="3.2" x2="12" y2="6.5"/><line x1="12" y1="17.5" x2="12" y2="20.8"/>
+        <line x1="3.2" y1="12" x2="6.5" y2="12"/><line x1="17.5" y1="12" x2="20.8" y2="12"/>
+        <line x1="5.8" y1="5.8" x2="8.1" y2="8.1"/><line x1="15.9" y1="15.9" x2="18.2" y2="18.2"/>
+        <line x1="5.8" y1="18.2" x2="8.1" y2="15.9"/><line x1="15.9" y1="8.1" x2="18.2" y2="5.8"/>
+      </g>
+      <path fill="currentColor" fill-rule="evenodd"
+        d="M12 5.9 a6.1 6.1 0 1 0 0.01 0 Z M12 9.7 a2.3 2.3 0 1 1 -0.01 0 Z"/>
     </symbol>
   </svg>
 
@@ -609,6 +630,49 @@
     </div>
   </template>
 
+  <template id="app-settings">
+    <!-- Settings: born for phone sizes (backlog #6) — iOS mode has no menubar
+         or system menu, so its controls live here. Also opens as a window. -->
+    <div class="settings">
+      <div class="set-page set-main">
+        <div class="set-group">
+          <button class="set-row set-open-wifi">
+            <span class="set-ic" style="--si:#3478f6"><svg class="icon" width="16" height="12" aria-hidden="true"><use href="#icon-wifi"/></svg></span>
+            <span class="set-label">Wi-Fi</span>
+            <span class="set-value">github-pages</span>
+            <span class="set-chev" aria-hidden="true">›</span>
+          </button>
+        </div>
+        <div class="set-group">
+          <div class="set-row">
+            <span class="set-ic" style="--si:#5b5fe9"><svg class="icon" width="15" height="15" aria-hidden="true"><use href="#icon-moon"/></svg></span>
+            <span class="set-label" id="set-dark-label">Dark Appearance</span>
+            <button class="set-switch" role="switch" aria-checked="false" aria-labelledby="set-dark-label"><span class="set-knob"></span></button>
+          </div>
+        </div>
+        <div class="set-group">
+          <button class="set-row set-skin">
+            <span class="set-ic" style="--si:#0078d4"><svg class="icon" width="15" height="15" aria-hidden="true"><use href="#icon-winlogo"/></svg></span>
+            <span class="set-label set-skin-label">Restart into Windows…</span>
+          </button>
+        </div>
+        <div class="set-group">
+          <button class="set-row" data-open-app="sysinfo">
+            <span class="set-ic" style="--si:#8e8e93"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-user"/></svg></span>
+            <span class="set-label">About</span>
+            <span class="set-chev" aria-hidden="true">›</span>
+          </button>
+        </div>
+        <p class="fine-print set-foot">Settings that do nothing have been left out. Refreshing, isn't it?</p>
+      </div>
+      <div class="set-page set-wifi-page">
+        <button class="set-back">‹ Settings</button>
+        <h2 class="set-wifi-title">Wi-Fi</h2>
+        <div class="set-wifi-list"></div>
+      </div>
+    </div>
+  </template>
+
   <template id="app-tasks">
     <div class="kanban">
       <section class="kb-col" data-status="todo">
@@ -642,20 +706,21 @@
   </template>
 
   <script src="./vendor/marked.min.js"></script>
-  <script src="./posts/index.js?v=20260718i"></script>
-  <script src="./js/util.js?v=20260718i"></script>
-  <script src="./js/apps.js?v=20260718i"></script>
-  <script src="./js/wm.js?v=20260718i"></script>
-  <script src="./js/dock.js?v=20260718i"></script>
-  <script src="./js/ios.js?v=20260718i"></script>
-  <script src="./js/blog.js?v=20260718i"></script>
-  <script src="./js/games.js?v=20260718i"></script>
-  <script src="./js/career.js?v=20260718i"></script>
-  <script src="./js/terminal.js?v=20260718i"></script>
-  <script src="./js/widgets.js?v=20260718i"></script>
-  <script src="./js/tasks.js?v=20260718i"></script>
-  <script src="./js/login.js?v=20260718i"></script>
-  <script src="./js/wifi.js?v=20260718i"></script>
-  <script src="./js/main.js?v=20260718i"></script>
+  <script src="./posts/index.js?v=20260719b"></script>
+  <script src="./js/util.js?v=20260719b"></script>
+  <script src="./js/apps.js?v=20260719b"></script>
+  <script src="./js/wm.js?v=20260719b"></script>
+  <script src="./js/dock.js?v=20260719b"></script>
+  <script src="./js/ios.js?v=20260719b"></script>
+  <script src="./js/blog.js?v=20260719b"></script>
+  <script src="./js/games.js?v=20260719b"></script>
+  <script src="./js/career.js?v=20260719b"></script>
+  <script src="./js/terminal.js?v=20260719b"></script>
+  <script src="./js/widgets.js?v=20260719b"></script>
+  <script src="./js/tasks.js?v=20260719b"></script>
+  <script src="./js/login.js?v=20260719b"></script>
+  <script src="./js/wifi.js?v=20260719b"></script>
+  <script src="./js/settings.js?v=20260719b"></script>
+  <script src="./js/main.js?v=20260719b"></script>
 </body>
 </html>

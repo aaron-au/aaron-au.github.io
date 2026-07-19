@@ -46,7 +46,7 @@ only the rules that prevent breakage.
 ## Architecture in one breath
 
 `js/apps.js` is the registry (flags: `hidden`, `folder`, `template`,
-`escCloses`, `resizable`, `defaultOpen`); app content is one live DOM node
+`escCloses`, `resizable`, `defaultOpen`, `iosOnly`); app content is one live DOM node
 per app, cloned from `<template id="app-<id>">` in `index.html` and moved
 between the macOS window (`js/wm.js`), the iOS app view (`js/ios.js`), and a
 hidden stash — state survives close/reopen and mode switches. `Apps.onCreate`
@@ -57,11 +57,15 @@ modes = `body[data-mode]` via matchMedia at 700px. Deep links: `#app`,
 
 ## Workflows
 
-- Dev server: `python3 -m http.server 8000` (Quake needs Range support in
+Step-by-step recipes live as project skills in `.claude/skills/` — invoke
+them instead of re-deriving: **`verify`** (headless-browser checks; includes
+a ready `cdp.mjs` helper), **`deploy`** (cache-buster → sensitivity sweep →
+push → CDN check), **`new-app`**, **`blog-post`**. "Where things live" in
+`docs/HANDOFF.md` maps every file — read that instead of exploring.
+
+- Dev server: `python3 -m http.server 8123` (Quake needs Range support in
   prod only; a local COM.js patch covers dev).
-- Blog post: conversation-format `.md` in `posts/` (`@handle ` starts a
-  message) + entry in `posts/index.js` (tags drive the topic rail). See
-  README "Adding a blog post".
-- Deploy: commit, `git push origin main` (remote uses the `github-personal`
-  SSH alias from `~/.ssh/config` — the default key is a different account).
-  CDN takes up to ~10 min; verify with a `?fresh=$RANDOM` query.
+- Deploy/push: see the `deploy` skill. Remote uses the `github-personal`
+  SSH alias from `~/.ssh/config` — the default key is a different account.
+- `.githooks/pre-commit` guards the cache-buster; on a fresh clone run
+  `git config core.hooksPath .githooks` once.
