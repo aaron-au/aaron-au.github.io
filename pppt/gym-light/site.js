@@ -1,0 +1,159 @@
+/* Gym · Light — "Poster". Paper white, heavy black type, red blocks,
+   thick borders and hard shadows. Loud, but in daylight. */
+
+PPPT.boot({
+  variant: "gym-light",
+
+  render: (P, { html, pulse }) => {
+    const nav = [["services", "Training"], ["memberships", "Pricing"], ["timetable", "Classes"], ["gallery", "Photos"], ["shop", "Merch"], ["contact", "Contact"]];
+    const m = P.memberships;
+    const t = P.timetable;
+    const marquee = Array(8).fill(html`<span>${P.brand.tagline.join(" ✦ ")} ✦</span>`);
+    const words = P.hero.headlineGym.replace(/\.$/, "").split(" ");
+
+    return html`
+<header class="hdr" data-header>
+  <a class="brand" href="#top"><img src="${P.brand.logo}" alt=""><b>PULSE</b></a>
+  <nav class="hdr-nav" data-nav>${nav.map(([id, l]) => html`<a href="#${id}">${l}</a>`)}</nav>
+  <a class="btn btn-black hdr-cta" href="#contact">Book now</a>
+  <button class="hdr-menu" data-menu-toggle aria-expanded="false" aria-label="Menu"><span></span><span></span></button>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <p class="tag">${P.hero.kicker}</p>
+    <h1>${words.map((w, i) => html`<span class="w w${i}">${w}</span>`)}</h1>
+    <p class="hero-sub">${P.hero.sub}</p>
+    <div class="ctas">
+      <a class="btn btn-red btn-lg" href="${P.hero.primary.href}">${P.hero.primary.label} →</a>
+      <a class="btn btn-white btn-lg" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
+    </div>
+  </div>
+  <div class="hero-art" data-hero-bg>
+    <div class="hero-pulse">${pulse("loop")}</div>
+    <img class="sticker" src="${P.brand.logo}" alt="${P.brand.name}">
+    <span class="burst">No lock-in!</span>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div>${marquee}${marquee}</div></div>
+
+<section class="stats">
+  ${P.stats.map((s, i) => html`<div class="stat card reveal reveal-d${i}"><b>${s.value}</b><span>${s.label}</span></div>`)}
+</section>
+
+<section class="sec" id="services">
+  <h2 class="title reveal"><span>What we do</span></h2>
+  <div class="svc-grid">
+    ${P.services.map((s, i) => html`
+    <article class="svc card reveal reveal-d${i % 3}">
+      <span class="svc-n">${String(i + 1).padStart(2, "0")}</span>
+      <h3>${s.name}</h3>
+      <p class="svc-short">${s.short}</p>
+      <p>${s.blurb}</p>
+      <ul role="list">${s.points.map((p) => html`<li>${p}</li>`)}</ul>
+      ${s.sample ? html`<a class="btn btn-red svc-sample" href="${s.sample.href}" target="_blank" rel="noopener">${s.sample.label} ↗</a>` : ""}
+    </article>`)}
+    <a class="svc card svc-go reveal" href="#contact"><h3>Try a free consult</h3><span>→</span></a>
+  </div>
+</section>
+
+<section class="sec red" id="how">
+  <h2 class="title reveal"><span>How it works</span></h2>
+  <ol class="steps" role="list">
+    ${P.process.map((s, i) => html`<li class="card reveal reveal-d${i}"><b>${i + 1}</b><h3>${s.step}</h3><p>${s.text}</p></li>`)}
+  </ol>
+</section>
+
+<section class="sec" id="memberships">
+  <h2 class="title reveal"><span>Pricing</span></h2>
+  <div class="plans">
+    ${m.plans.map((p, i) => html`
+    <article class="plan card ${p.featured ? "hot" : ""} reveal reveal-d${i}">
+      ${p.badge ? html`<span class="plan-badge">${p.badge}</span>` : ""}
+      <h3>${p.name}</h3>
+      <p class="price">$${p.price}<small>/${p.per}</small></p>
+      <p class="plan-blurb">${p.blurb}</p>
+      <ul role="list">${p.features.map((f) => html`<li>${f}</li>`)}</ul>
+      <a class="btn ${p.featured ? "btn-black" : "btn-red"}" href="#contact">${p.cta}</a>
+    </article>`)}
+  </div>
+  <div class="extras card reveal">
+    <h3>Casual &amp; extras</h3>
+    ${m.extras.map((x) => html`<p><span>${x.name}</span><b>${x.price}</b></p>`)}
+  </div>
+  <p class="fine">${m.note}</p>
+</section>
+
+<section class="sec yellow" id="timetable">
+  <h2 class="title reveal"><span>Class times</span></h2>
+  <div class="tt-wrap card reveal">
+    <table class="tt">
+      <thead><tr><th>Time</th>${t.days.map((d) => html`<th>${d}</th>`)}</tr></thead>
+      <tbody>${t.rows.map(([time, name, days]) => html`<tr><th>${time}</th>${t.days.map((_, d) => days.includes(d) ? html`<td><span>${name}</span></td>` : html`<td></td>`)}</tr>`)}</tbody>
+    </table>
+  </div>
+  <p class="fine">${t.note}</p>
+</section>
+
+<section class="sec" id="gallery">
+  <h2 class="title reveal"><span>The floor</span></h2>
+  <div class="gal" data-gallery></div>
+</section>
+
+<section class="sec black">
+  <h2 class="title reveal"><span>Real talk</span></h2>
+  <div class="quotes">
+    ${P.testimonials.map((q, i) => html`<figure class="quote card reveal reveal-d${i}"><blockquote>“${q.quote}”</blockquote><figcaption>${q.name} — ${q.detail}</figcaption></figure>`)}
+  </div>
+</section>
+
+<section class="sec" id="shop">
+  <h2 class="title reveal"><span>${P.merch.heading}</span></h2>
+  <div class="prods">
+    ${P.merch.products.map((p, i) => html`
+    <a class="prod card reveal reveal-d${i}" href="${P.merch.shopUrl}" target="_blank" rel="noopener">
+      <div class="prod-img"><img src="${P.brand.logo}" alt=""></div>
+      <div class="prod-info"><h3>${p.name}</h3><b>${p.price}</b></div>
+    </a>`)}
+  </div>
+  <a class="btn btn-black btn-lg reveal" href="${P.merch.shopUrl}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
+</section>
+
+<section class="sec" id="faq">
+  <h2 class="title reveal"><span>FAQ</span></h2>
+  <div class="faqs">${P.faq.map((f) => html`<details class="card reveal"><summary>${f.q}</summary><p>${f.a}</p></details>`)}</div>
+</section>
+
+<section class="sec red contact" id="contact">
+  <h2 class="huge reveal">Let's go.</h2>
+  <p class="contact-blurb reveal">${P.contact.blurb}</p>
+  <a class="btn btn-black btn-xl reveal" href="${P.contact.bookingUrl}">${P.hero.primary.label} →</a>
+  <div class="info">
+    <div class="card reveal"><h3>Where</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
+    <div class="card reveal reveal-d1"><h3>Call</h3><p>${P.contact.phone}</p></div>
+    <div class="card reveal reveal-d2"><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p><b>${d}</b> ${h}</p>`)}</div>
+    <div class="card reveal reveal-d3"><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
+  </div>
+</section>
+
+<footer class="foot">
+  <img src="${P.brand.logo}" alt="">
+  <p><b>${P.brand.name}</b><br>© <span data-year></span></p>
+</footer>`;
+  },
+
+  galleryItem: (p, n, { html } = PPPT) =>
+    html`<button class="gal-item card" data-photo="${n}"><img src="${p.src}" alt="${p.caption}" loading="lazy"><span>${p.caption}</span></button>`,
+
+  galleryEmpty: ({ html } = PPPT) =>
+    html`<p class="card" style="padding:24px">Photos coming soon!</p>`,
+
+  onGallery: ({ hero }) => {
+    const art = PPPT.$("[data-hero-bg]");
+    if (art && hero.length) {
+      art.style.backgroundImage = `url("${hero[0].src}")`;
+      art.classList.add("has-photo");
+    }
+  },
+});
