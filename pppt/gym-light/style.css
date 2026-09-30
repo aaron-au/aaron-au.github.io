@@ -117,7 +117,15 @@ body { background: var(--paper); color: var(--ink); font-size: 16px; }
 .steps h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 28px; margin: 16px 0 6px; }
 .steps p { color: var(--body); }
 
-.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; }
+.plans-top { display: flex; justify-content: space-between; align-items: center; gap: 16px 30px; flex-wrap: wrap; margin-bottom: 40px; }
+.plans-sub { font-weight: 800; font-size: 18px; max-width: 520px; }
+.dur { display: inline-flex; padding: 5px; gap: 5px; }
+.dur button { font-family: var(--display); text-transform: uppercase; font-size: 16px; background: none; border: 2px solid transparent; padding: 8px 16px; }
+.dur button[aria-pressed="true"] { background: var(--red); color: #fff; border-color: var(--ink); }
+.plan-freq { display: inline-block; align-self: flex-start; background: var(--ink); color: #fff; font-weight: 800; font-size: 12px; text-transform: uppercase; padding: 3px 8px; margin-bottom: 10px; }
+.plan-save { font-weight: 800; color: var(--red); text-transform: uppercase; font-size: 13px; margin: -12px 0 16px; min-height: 1.4em; }
+.plan.hot .plan-save { color: var(--ink); }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; }
 .plan { padding: 32px 28px; display: flex; flex-direction: column; position: relative; }
 .plan h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 30px; letter-spacing: -.02em; }
 .price { font-family: var(--display); font-size: 76px; line-height: 1; letter-spacing: -.04em; margin: 14px 0 8px; }
@@ -179,6 +187,17 @@ body { background: var(--paper); color: var(--ink); font-size: 16px; }
 .contact { text-align: center; }
 .huge { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(80px, 17vw, 260px); line-height: .85; letter-spacing: -.05em; color: #fff; text-shadow: 8px 8px 0 var(--ink); -webkit-text-stroke: 3px var(--ink); }
 .contact-blurb { font-weight: 800; font-size: 20px; max-width: 520px; margin: 26px auto 32px; color: #fff; }
+/* Enquiry form (markup from core.js). */
+.contact-form { max-width: 760px; margin: 0 auto; padding: clamp(20px, 3.5vw, 34px); text-align: left; }
+.cf { display: grid; gap: 14px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-field span { display: block; font-family: var(--display); text-transform: uppercase; font-size: 14px; margin-bottom: 5px; }
+.cf-field input, .cf-field select, .cf-field textarea { width: 100%; font: inherit; font-size: 16px; font-weight: 600; background: var(--paper); border: var(--b); border-radius: 0; padding: 10px 12px; }
+.cf-field textarea { resize: vertical; min-height: 100px; }
+.cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { outline: none; background: var(--yellow); }
+.cf .btn { justify-self: start; }
+.cf-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cf-status { min-height: 1.4em; font-weight: 800; }
 .info { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 72px; text-align: left; }
 .info .card { padding: 22px; }
 .info h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 20px; margin-bottom: 10px; color: var(--red); }
@@ -209,7 +228,7 @@ body { background: var(--paper); color: var(--ink); font-size: 16px; }
 }
 @media (max-width: 640px) {
   .hdr-cta { display: none; }
-  .svc-grid, .plans, .quotes, .steps, .info, .extras { grid-template-columns: 1fr; }
+  .svc-grid, .plans, .quotes, .steps, .info, .extras, .cf-row { grid-template-columns: 1fr; }
   .stats { gap: 14px; }
   .burst { width: 90px; height: 90px; font-size: 13px; }
   .huge { -webkit-text-stroke-width: 2px; text-shadow: 5px 5px 0 var(--ink); }

@@ -36,22 +36,25 @@ section[id] { scroll-margin-top: 72px; }
 .reveal.in { opacity: 1; transform: none; }
 .reveal-d1 { transition-delay: .08s; } .reveal-d2 { transition-delay: .16s; } .reveal-d3 { transition-delay: .24s; }
 
-/* Heartbeat line. Colour and weight come from the variant. */
-.pulse-line { display: block; width: 100%; height: 100%; overflow: visible; }
-.pulse-line path {
-  fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: pulse-draw 2.4s cubic-bezier(.6, 0, .3, 1) .2s forwards;
+/* Heartbeat line. Colour and weight come from the variant.
+   It's revealed with a clip-path wipe, not a stroke-dash animation: with
+   non-scaling strokes, browsers measure dashes in screen pixels, so a
+   resize (or a paused animation) left gaps in the line. A clip doesn't
+   care how big the line is. */
+.pulse-line { display: block; width: 100%; height: 100%; overflow: visible; clip-path: inset(-50% 0 -50% 0); animation: pulse-draw 1.8s cubic-bezier(.6, 0, .3, 1) .2s backwards; }
+.pulse-line path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.pulse-line.loop { animation: pulse-sweep 3.2s cubic-bezier(.5, 0, .5, 1) infinite; }
+@keyframes pulse-draw { from { clip-path: inset(-50% 100% -50% 0); } }
+@keyframes pulse-sweep {
+  0% { clip-path: inset(-50% 100% -50% 0); }
+  50% { clip-path: inset(-50% 0 -50% 0); }
+  100% { clip-path: inset(-50% 0 -50% 100%); }
 }
-.pulse-line.loop path { animation: pulse-loop 3.2s linear infinite; stroke-dasharray: .35 .65; }
-@keyframes pulse-draw { to { stroke-dashoffset: 0; } }
-@keyframes pulse-loop { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .pulse-line path, .pulse-line.loop path { animation: none; stroke-dashoffset: 0; stroke-dasharray: none; }
+  .pulse-line, .pulse-line.loop { animation: none; clip-path: none; }
 }
 
 /* ---- lightbox ---------------------------------------------------------- */
