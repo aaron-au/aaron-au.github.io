@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Performance PT – Scan Report</title>
+<!-- Unlisted: nothing on the site links here. Client data stays in the browser. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="styles.css?v=20260930a">
+<style id="page-rules"></style>
+</head>
+<body>
+
+<header class="toolbar no-print">
+  <img src="logo.png" alt="" class="toolbar-logo">
+  <strong>Scan Report Builder</strong>
+  <span class="spacer"></span>
+  <button type="button" data-action="new">New report</button>
+  <button type="button" data-action="import">Import…</button>
+  <button type="button" data-action="example">Load example</button>
+  <label class="button">Open…<input type="file" accept=".json,application/json" data-action="open" hidden></label>
+  <button type="button" data-action="save">Save data</button>
+  <label class="button">Logo…<input type="file" accept="image/*" data-action="logo" hidden></label>
+  <button type="button" class="primary" data-action="print">Save PDF</button>
+</header>
+
+<main class="layout">
+  <form id="editor" class="editor no-print" autocomplete="off" onsubmit="return false"></form>
+  <section class="preview">
+    <p class="preview-note no-print">Live preview. Page breaks are applied when you save the PDF.</p>
+    <article id="report" class="sheet"></article>
+  </section>
+</main>
+
+<dialog id="import-dialog" class="no-print">
+  <form method="dialog">
+    <h2>Import scan results</h2>
+    <p>Paste the write-up below, or load it from a text file. Headings, measurements, ratings and notes are filled in for you. Check the form afterwards.</p>
+    <textarea id="import-text" rows="16" placeholder="EVOLT 360 BODY SCAN REPORT — NAME&#10;Scan Date: 5 September 2026&#10;...&#10;BODY COMPOSITION&#10;Lean Body Mass: 58.6 kg — High&#10;..."></textarea>
+    <div class="import-options">
+      <label class="button light">Load text file…<input type="file" accept=".txt,.md,text/plain" id="import-file" hidden></label>
+      <button type="button" class="light" id="import-copy-prompt">Copy instructions for an AI assistant</button>
+    </div>
+    <label class="check" id="import-carry-row"><input type="checkbox" id="import-carry"> Use the report that's open now as the previous scan (for progress tracking)</label>
+    <p id="import-status" class="hint" role="status"></p>
+    <div class="dialog-actions">
+      <button value="cancel" class="light">Cancel</button>
+      <button type="button" class="primary" id="import-go">Import</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="import.js?v=20260930a"></script>
+<script src="app.js?v=20260930a"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Performance PT — website designs</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="shared/logo.png">
+<link rel="stylesheet" href="shared/base.css?v=20260930a">
+<style>
+  body { background: #0E0E0F; color: #EEE; min-height: 100vh; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 56px) 60px; }
+  header { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+  header img { width: 72px; }
+  h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  header p { color: #999; margin-top: 6px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .card { display: block; text-decoration: none; background: #18181A; border: 1px solid #262628; border-radius: 12px; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .card:hover { transform: translateY(-4px); border-color: var(--pulse-red); box-shadow: 0 20px 50px -20px rgba(234, 52, 38, .4); }
+  /* Live preview: a 1440x900 page scaled into the card. */
+  .frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+  .frame iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; }
+  .meta h2 { font-size: 17px; font-weight: 800; }
+  .meta p { font-size: 13px; color: #999; margin-top: 2px; }
+  .meta span { flex: none; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--pulse-red); }
+  footer { margin-top: 44px; color: #777; font-size: 13px; max-width: 760px; line-height: 1.7; }
+  footer code { background: #1E1E20; padding: 1px 6px; border-radius: 4px; color: #CCC; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="shared/logo.png" alt="Pulse Performance PT">
+  <div>
+    <h1>Pulse Performance PT: four website designs</h1>
+    <p>The same content in four layouts. Open one, scroll through it, and use the bar in the bottom-left corner to switch designs without losing your place.</p>
+  </div>
+</header>
+
+<main class="grid">
+  <a class="card" href="formal-light/"><div class="frame"><iframe src="formal-light/" loading="lazy" scrolling="no" tabindex="-1" title="Formal light preview"></iframe></div>
+    <div class="meta"><div><h2>Formal · Light</h2><p>Calm and professional, with serif headings. Reads like a clinic.</p></div><span>Open →</span></div></a>
+  <a class="card" href="formal-dark/"><div class="frame"><iframe src="formal-dark/" loading="lazy" scrolling="no" tabindex="-1" title="Formal dark preview"></iframe></div>
+    <div class="meta"><div><h2>Formal · Dark</h2><p>A boutique studio: charcoal, editorial layout, understated.</p></div><span>Open →</span></div></a>
+  <a class="card" href="gym-dark/"><div class="frame"><iframe src="gym-dark/" loading="lazy" scrolling="no" tabindex="-1" title="Gym dark preview"></iframe></div>
+    <div class="meta"><div><h2>Gym · Dark</h2><p>Loud and punchy: black and red, big type, a moving pulse line.</p></div><span>Open →</span></div></a>
+  <a class="card" href="gym-light/"><div class="frame"><iframe src="gym-light/" loading="lazy" scrolling="no" tabindex="-1" title="Gym light preview"></iframe></div>
+    <div class="meta"><div><h2>Gym · Light</h2><p>Poster style: bold blocks, hard shadows and stickers, in daylight.</p></div><span>Open →</span></div></a>
+</main>
+
+<footer>
+  Photos are placeholders. Real ones go in <code>pppt/gallery/</code> and appear in every design automatically.
+  Prices, times and details marked [like this] are samples.
+  Every design links to an <a href="examples/example-scan-report.pdf" target="_blank" rel="noopener">example Evolt scan report</a> for a made-up client.
+</footer>
+
+<script>
+  // Scale each 1440px-wide preview to fit its card.
+  const fit = () => document.querySelectorAll(".frame").forEach((f) => {
+    f.querySelector("iframe").style.transform = `scale(${f.clientWidth / 1440})`;
+  });
+  addEventListener("resize", fit);
+  fit();
+</script>
+</body>
+</html>
