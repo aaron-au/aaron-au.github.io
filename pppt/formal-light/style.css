@@ -137,10 +137,20 @@ h3 { font-weight: 600; font-size: 18px; }
 
 /* ---- plans ------------------------------------------------------------- */
 
-.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+.dur-wrap { display: flex; justify-content: center; align-items: center; gap: 14px; margin: -20px 0 40px; font-size: 14px; color: var(--muted); }
+.dur { display: inline-flex; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
+.dur button { background: none; border: 0; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 600; color: var(--body); transition: background .2s, color .2s; }
+.dur button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.plan-freq { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+.plan-each { font-size: 14px; color: var(--body); margin: -14px 0 18px; }
+.plan-each em { font-style: normal; color: #1F7A4D; font-weight: 600; }
+.plans-note { text-align: center; margin-top: 28px; font-size: 14px; color: var(--muted); }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch; }
 .plan { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 36px 32px; display: flex; flex-direction: column; position: relative; transition: box-shadow .25s, transform .25s; }
 .plan:hover { box-shadow: 0 20px 40px -24px rgba(60, 40, 20, .3); transform: translateY(-3px); }
 .plan.featured { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.plan.value { border-color: #1F7A4D; box-shadow: 0 0 0 1px #1F7A4D; }
+.plan.value .badge { background: #1F7A4D; }
 .badge { position: absolute; top: -12px; left: 32px; background: var(--red); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; }
 .plan h3 { font-family: var(--serif); font-weight: 400; font-size: 28px; }
 .plan-blurb { color: var(--muted); font-size: 15px; margin-top: 6px; }
@@ -208,7 +218,18 @@ h3 { font-weight: 600; font-size: 18px; }
 
 .contact { background: var(--ink); color: #fff; }
 .contact .body { color: #C8C3BD; }
-.contact .btn { margin-top: 30px; }
+
+/* Enquiry form (markup from core.js). */
+.cf { display: grid; gap: 14px; margin-top: 30px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-field span { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #8F8A84; margin-bottom: 6px; }
+.cf-field input, .cf-field select, .cf-field textarea { width: 100%; font: inherit; font-size: 16px; color: #fff; background: #262422; border: 1px solid #3A3733; border-radius: 4px; padding: 11px 13px; }
+.cf-field select option { color: var(--ink); }
+.cf-field textarea { resize: vertical; min-height: 100px; }
+.cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { outline: none; border-color: var(--red); }
+.cf .btn { justify-self: start; }
+.cf-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cf-status { min-height: 1.4em; font-size: 15px; color: #fff; }
 .contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
 .details { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px; }
 .details dt { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #8F8A84; margin-bottom: 8px; }
@@ -235,6 +256,7 @@ h3 { font-weight: 600; font-size: 18px; }
   .hero-grid { min-height: 0; }
   .hero-visual { aspect-ratio: 4 / 3; }
   .svc-grid, .plans, .quotes { grid-template-columns: 1fr 1fr; }
+  .plan.featured { margin-top: 12px; }
   .days { grid-template-columns: repeat(3, 1fr); }
   .day:nth-child(4) { border-left: 0; }
   .day:nth-child(n + 4) { border-top: 1px solid var(--line); }
@@ -244,7 +266,8 @@ h3 { font-weight: 600; font-size: 18px; }
 }
 @media (max-width: 640px) {
   .hdr-cta { display: none; }
-  .svc-grid, .plans, .quotes, .details { grid-template-columns: 1fr; }
+  .svc-grid, .plans, .quotes, .details, .cf-row { grid-template-columns: 1fr; }
+  .dur-wrap { flex-direction: column; gap: 8px; }
   .prods { grid-template-columns: 1fr 1fr; }
   .days { grid-template-columns: 1fr 1fr; }
   .day:nth-child(odd) { border-left: 0; }

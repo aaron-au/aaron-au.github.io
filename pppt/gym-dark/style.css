@@ -64,30 +64,27 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 
 .hero {
   min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
-  padding-top: 120px; padding-bottom: 120px; overflow: hidden;
+  padding-top: 104px; padding-bottom: 104px; overflow: hidden;
   background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(234, 52, 38, .22), transparent 70%), var(--bg);
 }
 .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
 .hero-bg.has-photo { filter: grayscale(1) contrast(1.1); }
 .hero-bg.has-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,.95) 20%, rgba(10,10,10,.55)), linear-gradient(0deg, var(--bg), transparent 40%); }
-.hero-line { position: absolute; left: 0; right: 0; top: 50%; height: 34vh; transform: translateY(-50%); color: var(--red); opacity: .9; pointer-events: none; }
-.hero-line .pulse-line path { stroke-width: 4; filter: drop-shadow(0 0 12px rgba(234, 52, 38, .8)); }
-.hero-inner { position: relative; max-width: 1100px; }
-.hero-title {
-  font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .86;
-  font-size: clamp(72px, 15vw, 230px); margin: 18px 0 26px; letter-spacing: -.005em;
-}
-.hero-title span { display: block; }
-.hero-title em { display: block; -webkit-text-stroke: 0; }
-.hero-title span, .hero-title em { animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
-.hero-title em { animation-delay: .12s; }
-@keyframes rise { from { opacity: 0; transform: translateY(40px); } }
-.hero-sub { max-width: 520px; font-size: clamp(16px, 1.6vw, 19px); color: #cfcfcf; }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.hero-inner { position: relative; width: 100%; }
+.hero-title { font-family: var(--display); font-weight: 400; text-transform: uppercase; margin: 14px 0 22px; }
+.hero-lead { display: block; font-size: clamp(40px, 5vw, 72px); line-height: .95; letter-spacing: .01em; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; }
 
-.scroll-cue { position: absolute; left: 50%; bottom: 76px; width: 26px; height: 42px; border: 2px solid rgba(255,255,255,.5); border-radius: 14px; transform: translateX(-50%); }
-.scroll-cue span { position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: #fff; animation: cue 1.8s infinite; }
-@keyframes cue { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+/* "PULSE" at full width, with the heartbeat carved through it: the line is
+   drawn in the page colour, so it only shows where it cuts the letters. */
+.mega { display: block; color: var(--red); line-height: .9; letter-spacing: -.015em; white-space: nowrap; font-size: 20vw; }
+.mega > span { display: inline-block; position: relative; animation: slam .8s cubic-bezier(.2, 1.4, .4, 1) .1s both; }
+.mega .pulse-line { position: absolute; left: 0; width: 100%; top: 14%; height: 62%; color: var(--bg); pointer-events: none; }
+.mega .pulse-line path { stroke-width: clamp(5px, 1vw, 14px); stroke-linecap: square; }
+@keyframes rise { from { opacity: 0; transform: translateY(40px); } }
+@keyframes slam { from { opacity: 0; transform: translateY(18%) scaleY(1.3); } }
+.hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 22px 40px; flex-wrap: wrap; }
+.hero-sub { max-width: 520px; font-size: clamp(16px, 1.6vw, 19px); color: #cfcfcf; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
 
 .ticker { position: absolute; left: 0; right: 0; bottom: 0; background: var(--red); overflow: hidden; padding: 12px 0; transform: skewY(-1.5deg); transform-origin: left; }
 .ticker div { display: flex; width: max-content; animation: tick 40s linear infinite; }
@@ -140,26 +137,49 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 
 /* ---- plans ------------------------------------------------------------- */
 
-.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
-.plan { background: var(--bg-2); border: 1px solid var(--line); padding: 40px 34px; display: flex; flex-direction: column; position: relative; transition: transform .25s, border-color .25s; }
+.plans-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 40px; flex-wrap: wrap; margin-bottom: clamp(36px, 5vw, 60px); }
+.plans-head .section-title { margin: 14px 0 10px; }
+.plans-sub { font-family: var(--display); text-transform: uppercase; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: .03em; color: var(--muted); }
+
+/* 30 / 45 / 60 toggle: every price on the page follows it. */
+.dur { display: inline-flex; border: 2px solid var(--line); padding: 4px; gap: 4px; }
+.dur button { background: none; border: 0; color: var(--muted); font-weight: 800; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; padding: 12px 20px; transition: background .2s, color .2s; }
+.dur button:hover { color: #fff; }
+.dur button[aria-pressed="true"] { background: var(--red); color: #fff; }
+
+.plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+.plan { background: var(--bg-2); border: 1px solid var(--line); padding: 34px 28px; display: flex; flex-direction: column; position: relative; transition: transform .25s, border-color .25s; }
 .plan:hover { transform: translateY(-6px); border-color: var(--red); }
-.plan h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 34px; letter-spacing: .04em; }
-.plan-price { font-family: var(--display); font-size: 84px; line-height: 1; margin: 18px 0 6px; }
-.plan-price sup { font-size: 32px; vertical-align: top; position: relative; top: 10px; margin-right: 2px; }
+.plan-freq { font-weight: 800; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); }
+.plan h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 34px; letter-spacing: .03em; margin-top: 6px; }
+.plan-price { font-family: var(--display); font-size: clamp(56px, 5.4vw, 80px); line-height: 1; margin: 18px 0 8px; }
 .plan-price small { font-family: var(--sans); font-size: 15px; color: var(--muted); font-weight: 600; margin-left: 4px; }
-.plan-blurb { color: var(--muted); margin-bottom: 22px; }
-.plan ul { margin-bottom: 30px; flex: 1; }
+.plan-each { font-weight: 700; font-size: 15px; }
+.plan-save { font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); min-height: 1.6em; margin: 6px 0 18px; }
+.plan-hot .plan-save { color: #fff; }
+.plan ul { margin-bottom: 26px; flex: 1; }
 .plan li { padding: 10px 0 10px 26px; border-top: 1px solid var(--line); position: relative; font-size: 15px; }
 .plan li::before { content: ""; position: absolute; left: 2px; top: 17px; width: 12px; height: 6px; border-left: 2px solid var(--red); border-bottom: 2px solid var(--red); transform: rotate(-45deg); }
 .plan-hot { background: var(--red); border-color: var(--red); transform: scale(1.04); box-shadow: 0 30px 80px -20px rgba(234, 52, 38, .55); }
 .plan-hot:hover { transform: scale(1.04) translateY(-6px); border-color: #fff; }
-.plan-hot .plan-blurb, .plan-hot .plan-price small { color: rgba(255,255,255,.8); }
+.plan-hot .plan-price small { color: rgba(255,255,255,.8); }
 .plan-hot li { border-color: rgba(255,255,255,.25); }
 .plan-hot li::before { border-color: #fff; }
 .plan-badge { position: absolute; top: -14px; left: 34px; background: #fff; color: #000; font-weight: 800; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; padding: 6px 12px; }
-.extras { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 40px; }
-.extras div { background: var(--bg-2); padding: 18px 20px; display: flex; justify-content: space-between; gap: 10px; font-size: 14px; color: #bbb; }
-.extras b { color: #fff; white-space: nowrap; }
+/* Best value: outlined in red rather than filled, so it doesn't fight the featured card. */
+.plan-value { border: 2px solid var(--red); background: linear-gradient(180deg, rgba(234, 52, 38, .16), var(--bg-2) 45%); }
+.plan-value .plan-badge { background: var(--red); color: #fff; }
+.plan-value .plan-save { font-size: 14px; }
+
+/* Pay as you go: the secondary, no-commitment option. */
+.payg { display: grid; grid-template-columns: 1.3fr repeat(3, 1fr); gap: 2px; margin-top: 48px; }
+.payg > div { background: var(--bg-2); padding: 24px; }
+.payg-head { border-left: 3px solid var(--red); }
+.payg-head h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 30px; letter-spacing: .03em; }
+.payg-head p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+.payg-item > span { display: block; font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.payg-item b { display: block; font-family: var(--display); font-weight: 400; font-size: 44px; line-height: 1.1; margin: 8px 0 2px; }
+.payg-item small { font-size: 13px; color: #bbb; }
 
 /* ---- timetable --------------------------------------------------------- */
 
@@ -219,6 +239,23 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 .contact-line { position: absolute; left: 0; right: 0; top: calc(clamp(72px, 11vw, 150px) + clamp(40px, 9vw, 125px) - 80px); height: 160px; color: var(--red); opacity: .5; }
 .contact-title { position: relative; font-size: clamp(100px, 22vw, 300px); line-height: .85; }
 .contact-blurb { position: relative; max-width: 520px; margin: 18px auto 36px; font-size: 18px; color: #c4c4c4; }
+/* Enquiry form (markup from core.js). */
+.contact-form { position: relative; max-width: 760px; margin: 0 auto; text-align: left; background: var(--bg-2); border: 1px solid var(--line); border-top: 3px solid var(--red); padding: clamp(22px, 4vw, 40px); }
+.cf { display: grid; gap: 16px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cf-field span { display: block; font-weight: 800; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.cf-field input, .cf-field select, .cf-field textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 0; padding: 12px 14px; transition: border-color .2s;
+}
+.cf-field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--red) 50%), linear-gradient(135deg, var(--red) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+.cf-field textarea { resize: vertical; min-height: 110px; }
+.cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { outline: none; border-color: var(--red); }
+.cf .btn { justify-self: start; }
+.cf .btn:disabled { opacity: .5; }
+.cf-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cf-status { min-height: 1.4em; font-weight: 700; color: #fff; }
+.signup { color: #fff; font-weight: 700; }
+
 .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 90px; text-align: left; border-top: 1px solid var(--line); padding-top: 40px; }
 .contact-grid h3 { font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
 .contact-grid p { color: #ccc; font-size: 15px; }
@@ -242,9 +279,10 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
   .menu-open { overflow: hidden; }
   .hdr-menu { display: block; }
   .about { grid-template-columns: 1fr; }
-  .plan-grid { grid-template-columns: 1fr; max-width: 520px; }
+  .plan-grid { grid-template-columns: 1fr 1fr; }
   .plan-hot, .plan-hot:hover { transform: none; }
-  .extras { grid-template-columns: 1fr 1fr; }
+  .payg { grid-template-columns: 1fr 1fr; }
+  .payg-head { grid-column: 1 / -1; }
   .prod-grid { grid-template-columns: 1fr 1fr; }
   .quotes { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
@@ -255,7 +293,9 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
   .hdr-cta { display: none; }
   .hdr-brand span { display: none; }
   .svc { grid-template-columns: 1fr; gap: 10px; }
-  .extras { grid-template-columns: 1fr; }
+  .plan-grid, .payg, .cf-row { grid-template-columns: 1fr; }
+  .dur { width: 100%; }
+  .dur button { flex: 1; padding: 12px 8px; }
   .contact-grid { grid-template-columns: 1fr; }
   .stat { padding: 30px 14px; }
 }

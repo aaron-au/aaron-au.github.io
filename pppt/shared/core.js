@@ -26,6 +26,111 @@
   const pulse = (cls = "") => raw(`<svg class="pulse-line ${cls}" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true">
     <path pathLength="1" d="M0 60 H210 L228 60 L240 38 L252 60 L268 60 L282 8 L300 96 L316 26 L328 60 L346 60 L356 48 L366 60 H600"/></svg>`);
 
+  /* ---- pricing -------------------------------------------------------
+     Prices come as arrays, one value per session length. live() renders a
+     value for the current length and tags it so the toggle can swap it. */
+
+  const M = P.memberships;
+  let dur = M.defaultDuration ?? 0;
+  const money = (n) => "$" + (n % 1 ? n.toFixed(2) : n.toLocaleString("en-AU"));
+  const FMT = {
+    money,
+    save: (n) => n > 0 ? `Save ${money(n)} a session` : "",
+    pct: (n) => n > 0 ? `Save ${Math.round(n)}%` : "",
+  };
+  const live = (values, fmt = "money") =>
+    raw(`<span data-live="${values.join("|")}" data-fmt="${fmt}">${esc(FMT[fmt](values[dur]))}</span>`);
+  // Per-session price and saving against a casual session, per length.
+  const perSession = (plan) => plan.prices.map((p) => p / plan.perWeek);
+  const saving = (plan) => perSession(plan).map((s, i) => M.payg.casual[i] - s);
+  const packEach = () => M.payg.pack.map((p) => p / 10);
+  const durLabel = () => raw(`<span data-dur-label>${M.durations[dur]}-minute</span>`);
+
+  const durationToggle = (cls = "dur") => raw(`<div class="${cls}" role="group" aria-label="Session length">${
+    M.durations.map((d, i) => `<button type="button" data-dur="${i}" aria-pressed="${i === dur}">${d} min</button>`).join("")}</div>`);
+
+  function bindDurations() {
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-dur]");
+      if (!b) return;
+      dur = +b.dataset.dur;
+      $$("[data-dur]").forEach((x) => x.setAttribute("aria-pressed", +x.dataset.dur === dur));
+      $$("[data-live]").forEach((x) => { x.textContent = FMT[x.dataset.fmt](+x.dataset.live.split("|")[dur]); });
+      $$("[data-dur-label]").forEach((x) => { x.textContent = `${M.durations[dur]}-minute`; });
+    });
+  }
+
+  /* ---- enquiry form --------------------------------------------------
+     One form, styled per variant through the .cf-* classes. Every CTA
+     carries data-enquire="<option>" so clicking it pre-fills "Interested
+     in" (and the session length) before the page scrolls to the form. */
+
+  const interests = () => [
+    "Free consult",
+    ...M.plans.map((p) => `${p.name} membership (${p.perWeek}× weekly)`),
+    "10-session pack", "Casual session", "Evolt 360 scan", "Something else",
+  ];
+  const planInterest = (p) => `${p.name} membership (${p.perWeek}× weekly)`;
+
+  const F = P.contact.form;
+  const formLive = F.action && F.liveHosts.some((h) => location.hostname === h || location.hostname.endsWith(h.startsWith(".") ? h : "." + h));
+
+  const contactForm = ({ button = "btn" } = {}) => {
+    return html`<form class="cf" data-contact-form method="post" action="${F.action}">
+  <div class="cf-row">
+    <label class="cf-field"><span>Name</span><input name="name" required autocomplete="name"></label>
+    <label class="cf-field"><span>Phone</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel"></label>
+  </div>
+  <label class="cf-field"><span>Email</span><input name="email" type="email" required autocomplete="email"></label>
+  <div class="cf-row">
+    <label class="cf-field"><span>Interested in</span><select name="interest">${interests().map((o) => html`<option>${o}</option>`)}</select></label>
+    <label class="cf-field"><span>Session length</span><select name="length">${M.durations.map((d, i) => html`<option value="${d} min" ${raw(i === dur ? "selected" : "")}>${d} minutes</option>`)}<option>Not sure yet</option></select></label>
+  </div>
+  <label class="cf-field"><span>Goals</span><textarea name="message" rows="4" placeholder="What are you working towards? Any injuries we should know about?"></textarea></label>
+  <input class="cf-trap" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+  ${formLive && F.turnstileSiteKey ? html`<div class="cf-turnstile" data-sitekey="${F.turnstileSiteKey}" data-theme="auto"></div>` : ""}
+  <button class="${button}" type="submit">${F.submit}</button>
+  <p class="cf-status" role="status"></p>
+</form>`;
+  };
+
+  function bindForm() {
+    const form = $("[data-contact-form]");
+    if (!form) return;
+    // Cloudflare's Turnstile widget renders into .cf-turnstile by itself.
+    if (formLive && F.turnstileSiteKey) {
+      const s = document.createElement("script");
+      s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      s.async = true;
+      document.head.append(s);
+    }
+    document.addEventListener("click", (e) => {
+      const cta = e.target.closest("[data-enquire]");
+      if (!cta) return;
+      form.interest.value = cta.dataset.enquire;
+      form.length.value = `${M.durations[dur]} min`;
+    });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = $(".cf-status", form);
+      if (form._gotcha.value) return; // bots fill the hidden field
+      if (!formLive) { status.textContent = F.demo; return; }
+      const btn = $("button[type=submit]", form);
+      btn.disabled = true;
+      try {
+        const res = await fetch(F.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        if (!res.ok) throw 0;
+        form.reset();
+        window.turnstile?.reset();
+        status.textContent = F.sent;
+      } catch {
+        status.textContent = F.failed;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+
   /* ---- gallery folder ------------------------------------------------
      A static host can't list a folder, so:
        local dev  -> parse python http.server's directory listing
@@ -191,10 +296,14 @@
     document.body.append(bar);
   }
 
-  async function boot({ variant, render, galleryItem, galleryEmpty, onGallery }) {
+  async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender }) {
     const root = $("#app");
-    root.innerHTML = out(render(P, { html, raw, esc, pulse }));
+    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest };
+    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm }));
     document.title = `${P.brand.name}`;
+    bindDurations();
+    bindForm();
+    afterRender?.();
     nav();
     reveals();
     switcher(variant);

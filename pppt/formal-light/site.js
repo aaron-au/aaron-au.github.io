@@ -4,7 +4,7 @@
 PPPT.boot({
   variant: "formal-light",
 
-  render: (P, { html, pulse }) => {
+  render: (P, { html, pulse, price, contactForm }) => {
     const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["timetable", "Timetable"], ["gallery", "Studio"], ["contact", "Contact"]];
     const m = P.memberships;
     const t = P.timetable;
@@ -17,7 +17,7 @@ PPPT.boot({
   <div class="wrap hdr-row">
     <a class="brand" href="#top"><img src="${P.brand.logo}" alt=""><span><b>Pulse</b> Performance PT</span></a>
     <nav class="hdr-nav" data-nav>${nav.map(([id, l]) => html`<a href="#${id}">${l}</a>`)}</nav>
-    <a class="btn btn-outline hdr-cta" href="#contact">Book a consultation</a>
+    <a class="btn btn-outline hdr-cta" href="#contact" data-enquire="Free consult">Book a consultation</a>
     <button class="hdr-menu" data-menu-toggle aria-expanded="false" aria-label="Menu"><span></span><span></span></button>
   </div>
 </header>
@@ -29,11 +29,11 @@ PPPT.boot({
       <h1>Train with <em>purpose</em>.</h1>
       <p class="lede">${P.hero.sub}</p>
       <div class="ctas">
-        <a class="btn btn-red" href="${P.hero.primary.href}">${P.hero.primary.label}</a>
+        <a class="btn btn-red" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label}</a>
         <a class="link-arrow" href="${P.hero.secondary.href}">${P.hero.secondary.label} →</a>
       </div>
       <ul class="hero-points" role="list">
-        <li>No lock-in contracts</li><li>Qualified coaches</li><li>Evolt 360 scanning</li>
+        <li>1:1 personal training</li><li>30, 45 or 60 minutes</li><li>Evolt 360 scans included</li>
       </ul>
     </div>
     <div class="hero-visual" data-hero-bg>
@@ -70,7 +70,7 @@ PPPT.boot({
       <article class="svc svc-cta reveal">
         <h3>Not sure where to start?</h3>
         <p>Book a free consultation and we'll recommend the right mix for your goals.</p>
-        <a class="link-arrow" href="#contact">Talk to a coach →</a>
+        <a class="link-arrow" href="#contact" data-enquire="Free consult">Talk to a coach →</a>
       </article>
     </div>
   </div>
@@ -103,21 +103,29 @@ PPPT.boot({
 
 <section class="section alt" id="memberships">
   <div class="wrap">
-    <div class="head center reveal"><p class="eyebrow">Memberships</p><h2>Simple weekly pricing</h2><p class="body">${m.note}</p></div>
+    <div class="head center reveal"><p class="eyebrow">${m.heading}</p><h2>${m.tagline}</h2><p class="body">${m.note}</p></div>
+    <div class="dur-wrap reveal"><span>Session length</span>${price.durationToggle()}</div>
     <div class="plans">
       ${m.plans.map((p, i) => html`
-      <article class="plan ${p.featured ? "featured" : ""} reveal reveal-d${i}">
+      <article class="plan ${p.featured ? "featured" : ""} ${p.value ? "value" : ""} reveal reveal-d${i}">
         ${p.badge ? html`<span class="badge">${p.badge}</span>` : ""}
+        <p class="plan-freq">${p.perWeek}× weekly</p>
         <h3>${p.name}</h3>
-        <p class="plan-blurb">${p.blurb}</p>
-        <p class="price"><b>$${p.price}</b> per ${p.per}</p>
-        <ul role="list">${p.features.map((f) => html`<li>${f}</li>`)}</ul>
-        <a class="btn ${p.featured ? "btn-red" : "btn-outline"}" href="#contact">${p.cta}</a>
+        <p class="price"><b>${price.live(p.prices)}</b> per week</p>
+        <p class="plan-each">${price.live(price.perSession(p))} a session · <em>${price.live(price.saving(p), "save")}</em></p>
+        <ul role="list">
+          <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
+          <li>${m.includes}</li>
+        </ul>
+        <a class="btn ${p.featured ? "btn-red" : "btn-outline"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
       </article>`)}
     </div>
+    <p class="plans-note reveal">Savings are against a casual session of the same length. Already decided? <a class="link-arrow" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
     <table class="extras reveal">
-      <caption>Casual and add-on services</caption>
-      ${m.extras.map((x) => html`<tr><th>${x.name}</th><td>${x.price}</td></tr>`)}
+      <caption>${m.payg.heading}: ${m.payg.blurb}</caption>
+      <tr><th>Casual session (${price.durLabel()})</th><td>${price.live(m.payg.casual)}</td></tr>
+      <tr><th>10-session pack (${price.live(price.packEach())} a session)</th><td>${price.live(m.payg.pack)}</td></tr>
+      <tr><th>Evolt 360 scan on demand, with written report</th><td>${price.money(m.payg.scan)}</td></tr>
     </table>
   </div>
 </section>
@@ -180,7 +188,7 @@ PPPT.boot({
       <p class="eyebrow">Contact</p>
       <h2>${P.contact.heading}</h2>
       <p class="body">${P.contact.blurb}</p>
-      <a class="btn btn-red" href="${P.contact.bookingUrl}">${P.hero.primary.label}</a>
+      ${contactForm({ button: "btn btn-red" })}
     </div>
     <dl class="details reveal">
       <div><dt>Address</dt>${P.contact.address.map((l) => html`<dd>${l}</dd>`)}</div>

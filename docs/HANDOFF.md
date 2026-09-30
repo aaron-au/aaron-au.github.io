@@ -73,6 +73,7 @@ are in the `<svg>` block near the top; script tags (load order + shared
 | `posts/` | blog markdown + `index.js` manifest |
 | `.claude/skills/` | project skills: `verify` (browser checks + `cdp.mjs`), `deploy`, `new-app`, `blog-post` |
 | `.githooks/pre-commit` | cache-buster guard (`git config core.hooksPath .githooks` on fresh clones) |
+| `pppt/` | Pulse Performance PT demo sites and scan builder: a preview copy for Matt, not linked from the homepage. Has its own `?v=` string. Master copy and handoff notes are in `pppt/site` on git.realee.org (`~/development/pppt`). |
 
 Storage/session key names are load-bearing — the list lives under "Known
 quirks" below.

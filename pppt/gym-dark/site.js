@@ -3,8 +3,10 @@
 PPPT.boot({
   variant: "gym-dark",
 
-  render: (P, { html, raw, pulse }) => {
-    const nav = [["services", "Train"], ["memberships", "Join"], ["timetable", "Classes"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
+  render: (P, { html, raw, pulse, price, contactForm }) => {
+    const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["timetable", "Classes"], ["contact", "Contact"]];
+    // "Train more. Save more. Get better results." split into its three lines.
+    const tag = P.memberships.tagline.replace(/\.$/, "").split(". ");
     const ticker = Array(6).fill(P.brand.tagline.map((t) => html`<span>${t}</span><i>✚</i>`));
     const m = P.memberships;
     const t = P.timetable;
@@ -13,23 +15,26 @@ PPPT.boot({
 <header class="hdr" data-header>
   <a class="hdr-brand" href="#top"><img src="${P.brand.logo}" alt=""><span>${P.brand.name}</span></a>
   <nav class="hdr-nav" data-nav>${nav.map(([id, l]) => html`<a href="#${id}">${l}</a>`)}</nav>
-  <a class="btn btn-red hdr-cta" href="${P.hero.primary.href}">Free consult</a>
+  <a class="btn btn-red hdr-cta" href="${P.hero.primary.href}" data-enquire="Free consult">Free consult</a>
   <button class="hdr-menu" data-menu-toggle aria-expanded="false" aria-label="Menu"><span></span><span></span></button>
 </header>
 
 <section class="hero" id="top">
   <div class="hero-bg" data-hero-bg></div>
-  <div class="hero-line">${pulse()}</div>
   <div class="hero-inner">
     <p class="kicker">${P.hero.kicker}</p>
-    <h1 class="hero-title"><span>${P.hero.headlineGym.split(" ").slice(0, -1).join(" ")}</span> <em>${P.hero.headlineGym.split(" ").slice(-1)}</em></h1>
-    <p class="hero-sub">${P.hero.sub}</p>
-    <div class="hero-ctas">
-      <a class="btn btn-red btn-lg" href="${P.hero.primary.href}">${P.hero.primary.label}</a>
-      <a class="btn btn-ghost btn-lg" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
+    <h1 class="hero-title">
+      <span class="hero-lead">${P.hero.headlineGym.split(" ").slice(0, -1).join(" ")}</span>
+      <span class="mega" data-fit><span>${P.hero.headlineGym.split(" ").slice(-1)[0].replace(/\.$/, "")}</span>${pulse()}</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-sub">${P.hero.sub}</p>
+      <div class="hero-ctas">
+        <a class="btn btn-red btn-lg" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label}</a>
+        <a class="btn btn-ghost btn-lg" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
+      </div>
     </div>
   </div>
-  <a class="scroll-cue" href="#stats" aria-label="Scroll down"><span></span></a>
   <div class="ticker" aria-hidden="true"><div>${ticker}${ticker}</div></div>
 </section>
 
@@ -62,22 +67,38 @@ PPPT.boot({
 </section>
 
 <section class="plans" id="memberships">
-  <h2 class="display section-title reveal">Pick your <em>plan</em></h2>
+  <div class="plans-head reveal">
+    <div>
+      <p class="eyebrow">${m.heading}</p>
+      <h2 class="display section-title">${tag[0]}. <em>${tag[1]}.</em></h2>
+      <p class="plans-sub">${tag.slice(2).join(". ")}.</p>
+    </div>
+    ${price.durationToggle()}
+  </div>
   <div class="plan-grid">
     ${m.plans.map((p, i) => html`
-    <article class="plan ${p.featured ? "plan-hot" : ""} reveal reveal-d${i}">
+    <article class="plan ${p.featured ? "plan-hot" : ""} ${p.value ? "plan-value" : ""} reveal reveal-d${i}">
       ${p.badge ? html`<span class="plan-badge">${p.badge}</span>` : ""}
+      <p class="plan-freq">${p.perWeek}× weekly</p>
       <h3>${p.name}</h3>
-      <p class="plan-price"><sup>$</sup>${p.price}<small>/${p.per}</small></p>
-      <p class="plan-blurb">${p.blurb}</p>
-      <ul role="list">${p.features.map((f) => html`<li>${f}</li>`)}</ul>
-      <a class="btn ${p.featured ? "btn-white" : "btn-red"}" href="#contact">${p.cta}</a>
+      <p class="plan-price">${price.live(p.prices)}<small>/wk</small></p>
+      <p class="plan-each">${price.live(price.perSession(p))} a session</p>
+      <p class="plan-save">${price.live(price.saving(p), "save")}</p>
+      <ul role="list">
+        <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
+        <li>${m.includes}</li>
+      </ul>
+      <a class="btn ${p.featured ? "btn-white" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
     </article>`)}
   </div>
-  <div class="extras reveal">
-    ${m.extras.map((x) => html`<div><span>${x.name}</span><b>${x.price}</b></div>`)}
+  <p class="fine">${m.note} Savings are against a casual session of the same length.
+    Already decided? <a class="signup" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
+  <div class="payg reveal">
+    <div class="payg-head"><h3>${m.payg.heading}</h3><p>${m.payg.blurb}</p></div>
+    <div class="payg-item"><span>Casual session</span><b>${price.live(m.payg.casual)}</b><small>One ${price.durLabel()} session</small></div>
+    <div class="payg-item"><span>10-session pack</span><b>${price.live(m.payg.pack)}</b><small>${price.live(price.packEach())} a session</small></div>
+    <div class="payg-item"><span>Evolt 360 scan</span><b>${price.money(m.payg.scan)}</b><small>On demand, with written report</small></div>
   </div>
-  <p class="fine">${m.note}</p>
 </section>
 
 <section class="timetable" id="timetable">
@@ -124,7 +145,7 @@ PPPT.boot({
   <div class="contact-line">${pulse("loop")}</div>
   <h2 class="display contact-title reveal">Ready?</h2>
   <p class="contact-blurb reveal">${P.contact.blurb}</p>
-  <a class="btn btn-red btn-xl reveal" href="${P.contact.bookingUrl}">${P.hero.primary.label}</a>
+  <div class="contact-form reveal">${contactForm({ button: "btn btn-red btn-lg" })}</div>
   <div class="contact-grid reveal">
     <div><h3>Find us</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
     <div><h3>Call</h3><p>${P.contact.phone}</p></div>
@@ -138,6 +159,24 @@ PPPT.boot({
   <p>${P.brand.tagline.join(" · ")}</p>
   <p class="fine">© <span data-year></span> ${P.brand.name}</p>
 </footer>`;
+  },
+
+  // Size "PULSE" to span the full width, capped so the intro and buttons
+  // stay above the fold on short screens.
+  afterRender: () => {
+    const el = PPPT.$("[data-fit]");
+    const inner = PPPT.$(".hero-inner");
+    const fit = () => {
+      const word = el.querySelector("span");
+      el.style.fontSize = "100px";
+      const byWidth = 100 * el.clientWidth / word.scrollWidth * 0.98;
+      const rest = inner.offsetHeight - el.offsetHeight;
+      const byHeight = (innerHeight - rest - 190) / parseFloat(getComputedStyle(el).lineHeight) * 100;
+      el.style.fontSize = Math.max(64, Math.floor(Math.min(byWidth, byHeight))) + "px";
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    addEventListener("resize", fit);
   },
 
   galleryItem: (p, n, { html } = PPPT) =>
