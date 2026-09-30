@@ -61,23 +61,23 @@ window.PPPT = {
     {
       id: "online",
       name: "Online Coaching",
-      short: "Train anywhere",
-      blurb: "Your program in your pocket, with weekly check-ins and form reviews from your coach.",
-      points: ["App-based program", "Weekly check-ins", "Video form feedback"],
+      short: "30-minute Zoom calls",
+      blurb: "Coaching wherever you train. A 30-minute video call to review your training and plan what's next, with written feedback after every call.",
+      points: ["30-minute Zoom call", "Written feedback after the call", "$45 a call"], // [price is a guess]
     },
     {
       id: "nutrition",
       name: "Nutrition Coaching",
-      short: "Habits, not diets",
-      blurb: "Practical guidance on eating for your training, built on the numbers from your scan.",
-      points: ["Calorie & protein targets", "Habit coaching", "No meal-plan crash diets"],
+      short: "30-minute Zoom calls",
+      blurb: "Practical advice on eating for your training, built on the numbers from your scan. A 30-minute video call, then written feedback with your targets.",
+      points: ["Calorie & protein targets", "Written feedback after the call", "$45 a call"], // [price is a guess]
     },
     {
       id: "group",
       name: "Small Group Training",
-      short: "Max 8 per class",
-      blurb: "The energy of a class with the attention of a coach. Strength and conditioning in small groups.",
-      points: ["Capped class sizes", "Scaled for every level", "Morning & evening times"],
+      short: "Max 5 per class",
+      blurb: "The energy of a class with the attention of a coach. Strength and conditioning in groups of five or fewer.",
+      points: ["Five people at most", "Scaled for every level", "Morning & evening times"],
     },
   ],
 
@@ -89,7 +89,11 @@ window.PPPT = {
   ],
 
   /* Pricing from Matt's price list. Every price array follows `durations`.
-     Per-session prices and savings are worked out from these, not typed. */
+     Per-session prices and savings are worked out from these, not typed.
+     Each extra weekly session takes $5 off every session at 45 and 60 min
+     ($2.50 at 30 min). The list had 4× weekly at $280/$360, which broke
+     that pattern, so it's $260/$340 here. `featured` gets the loudest
+     card and `value` gets the "best value" treatment. */
   memberships: {
     heading: "Weekly PT memberships",
     tagline: "Train more. Save more. Get better results.",
@@ -101,9 +105,9 @@ window.PPPT = {
     signup: { label: "Sign up through myPTHub", href: "https://example.com/mypthub" }, // [real myPTHub link]
     plans: [
       { name: "Consistency", perWeek: 1, prices: [55, 80, 100], cta: "Start 1× weekly" },
-      { name: "Progress", perWeek: 2, prices: [105, 150, 190], cta: "Start 2× weekly", featured: true, badge: "[Most popular]" },
+      { name: "Progress", perWeek: 2, prices: [105, 150, 190], cta: "Start 2× weekly", featured: true, badge: "Most popular" },
       { name: "Transformation", perWeek: 3, prices: [150, 210, 270], cta: "Start 3× weekly" },
-      { name: "Performance", perWeek: 4, prices: [190, 280, 360], cta: "Start 4× weekly" },
+      { name: "Performance", perWeek: 4, prices: [190, 260, 340], cta: "Start 4× weekly", value: true, badge: "Best value" },
     ],
     // Pay as you go: the secondary option, no commitment.
     payg: {
@@ -159,13 +163,14 @@ window.PPPT = {
   contact: {
     heading: "Start with a free consult",
     blurb: "Tell us what you're working towards and we'll show you how we'd get you there.",
-    /* The enquiry form posts to a Cloudflare Pages Function
-       (functions/api/enquiry.js), which emails it on via Email Routing.
+    /* The enquiry form posts to a Cloudflare Worker
+       (worker/ in the pppt/site repo), which emails it on via Email Routing.
        It only goes live on `liveHosts`; anywhere else (the github.io demo,
        localhost) it runs in demo mode and sends nothing. */
     form: {
       action: "/api/enquiry",
-      liveHosts: ["pulseperformancept.com.au", ".pages.dev"],
+      // The Worker is routed on the custom domain only, not *.pages.dev.
+      liveHosts: ["pulseperformancept.com.au"],
       turnstileSiteKey: "", // [Cloudflare Turnstile site key; public, safe to commit]
       submit: "Send enquiry",
       sent: "Thanks. We'll be in touch soon.",

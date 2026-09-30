@@ -1,5 +1,7 @@
 # Pulse Performance PT demo sites
 
+**This is the github.io preview copy.** The master copy of the designs, the enquiry Worker and the handoff notes is `pppt/site` on git.realee.org, and the Cloudflare Terraform is in `pppt/infrastructure`. Make changes there first, then copy them here when Matt needs to see them.
+
 Four designs for the same gym website. `index.html` in this folder shows all four side by side. Each design is its own folder:
 
 | Folder | Look |
@@ -23,23 +25,21 @@ Prices come from Matt's price list and live in `memberships` in `content.js`. Ea
 
 The 30 / 45 / 60 toggle switches every price on the page at once. The default length is `defaultDuration`.
 
-Two cells in the price list don't agree with each other. At 4× weekly, $280 (45 min) and $360 (60 min) a week work out to $70 and $90 a session, but the "what clients actually pay" table says $67.50 and $85, which would mean $270 and $340 a week. The site uses the weekly prices. Check with Matt which is right.
+Each extra weekly session takes $5 off every session at 45 and 60 minutes, and $2.50 at 30. Matt's list had 4× weekly at $280 and $360, which priced a session the same as 3× weekly and broke that pattern. The site uses $260 and $340 ($65 and $85 a session) instead. Aaron made that call, and Matt still needs to confirm it.
+
+A plan with `featured: true` gets the loudest card ("Most popular", 2× weekly). `value: true` gets a quieter outlined treatment ("Best value", 4× weekly). The badge text is `badge`.
+
+Online and Nutrition Coaching are 30-minute Zoom calls with written feedback afterwards. The $45 a call is a guess, set below the $65 casual 30-minute PT session because it's virtual. Matt needs to set the real price.
 
 ## Enquiry form
 
 Every call-to-action leads to one form in the contact section. A plan's button also fills in the "Interested in" field and the session length before the page scrolls down. No email address appears anywhere on the site.
 
-The form posts to `/api/enquiry`, which is a Cloudflare Worker in `cloudflare/enquiry-worker/`. The Worker checks a Turnstile token and a honeypot field, then emails the enquiry to the studio through Cloudflare Email Routing, with the enquirer's address as Reply-To. It's a Worker rather than a Pages Function because Pages Functions can't use the `send_email` binding.
+The form posts to `/api/enquiry`, which is a Cloudflare Worker in the `pppt/site` repo (`worker/`). The Worker checks a Turnstile token and a honeypot field, then emails the enquiry to the studio through Cloudflare Email Routing, with the enquirer's address as Reply-To. It's a Worker rather than a Pages Function because Pages Functions can't use the `send_email` binding.
 
 The form only sends on the hosts listed in `contact.form.liveHosts`. Everywhere else, including this github.io demo and localhost, it says it's a demo and sends nothing.
 
-To switch it on:
-
-1. In Cloudflare, enable Email Routing on the domain and verify the inbox the enquiries should go to as a destination address.
-2. Create a Turnstile widget for the domain. Put its site key in `contact.form.turnstileSiteKey` (it's public).
-3. From `cloudflare/enquiry-worker/`, run `npx wrangler deploy`, then `npx wrangler secret put` for `ENQUIRY_TO` (the verified inbox), `ENQUIRY_FROM` (a sender address on the domain) and `TURNSTILE_SECRET`. The addresses stay in Cloudflare, not in this repo.
-
-Cloudflare says sending to a verified address in your own account is free on every plan.
+The site repo's README covers switching it on.
 
 ## Email on the domain
 
@@ -50,12 +50,11 @@ Email Routing only receives: it forwards an address on the domain to an existing
 
 ## Going live on Cloudflare Pages
 
-The live site will be on Cloudflare Pages at the custom domain, with SSL handled by Cloudflare. Before that:
+The domain shows a coming-soon page from the site repo until a design is chosen. Before the full site replaces it:
 
 - Pick one design and move it to the site root. Right now each design sits in its own folder and loads `../shared/`.
 - Remove the demo bar (`variants` in `content.js`) and the other designs.
 - Decide how the gallery gets its file list. The GitHub API lookup works on any host as long as the repo is public. Otherwise, a one-line Pages build command can write `gallery/manifest.json`, which the loader already reads.
-- Move the site into its own repo. It lives in Aaron's personal site repo for now.
 
 ## Photos
 
@@ -85,4 +84,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20260930b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20260930c`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

@@ -107,7 +107,7 @@ PPPT.boot({
     <div class="dur-wrap reveal"><span>Session length</span>${price.durationToggle()}</div>
     <div class="plans">
       ${m.plans.map((p, i) => html`
-      <article class="plan ${p.featured ? "featured" : ""} reveal reveal-d${i}">
+      <article class="plan ${p.featured ? "featured" : ""} ${p.value ? "value" : ""} reveal reveal-d${i}">
         ${p.badge ? html`<span class="badge">${p.badge}</span>` : ""}
         <p class="plan-freq">${p.perWeek}× weekly</p>
         <h3>${p.name}</h3>

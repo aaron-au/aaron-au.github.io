@@ -114,7 +114,9 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
 .tier { display: grid; grid-template-columns: 1.2fr 1.2fr 1fr; gap: 30px; padding: 36px 0; border-bottom: 1px solid var(--line); align-items: start; position: relative; }
 .tier.featured::before { content: ""; position: absolute; left: -24px; top: 36px; bottom: 36px; width: 2px; background: var(--red); }
 .tier h3 { font-family: var(--serif); font-weight: 400; font-size: 32px; }
-.tier h3 em { font-family: var(--sans); font-style: normal; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); vertical-align: middle; margin-left: 8px; }
+.tier.value::before { content: ""; position: absolute; left: -24px; top: 36px; bottom: 36px; width: 2px; background: repeating-linear-gradient(var(--red) 0 6px, transparent 6px 10px); }
+.tier.value .tier-price b { color: var(--red); }
+.tier h3 em { display: block; margin-top: 4px; font-family: var(--sans); font-style: normal; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); }
 .tier-head p { color: var(--body); margin-top: 6px; font-size: 15px; }
 .tier li { font-size: 14px; color: var(--body); padding: 3px 0; }
 .tier li::before { content: "—  "; color: var(--muted); }
@@ -212,7 +214,7 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
   .tier { grid-template-columns: 1fr 1fr; }
   .tier-price { grid-column: 1 / -1; text-align: left; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .tier-price > span { margin: 0 auto 0 0; }
-  .tier.featured::before { left: -14px; }
+  .tier.featured::before, .tier.value::before { left: -14px; }
   .prods { grid-template-columns: 1fr 1fr; }
   .visit-grid { grid-template-columns: 1fr 1fr; }
 }

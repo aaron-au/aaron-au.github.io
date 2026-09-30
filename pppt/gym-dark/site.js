@@ -77,7 +77,7 @@ PPPT.boot({
   </div>
   <div class="plan-grid">
     ${m.plans.map((p, i) => html`
-    <article class="plan ${p.featured ? "plan-hot" : ""} reveal reveal-d${i}">
+    <article class="plan ${p.featured ? "plan-hot" : ""} ${p.value ? "plan-value" : ""} reveal reveal-d${i}">
       ${p.badge ? html`<span class="plan-badge">${p.badge}</span>` : ""}
       <p class="plan-freq">${p.perWeek}× weekly</p>
       <h3>${p.name}</h3>

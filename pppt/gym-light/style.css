@@ -138,6 +138,8 @@ body { background: var(--paper); color: var(--ink); font-size: 16px; }
 .plan.hot { background: var(--yellow); transform: rotate(-1.5deg) scale(1.03); box-shadow: 12px 12px 0 var(--ink); }
 .plan.hot li::before { color: var(--ink); }
 .plan-badge { position: absolute; top: -20px; right: -14px; background: var(--red); color: #fff; font-family: var(--display); font-size: 13px; text-transform: uppercase; padding: 8px 12px; border: var(--b); transform: rotate(6deg); }
+.plan.value { box-shadow: 10px 10px 0 var(--red); }
+.plan.value .plan-badge { background: var(--ink); color: var(--yellow); transform: rotate(-5deg); }
 .extras { margin-top: 44px; padding: 24px 28px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 34px; max-width: 900px; }
 .extras h3 { grid-column: 1 / -1; font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 22px; margin-bottom: 8px; }
 .extras p { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 2px dashed rgba(0,0,0,.2); font-weight: 600; }

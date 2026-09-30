@@ -78,7 +78,7 @@ ${part("memberships", "04", "Membership", html`
   <div class="tiers-top reveal"><p class="body">${m.heading}. ${m.includes}.</p>${price.durationToggle()}</div>
   <div class="tiers">
     ${m.plans.map((p) => html`
-    <article class="tier ${p.featured ? "featured" : ""} reveal">
+    <article class="tier ${p.featured ? "featured" : ""} ${p.value ? "value" : ""} reveal">
       <div class="tier-head">
         <h3>${p.name}${p.badge ? html` <em>${p.badge}</em>` : ""}</h3>
         <p>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</p>
