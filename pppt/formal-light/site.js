@@ -4,10 +4,11 @@
 PPPT.boot({
   variant: "formal-light",
 
-  render: (P, { html, pulse, price, contactForm }) => {
-    const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["timetable", "Timetable"], ["gallery", "Studio"], ["contact", "Contact"]];
+  specialButton: "btn btn-red",
+
+  render: (P, { html, pulse, price, contactForm, special }) => {
+    const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["gallery", "Studio"], ["shop", "Shop"], ["contact", "Contact"]];
     const m = P.memberships;
-    const t = P.timetable;
     const c = P.about.coach;
     // Mini "scan report" card in the hero: a nod to the Evolt reports.
     const scan = [["Skeletal muscle", "+1.8 kg", 72, "up"], ["Body fat", "−3.4 kg", 38, "down"], ["Visceral fat", "−2 levels", 30, "down"], ["Waist", "−5.1 cm", 44, "down"]];
@@ -105,6 +106,7 @@ PPPT.boot({
   <div class="wrap">
     <div class="head center reveal"><p class="eyebrow">${m.heading}</p><h2>${m.tagline}</h2><p class="body">${m.note}</p></div>
     <div class="dur-wrap reveal"><span>Session length</span>${price.durationToggle()}</div>
+    ${special.banner({ button: "btn btn-red" })}
     <div class="plans">
       ${m.plans.map((p, i) => html`
       <article class="plan ${p.featured ? "featured" : ""} ${p.value ? "value" : ""} reveal reveal-d${i}">
@@ -113,43 +115,33 @@ PPPT.boot({
         <h3>${p.name}</h3>
         <p class="price"><b>${price.live(p.prices)}</b> per week</p>
         <p class="plan-each">${price.live(price.perSession(p))} a session · <em>${price.live(price.saving(p), "save")}</em></p>
+        ${special.plan(p)}
         <ul role="list">
           <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
           <li>${m.includes}</li>
         </ul>
         <a class="btn ${p.featured ? "btn-red" : "btn-outline"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
+        ${price.buy(p.products, "Or sign up online")}
       </article>`)}
     </div>
     <p class="plans-note reveal">Savings are against a casual session of the same length. Already decided? <a class="link-arrow" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
     <table class="extras reveal">
       <caption>${m.payg.heading}: ${m.payg.blurb}</caption>
-      <tr><th>Casual session (${price.durLabel()})</th><td>${price.live(m.payg.casual)}</td></tr>
-      <tr><th>10-session pack (${price.live(price.packEach())} a session)</th><td>${price.live(m.payg.pack)}</td></tr>
-      <tr><th>Evolt 360 scan on demand, with written report</th><td>${price.money(m.payg.scan)}</td></tr>
+      <tr><th>Casual session (${price.durLabel()}) ${price.buy(m.payg.products.casual)}</th><td>${price.live(m.payg.casual)}</td></tr>
+      <tr><th>10-session pack (${price.live(price.packEach())} a session) ${price.buy(m.payg.products.pack)}</th><td>${price.live(m.payg.pack)}</td></tr>
+      <tr><th>Evolt 360 scan on demand, with written report ${price.buy(m.payg.products.scan)}</th><td>${price.money(m.payg.scan)}</td></tr>
     </table>
   </div>
 </section>
 
-<section class="section" id="timetable">
-  <div class="wrap">
-    <div class="head reveal"><p class="eyebrow">Timetable</p><h2>Small group classes</h2><p class="body">${t.note}. Classes are capped at eight.</p></div>
-    <div class="days reveal">
-      ${t.days.map((d, di) => html`
-      <div class="day"><h3>${d}</h3>
-        ${t.rows.filter((r) => r[2].includes(di)).map(([time, name]) => html`<p><time>${time}</time>${name}</p>`)}
-      </div>`)}
-    </div>
-  </div>
-</section>
-
-<section class="section alt" id="gallery">
+<section class="section" id="gallery">
   <div class="wrap">
     <div class="head reveal"><p class="eyebrow">The studio</p><h2>Take a look inside</h2></div>
     <div class="gal" data-gallery></div>
   </div>
 </section>
 
-<section class="section" id="stories">
+<section class="section alt" id="stories">
   <div class="wrap">
     <div class="head reveal"><p class="eyebrow">Member stories</p><h2>In their words</h2></div>
     <div class="quotes">
@@ -158,24 +150,24 @@ PPPT.boot({
   </div>
 </section>
 
-<section class="section alt" id="shop">
+<section class="section" id="shop">
   <div class="wrap shop">
     <div class="reveal">
       <p class="eyebrow">Shop</p>
       <h2>${P.merch.heading}</h2>
       <p class="body">${P.merch.blurb}</p>
-      <a class="btn btn-outline" href="${P.merch.shopUrl}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
+      <a class="btn btn-outline" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
     </div>
     <div class="prods">
       ${P.merch.products.map((p, i) => html`
-      <a class="prod reveal reveal-d${i}" href="${P.merch.shopUrl}" target="_blank" rel="noopener">
+      <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
         <div><img src="${P.brand.logo}" alt=""></div><h3>${p.name}</h3><span>${p.price}</span>
       </a>`)}
     </div>
   </div>
 </section>
 
-<section class="section" id="faq">
+<section class="section alt" id="faq">
   <div class="wrap faq">
     <div class="reveal"><p class="eyebrow">FAQ</p><h2>Common questions</h2></div>
     <div>${P.faq.map((f) => html`<details class="reveal"><summary>${f.q}</summary><p>${f.a}</p></details>`)}</div>

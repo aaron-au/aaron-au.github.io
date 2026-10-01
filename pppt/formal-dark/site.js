@@ -4,10 +4,11 @@
 PPPT.boot({
   variant: "formal-dark",
 
-  render: (P, { html, pulse, price, contactForm }) => {
-    const nav = [["method", "Method"], ["services", "Services"], ["memberships", "Membership"], ["timetable", "Classes"], ["gallery", "Studio"], ["contact", "Visit"]];
+  specialButton: "btn btn-solid",
+
+  render: (P, { html, pulse, price, contactForm, special }) => {
+    const nav = [["method", "Method"], ["services", "Services"], ["memberships", "Membership"], ["gallery", "Studio"], ["shop", "Store"], ["contact", "Visit"]];
     const m = P.memberships;
-    const t = P.timetable;
     const c = P.about.coach;
     const part = (id, n, label, body, extra = "") => html`
 <section class="part ${extra}" id="${id}">
@@ -76,6 +77,7 @@ ${part("coach", "03", "Coach", html`
 ${part("memberships", "04", "Membership", html`
   <p class="big reveal">${m.tagline}</p>
   <div class="tiers-top reveal"><p class="body">${m.heading}. ${m.includes}.</p>${price.durationToggle()}</div>
+  ${special.banner({ button: "btn btn-solid" })}
   <div class="tiers">
     ${m.plans.map((p) => html`
     <article class="tier ${p.featured ? "featured" : ""} ${p.value ? "value" : ""} reveal">
@@ -83,54 +85,46 @@ ${part("memberships", "04", "Membership", html`
         <h3>${p.name}${p.badge ? html` <em>${p.badge}</em>` : ""}</h3>
         <p>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</p>
       </div>
-      <ul role="list"><li>${price.live(price.perSession(p))} a session</li><li>${price.live(price.saving(p), "save")}</li></ul>
-      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span><a href="#contact" data-enquire="${price.planInterest(p)}">${p.cta} →</a></div>
+      <div><ul role="list"><li>${price.live(price.perSession(p))} a session</li><li>${price.live(price.saving(p), "save")}</li></ul>${special.plan(p)}</div>
+      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span><a href="#contact" data-enquire="${price.planInterest(p)}">${p.cta} →</a>${price.buy(p.products, "Or sign up online")}</div>
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.
     Already decided? <a class="signup" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
   <h3 class="payg-title reveal">${m.payg.heading}</h3>
   <div class="extras reveal">
-    <p><span>Casual session, ${price.durLabel()}</span><b>${price.live(m.payg.casual)}</b></p>
-    <p><span>10-session pack, ${price.live(price.packEach())} a session</span><b>${price.live(m.payg.pack)}</b></p>
-    <p><span>Evolt 360 scan on demand</span><b>${price.money(m.payg.scan)}</b></p>
+    <p><span>Casual session, ${price.durLabel()} ${price.buy(m.payg.products.casual)}</span><b>${price.live(m.payg.casual)}</b></p>
+    <p><span>10-session pack, ${price.live(price.packEach())} a session ${price.buy(m.payg.products.pack)}</span><b>${price.live(m.payg.pack)}</b></p>
+    <p><span>Evolt 360 scan on demand ${price.buy(m.payg.products.scan)}</span><b>${price.money(m.payg.scan)}</b></p>
   </div>
 `, "alt")}
 
-${part("timetable", "05", "Classes", html`
-  <div class="tt reveal">
-    ${t.rows.map(([time, name, days]) => html`
-    <div class="tt-row"><time>${time}</time><b>${name}</b><span>${t.days.map((d, i) => html`<i class="${days.includes(i) ? "on" : ""}">${d[0]}</i>`)}</span></div>`)}
-  </div>
-  <p class="fine">${t.note}. Letters mark the days each class runs, Monday to Saturday.</p>
-`)}
-
 <section class="part gallery" id="gallery">
   <div class="wrap part-grid">
-    <header class="part-label"><span>06</span><h2>Studio</h2></header>
+    <header class="part-label"><span>05</span><h2>Studio</h2></header>
     <p class="body reveal">A private training floor with room to move. Drag or scroll to look around.</p>
   </div>
   <div class="strip" data-gallery></div>
 </section>
 
-${part("stories", "07", "Members", html`
+${part("stories", "06", "Members", html`
   <div class="quote-list">
     ${P.testimonials.map((q) => html`<figure class="reveal"><blockquote>${q.quote}</blockquote><figcaption>${q.name}, ${q.detail}</figcaption></figure>`)}
   </div>
 `, "alt")}
 
-${part("shop", "08", "Store", html`
+${part("shop", "07", "Store", html`
   <p class="big reveal">${P.merch.blurb}</p>
   <div class="prods">
     ${P.merch.products.map((p, i) => html`
-    <a class="prod reveal reveal-d${i}" href="${P.merch.shopUrl}" target="_blank" rel="noopener">
+    <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
       <div><img src="${P.brand.logo}" alt=""></div><h3>${p.name}</h3><span>${p.price}</span>
     </a>`)}
   </div>
-  <a class="btn btn-line reveal" href="${P.merch.shopUrl}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
+  <a class="btn btn-line reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 `)}
 
-${part("faq", "09", "Questions", html`
+${part("faq", "08", "Questions", html`
   ${P.faq.map((f) => html`<details class="faq reveal"><summary>${f.q}</summary><p>${f.a}</p></details>`)}
 `, "alt")}
 

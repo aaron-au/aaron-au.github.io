@@ -165,14 +165,16 @@ h3 { font-weight: 600; font-size: 18px; }
 .extras th, .extras td { padding: 12px 0; border-top: 1px solid #D9D2C8; text-align: left; font-weight: 400; color: var(--body); }
 .extras td { text-align: right; color: var(--ink); font-weight: 600; }
 
-/* ---- timetable --------------------------------------------------------- */
+/* ---- opening special and myPTHub links ---------------------------------- */
 
-.days { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--paper); }
-.day { border-left: 1px solid var(--line); padding: 20px 18px; min-height: 220px; }
-.day:first-child { border-left: 0; }
-.day h3 { font-family: var(--serif); font-weight: 400; font-size: 22px; padding-bottom: 12px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
-.day p { font-size: 14px; padding: 8px 0; color: var(--ink); }
-.day time { display: block; font-size: 12px; color: var(--red); font-weight: 600; }
+:root { --sp-bg: var(--paper); --sp-fg: var(--ink); --sp-muted: var(--muted); --sp-accent: var(--red); --sp-font: var(--serif); --sp-radius: 6px; --sp-border: 1px solid var(--line); }
+.sp-banner { margin: 0 0 40px; }
+.sp-head { font-weight: 400; }
+.sp-kicker { font-weight: 600; letter-spacing: .12em; }
+.sp-plan { margin: -8px 0 16px; font-weight: 600; }
+.buy { color: var(--red); text-underline-offset: 3px; }
+.plan .buy { align-self: center; margin-top: 14px; }
+.extras .buy { margin: 0 0 0 8px; }
 
 /* ---- gallery ----------------------------------------------------------- */
 
@@ -257,9 +259,6 @@ h3 { font-weight: 600; font-size: 18px; }
   .hero-visual { aspect-ratio: 4 / 3; }
   .svc-grid, .plans, .quotes { grid-template-columns: 1fr 1fr; }
   .plan.featured { margin-top: 12px; }
-  .days { grid-template-columns: repeat(3, 1fr); }
-  .day:nth-child(4) { border-left: 0; }
-  .day:nth-child(n + 4) { border-top: 1px solid var(--line); }
   .stats { grid-template-columns: 1fr 1fr; }
   .stats div:nth-child(3) { border: 0; padding-left: 0; }
   .coach-photo { max-width: 420px; }
@@ -269,11 +268,6 @@ h3 { font-weight: 600; font-size: 18px; }
   .svc-grid, .plans, .quotes, .details, .cf-row { grid-template-columns: 1fr; }
   .dur-wrap { flex-direction: column; gap: 8px; }
   .prods { grid-template-columns: 1fr 1fr; }
-  .days { grid-template-columns: 1fr 1fr; }
-  .day:nth-child(odd) { border-left: 0; }
-  .day:nth-child(n + 3) { border-top: 1px solid var(--line); }
-  .day:nth-child(4) { border-left: 1px solid var(--line); }
-  .day { min-height: 0; }
   .gal { grid-template-columns: 1fr 1fr; }
   .hero-visual { aspect-ratio: 1; }
 }

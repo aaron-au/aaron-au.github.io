@@ -1,4 +1,5 @@
-/* Shared behaviour for every PPPT demo: HTML helpers, the gallery-folder
+/* Shared behaviour for every PPPT demo: HTML helpers, pricing, myPTHub
+   links, the opening special, the enquiry form, the gallery-folder
    loader, lightbox, scroll reveals, sticky nav and the demo switcher.
    Each variant's site.js calls PPPT.boot(render) with its own layout. */
 
@@ -57,7 +58,86 @@
       $$("[data-dur]").forEach((x) => x.setAttribute("aria-pressed", +x.dataset.dur === dur));
       $$("[data-live]").forEach((x) => { x.textContent = FMT[x.dataset.fmt](+x.dataset.live.split("|")[dur]); });
       $$("[data-dur-label]").forEach((x) => { x.textContent = `${M.durations[dur]}-minute`; });
+      $$("[data-buy]").forEach((x) => {
+        const id = x.dataset.buy.split("|")[dur];
+        x.hidden = !id;
+        if (id) x.href = productUrl(id);
+      });
     });
+  }
+
+  /* ---- myPTHub products ----------------------------------------------
+     Purchases happen on myPTHub's own product pages. buy() takes one
+     product number per session length (or a single number) and renders a
+     link that follows the toggle, hidden for lengths with no product. */
+
+  const S = P.store;
+  const productUrl = (id) => id ? S.product + id : S.home;
+  const buy = (ids, label = S.buyLabel, cls = "buy") => {
+    const list = Array.isArray(ids) ? ids : M.durations.map(() => ids);
+    if (!list.some(Boolean)) return "";
+    const id = list[dur];
+    return raw(`<a class="${cls}" data-buy="${list.map((x) => x ?? "").join("|")}" href="${esc(productUrl(id))}" target="_blank" rel="noopener"${id ? "" : " hidden"}>${esc(label)} ↗</a>`);
+  };
+
+  /* ---- opening special -----------------------------------------------
+     On between special.start and special.end (the visitor's local date).
+     ?special=on / ?special=off in the address overrides that for previews.
+     Designs place banner() and plan() themselves; the corner card is
+     added by boot(). All of it renders nothing when the special is off. */
+
+  const SP = P.special;
+  const spForced = new URLSearchParams(location.search).get("special");
+  const specialOn = SP && (spForced ? spForced !== "off" : (() => {
+    const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
+    return today >= SP.start && today <= SP.end;
+  })());
+  const spEnd = SP && new Date(SP.end + "T00:00").toLocaleDateString("en-AU", { day: "numeric", month: "long" });
+  const spTerms = SP && SP.terms.replace("{end}", spEnd);
+  const spInterest = SP && `${SP.title} (${SP.percent}% off a membership)`;
+  const discounted = (prices) => prices.map((p) => Math.round(p * (100 - SP.percent)) / 100);
+
+  const special = {
+    on: specialOn,
+    banner: ({ button = "btn" } = {}) => specialOn ? html`<div class="sp-banner reveal">
+  <div><p class="sp-kicker">${SP.title} · ends ${spEnd}</p><p class="sp-head">${SP.headline}</p><p class="sp-terms">${spTerms}</p></div>
+  <a class="${button}" href="#contact" data-enquire="${spInterest}">${SP.cta}</a>
+</div>` : "",
+    plan: (p) => specialOn ? html`<p class="sp-plan">${live(discounted(p.prices))}/wk with the ${SP.title.toLowerCase()}</p>` : "",
+  };
+
+  // A small card in the corner, once per visitor, after they scroll past
+  // the first screen. It steps aside while the prices (which carry their
+  // own banner) or the contact form are on screen.
+  function specialCard(button) {
+    const key = "pppt-special-seen:" + SP?.end;
+    if (!specialOn || (!spForced && localStorage.getItem(key))) return;
+    const card = document.createElement("aside");
+    card.className = "sp-card";
+    card.setAttribute("aria-label", SP.title);
+    card.innerHTML = out(html`<button class="sp-x" type="button" aria-label="Dismiss">×</button>
+      <p class="sp-kicker">${SP.title} · ends ${spEnd}</p>
+      <p class="sp-head">${SP.headline}</p>
+      <p class="sp-terms">${spTerms}</p>
+      <div class="sp-actions"><a class="${button}" href="#contact" data-enquire="${spInterest}">${SP.cta}</a><a class="sp-more" href="#memberships">See prices</a></div>`);
+    const close = () => { localStorage.setItem(key, "1"); card.classList.remove("in"); setTimeout(() => card.remove(), 400); };
+    card.addEventListener("click", (e) => { if (e.target.closest(".sp-x, a")) close(); });
+    document.body.append(card);
+    const onScroll = () => {
+      if (scrollY < innerHeight * 0.8) return;
+      removeEventListener("scroll", onScroll);
+      card.classList.add("in");
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    const busy = [$("#memberships"), $("#contact")].filter(Boolean);
+    if ("IntersectionObserver" in window) {
+      const inView = new Set();
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) e.isIntersecting ? inView.add(e.target) : inView.delete(e.target);
+        card.classList.toggle("away", inView.size > 0);
+      }, { rootMargin: "-20% 0px -20% 0px" });
+      busy.forEach((el) => io.observe(el));
+    }
   }
 
   /* ---- enquiry form --------------------------------------------------
@@ -66,6 +146,7 @@
      in" (and the session length) before the page scrolls to the form. */
 
   const interests = () => [
+    ...(specialOn ? [spInterest] : []),
     "Free consult",
     ...M.plans.map((p) => `${p.name} membership (${p.perWeek}× weekly)`),
     "10-session pack", "Casual session", "Evolt 360 scan", "Something else",
@@ -296,13 +377,14 @@
     document.body.append(bar);
   }
 
-  async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender }) {
+  async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender, specialButton = "btn" }) {
     const root = $("#app");
-    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest };
-    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm }));
+    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy };
+    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special }));
     document.title = `${P.brand.name}`;
     bindDurations();
     bindForm();
+    specialCard(specialButton);
     afterRender?.();
     nav();
     reveals();
@@ -317,5 +399,5 @@
     onGallery?.(g);
   }
 
-  Object.assign(P, { html, raw, esc, pulse, $, $$, boot, caption });
+  Object.assign(P, { html, raw, esc, pulse, $, $$, boot, caption, productUrl });
 })();

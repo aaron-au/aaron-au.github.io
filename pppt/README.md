@@ -11,13 +11,41 @@ Four designs for the same gym website. `index.html` in this folder shows all fou
 | `gym-dark/` | Black and red, full-width "PULSE" with the heartbeat carved through it, scrolling ticker. Matt's favourite so far. |
 | `gym-light/` | Poster style. Thick borders, hard shadows, yellow and red blocks. |
 
-Plain HTML, CSS and JavaScript, no build step. The fonts are self-hosted OFL files in `shared/fonts/`. The only code that runs on a server is the enquiry form's Cloudflare Worker (see below). Payments never touch this site: memberships go through myPTHub and merch through Shopify, and both handle their own checkout and security.
+Plain HTML, CSS and JavaScript, no build step. The fonts are self-hosted OFL files in `shared/fonts/`. The only code that runs on a server is the enquiry form's Cloudflare Worker (see below). Payments never touch this site. Memberships, session packs and merch are all sold through Matt's myPTHub store, which handles its own checkout and security.
+
+The site is about personal training, so there's no class timetable. Small group training is still listed as a service.
 
 ## Changing the words
 
-All text, prices, class times, links and contact details live in `shared/content.js`. Every design renders from that one file, so an edit there shows up in all four. Anything in `[square brackets]` is a placeholder.
+All text, prices, links and contact details live in `shared/content.js`. Every design renders from that one file, so an edit there shows up in all four. Anything in `[square brackets]` is a placeholder.
 
-The shop links point at `merch.shopUrl`. Set it to the Shopify store address when there is one. The "Sign up through myPTHub" link is `memberships.signup`.
+## myPTHub products
+
+Every myPTHub product has a public page, for example https://pulseperformancept.mypthub.net/p/239353 for ten 60-minute sessions. The site links straight to those pages. The product number is the last part of the address, and it goes in `content.js`:
+
+- `products` on each membership plan, and `payg.products.casual` and `payg.products.pack`, take one number per session length: `[30 min, 45 min, 60 min]`.
+- `payg.products.scan` and each merch item's `product` take a single number.
+- `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
+
+Only the 60-minute 10-pack has a real number so far, so the "Buy online" link appears there when 60 min is selected. When Matt adds or changes a product in myPTHub, update its number here. That should happen about once a year.
+
+Buying online sits alongside the enquiry form rather than replacing it. The main button on each plan still opens the form, and "Or sign up online" appears under it once that plan has product numbers.
+
+## Opening special
+
+`special` in `content.js` is 10% off a weekly membership for as long as it runs. The discount ends if the membership is cancelled or paused for 3 months or more. It shows from `start` to `end` inclusive, going by the visitor's own date. The end date is a placeholder until Matt sets one.
+
+While it's on:
+
+- A banner sits above the plans, and each plan shows its price after the discount.
+- A card slides into the bottom-right corner once the visitor scrolls past the first screen. It hides while the prices or the contact form are on screen. Once the visitor closes it or clicks through, it doesn't come back until the next special.
+- The form's "Interested in" list gets an "Opening special" option, which the special's buttons fill in.
+
+To preview it outside its dates, add `?special=on` to a page's address. `?special=off` hides it. The dates live in the page's JavaScript, so anyone determined can read them. That's fine for a promotion.
+
+Whoever handles the signup applies the discount in myPTHub. The website only advertises it.
+
+A full-screen popup was the other option. I went with the corner card because it doesn't block the page, only shows once, and moves out of the way on its own.
 
 ## Pricing
 
@@ -84,4 +112,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20260930c`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261001a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
