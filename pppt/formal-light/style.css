@@ -167,6 +167,17 @@ h3 { font-weight: 600; font-size: 18px; }
 
 /* ---- opening special and myPTHub links ---------------------------------- */
 
+:root { --oc-bg: var(--paper); --oc-fg: var(--ink); --oc-muted: var(--body); --oc-line: var(--line); --oc-font: var(--serif); --oc-radius: 6px;
+  --oc-feature-bg: var(--paper); --oc-feature-fg: var(--ink); --oc-feature-muted: var(--body); --oc-feature-line: var(--line); --oc-feature-check: var(--red); }
+.oc-featured { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.oc-badge { border-radius: 3px; font-weight: 600; letter-spacing: .1em; }
+.oc-head { text-align: center; margin-inline: auto; }
+.oc-kicker { font-weight: 600; letter-spacing: .14em; }
+.oc-price b { font-size: 46px; }
+.oc-item h4 { font-weight: 600; }
+.loc-bar { justify-content: center; color: var(--muted); }
+.loc-bar > span { font-weight: 600; letter-spacing: .12em; }
+.hero-loc { margin: 26px 0 -6px; }
 :root { --sp-bg: var(--paper); --sp-fg: var(--ink); --sp-muted: var(--muted); --sp-accent: var(--red); --sp-font: var(--serif); --sp-radius: 6px; --sp-border: 1px solid var(--line); }
 .sp-banner { margin: 0 0 40px; }
 .sp-head { font-weight: 400; }

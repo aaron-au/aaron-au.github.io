@@ -51,6 +51,78 @@ section[id] { scroll-margin-top: 72px; }
   100% { clip-path: inset(-50% 0 -50% 100%); }
 }
 
+/* ---- in person | online -------------------------------------------------
+   core.js sets html[data-location]; anything marked for the other location
+   is hidden. */
+
+html[data-location="online"] [data-loc="in-person"],
+html[data-location="in-person"] [data-loc="online"] { display: none !important; }
+
+.loc-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 44px; }
+.loc-bar > span { font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+
+/* ---- online coaching block ----------------------------------------------
+   Shared markup from core.js. Designs restyle it through these variables. */
+
+:root {
+  --oc-bg: #fff;
+  --oc-fg: #111;
+  --oc-muted: #666;
+  --oc-line: rgba(0, 0, 0, .12);
+  --oc-accent: var(--pulse-red);
+  --oc-font: inherit;
+  --oc-case: none;
+  --oc-radius: 0;
+  --oc-border: 1px solid var(--oc-line);
+  --oc-shadow: none;
+  --oc-feature-bg: #111;
+  --oc-feature-fg: #fff;
+  --oc-feature-muted: rgba(255, 255, 255, .75);
+  --oc-feature-line: rgba(255, 255, 255, .2);
+  --oc-feature-check: var(--oc-accent);
+}
+
+.oc-head { max-width: 780px; margin-bottom: 44px; }
+.oc-kicker { font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--oc-accent); }
+.oc-title { margin: 10px 0 18px; }
+.oc-intro { color: var(--oc-muted); font-size: 17px; margin-top: 10px; }
+
+.oc-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.oc-plan { position: relative; display: flex; flex-direction: column; padding: 36px 32px 32px;
+  background: var(--oc-bg); color: var(--oc-fg); border: var(--oc-border); border-radius: var(--oc-radius); box-shadow: var(--oc-shadow); }
+.oc-featured { background: var(--oc-feature-bg); color: var(--oc-feature-fg); --oc-muted: var(--oc-feature-muted); --oc-line: var(--oc-feature-line); }
+.oc-badge { position: absolute; top: -13px; left: 32px; background: var(--oc-accent); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 6px 11px; border-radius: var(--oc-radius); }
+.oc-plan h3, .oc-extras-head h3 { font-family: var(--oc-font); font-weight: 400; text-transform: var(--oc-case); font-size: 30px; line-height: 1.1; }
+.oc-price { color: var(--oc-muted); font-size: 15px; margin: 14px 0 8px; }
+.oc-price b { font-family: var(--oc-font); font-weight: 400; font-size: 56px; line-height: 1; color: var(--oc-fg); margin-right: 2px; }
+.oc-featured .oc-price b { color: var(--oc-feature-fg); }
+.oc-blurb { font-weight: 600; margin-bottom: 16px; }
+.oc-plan ul { list-style: none; padding: 0; flex: 1; margin: 0 0 28px; }
+.oc-plan li { position: relative; padding: 9px 0 9px 26px; border-top: 1px solid var(--oc-line); font-size: 15px; }
+.oc-plan li::before { content: ""; position: absolute; left: 2px; top: 16px; width: 11px; height: 5px; border-left: 2px solid var(--oc-accent); border-bottom: 2px solid var(--oc-accent); transform: rotate(-45deg); }
+.oc-featured li::before { border-color: var(--oc-feature-check); }
+.oc-plan > a { justify-content: center; text-align: center; }
+.oc-note { font-size: 13px; color: var(--oc-muted); margin: 20px 0 44px; max-width: 780px; }
+
+.oc-extras { display: grid; grid-template-columns: 1fr 1.2fr 1.2fr; gap: 1px; background: var(--oc-line); border: var(--oc-border); border-radius: var(--oc-radius); overflow: hidden; box-shadow: var(--oc-shadow); }
+.oc-extras > div { background: var(--oc-bg); color: var(--oc-fg); padding: 26px 24px; }
+.oc-extras-head h3 { font-size: 26px; }
+.oc-extras-head p, .oc-item > p:not(.oc-price) { color: var(--oc-muted); font-size: 14px; margin-top: 6px; }
+.oc-item h4 { font-size: 15px; font-weight: 800; }
+.oc-item .oc-price { margin: 8px 0 4px; }
+.oc-item .oc-price b { font-size: 38px; }
+.oc-link { display: inline-block; margin-top: 12px; font-weight: 700; font-size: 14px; color: var(--oc-accent); text-underline-offset: 3px; }
+
+.oc-suits { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 28px; font-size: 13px; }
+.oc-suits span { font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 11px; color: var(--oc-muted); margin-right: 6px; }
+.oc-suits i { font-style: normal; border: 1px solid var(--oc-line); border-radius: 999px; padding: 4px 11px; }
+
+@media (max-width: 900px) {
+  .oc-plans, .oc-extras { grid-template-columns: 1fr; }
+  .oc-plan { padding: 32px 22px 26px; }
+  .oc-price b { font-size: 48px; }
+}
+
 /* ---- opening special --------------------------------------------------
    The banner sits above the plans, .sp-plan inside each plan, and the card
    in the bottom-right corner. Designs restyle them through these variables. */

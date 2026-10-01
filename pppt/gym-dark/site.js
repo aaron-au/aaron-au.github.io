@@ -5,7 +5,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, raw, pulse, price, contactForm, special }) => {
+  render: (P, { html, raw, pulse, price, contactForm, special, loc, online }) => {
     const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
     // "Train more. Save more. Get better results." split into its three lines.
     const tag = P.memberships.tagline.replace(/\.$/, "").split(". ");
@@ -23,14 +23,15 @@ PPPT.boot({
 <section class="hero" id="top">
   <div class="hero-bg" data-hero-bg></div>
   <div class="hero-inner">
-    <p class="kicker">${P.hero.kicker}</p>
+    <p class="kicker">${loc.swap(P.hero.kicker, P.hero.online.kicker)}</p>
     <h1 class="hero-title">
       <span class="hero-lead">${P.hero.headlineGym.split(" ").slice(0, -1).join(" ")}</span>
-      <span class="mega" data-fit><span>${P.hero.headlineGym.split(" ").slice(-1)[0].replace(/\.$/, "")}</span>${pulse()}</span>
+      <span class="mega" data-fit><span>${P.hero.headlineGym.split(" ").slice(-1)[0].replace(/\.$/, "")}${pulse()}</span></span>
     </h1>
     <div class="hero-bottom">
-      <p class="hero-sub">${P.hero.sub}</p>
+      <p class="hero-sub">${loc.swap(P.hero.sub, P.hero.online.sub)}</p>
       <div class="hero-ctas">
+        ${loc.toggle()}
         <a class="btn btn-red btn-lg" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label}</a>
         <a class="btn btn-ghost btn-lg" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
       </div>
@@ -58,8 +59,8 @@ PPPT.boot({
   <h2 class="display section-title reveal">What we <em>do</em></h2>
   <div class="svc-list">
     ${P.services.map((s, i) => html`
-    <article class="svc reveal">
-      <span class="svc-n">0${i + 1}</span>
+    <article class="svc reveal" ${loc.at(s.where)}>
+      <span class="svc-n">${s.n}</span>
       <div class="svc-head"><h3>${s.name}</h3><span class="svc-tag">${s.short}</span></div>
       <div class="svc-body"><p>${s.blurb}</p><ul role="list">${s.points.map((p) => html`<li>${p}</li>`)}</ul>
         ${s.sample ? html`<a class="svc-sample" href="${s.sample.href}" target="_blank" rel="noopener">${s.sample.label} ↗</a>` : ""}</div>
@@ -68,6 +69,9 @@ PPPT.boot({
 </section>
 
 <section class="plans" id="memberships">
+  <div class="loc-bar reveal"><span>Where do you train?</span>${loc.toggle()}</div>
+  <div ${loc.at("online")}>${online({ button: "btn btn-white", buttonAlt: "btn btn-red", title: "display section-title" })}</div>
+  <div ${loc.at("in-person")}>
   <div class="plans-head reveal">
     <div>
       <p class="eyebrow">${m.heading}</p>
@@ -102,6 +106,7 @@ PPPT.boot({
     <div class="payg-item"><span>Casual session</span><b>${price.live(m.payg.casual)}</b><small>One ${price.durLabel()} session</small>${price.buy(m.payg.products.casual)}</div>
     <div class="payg-item"><span>10-session pack</span><b>${price.live(m.payg.pack)}</b><small>${price.live(price.packEach())} a session</small>${price.buy(m.payg.products.pack)}</div>
     <div class="payg-item"><span>Evolt 360 scan</span><b>${price.money(m.payg.scan)}</b><small>On demand, with written report</small>${price.buy(m.payg.products.scan)}</div>
+  </div>
   </div>
 </section>
 
@@ -154,8 +159,8 @@ PPPT.boot({
 </footer>`;
   },
 
-  // Size "PULSE" to span the full width, capped so the intro and buttons
-  // stay above the fold on short screens.
+  // Size "PULSE" to span the full width. On wider screens it's capped so the
+  // intro and buttons stay above the fold; phones just scroll.
   afterRender: () => {
     const el = PPPT.$("[data-fit]");
     const inner = PPPT.$(".hero-inner");
@@ -164,12 +169,14 @@ PPPT.boot({
       el.style.fontSize = "100px";
       const byWidth = 100 * el.clientWidth / word.scrollWidth * 0.98;
       const rest = inner.offsetHeight - el.offsetHeight;
-      const byHeight = (innerHeight - rest - 190) / parseFloat(getComputedStyle(el).lineHeight) * 100;
+      const byHeight = innerWidth < 700 ? Infinity
+        : (innerHeight - rest - 190) / parseFloat(getComputedStyle(el).lineHeight) * 100;
       el.style.fontSize = Math.max(64, Math.floor(Math.min(byWidth, byHeight))) + "px";
     };
     fit();
     document.fonts?.ready.then(fit);
     addEventListener("resize", fit);
+    addEventListener("pppt:location", fit); // the hero text changes length
   },
 
   galleryItem: (p, n, { html } = PPPT) =>

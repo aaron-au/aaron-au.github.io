@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
     const nav = [["services", "Training"], ["memberships", "Pricing"], ["gallery", "Photos"], ["shop", "Merch"], ["contact", "Contact"]];
     const m = P.memberships;
     const marquee = Array(8).fill(html`<span>${P.brand.tagline.join(" ✦ ")} ✦</span>`);
@@ -22,9 +22,10 @@ PPPT.boot({
 
 <section class="hero" id="top">
   <div class="hero-copy">
-    <p class="tag">${P.hero.kicker}</p>
+    <p class="tag">${loc.swap(P.hero.kicker, P.hero.online.kicker)}</p>
     <h1>${words.map((w, i) => html`<span class="w w${i}">${w}</span>`)}</h1>
-    <p class="hero-sub">${P.hero.sub}</p>
+    <p class="hero-sub">${loc.swap(P.hero.sub, P.hero.online.sub)}</p>
+    ${loc.toggle("dur card loc hero-loc")}
     <div class="ctas">
       <a class="btn btn-red btn-lg" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label} →</a>
       <a class="btn btn-white btn-lg" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
@@ -47,8 +48,8 @@ PPPT.boot({
   <h2 class="title reveal"><span>What we do</span></h2>
   <div class="svc-grid">
     ${P.services.map((s, i) => html`
-    <article class="svc card reveal reveal-d${i % 3}">
-      <span class="svc-n">${String(i + 1).padStart(2, "0")}</span>
+    <article class="svc card reveal reveal-d${i % 3}" ${loc.at(s.where)}>
+      <span class="svc-n">${s.n}</span>
       <h3>${s.name}</h3>
       <p class="svc-short">${s.short}</p>
       <p>${s.blurb}</p>
@@ -67,6 +68,9 @@ PPPT.boot({
 </section>
 
 <section class="sec" id="memberships">
+  <div class="loc-bar reveal"><span>Where do you train?</span>${loc.toggle("dur card loc")}</div>
+  <div ${loc.at("online")}>${online({ button: "btn btn-black", buttonAlt: "btn btn-red", title: "title" })}</div>
+  <div ${loc.at("in-person")}>
   <h2 class="title reveal"><span>${m.tagline.split(". ")[0]}. ${m.tagline.split(". ")[1]}.</span></h2>
   <div class="plans-top reveal"><p class="plans-sub">${m.heading}. ${m.includes}.</p>${price.durationToggle("dur card")}</div>
   ${special.banner({ button: "btn btn-red" })}
@@ -93,6 +97,7 @@ PPPT.boot({
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.
     Already decided? <a href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
+  </div>
 </section>
 
 <section class="sec yellow" id="gallery">

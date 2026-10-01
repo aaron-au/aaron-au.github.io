@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
     const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["gallery", "Studio"], ["shop", "Shop"], ["contact", "Contact"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -26,15 +26,19 @@ PPPT.boot({
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">${P.hero.kicker}</p>
+      <p class="eyebrow">${loc.swap(P.hero.kicker, P.hero.online.kicker)}</p>
       <h1>Train with <em>purpose</em>.</h1>
-      <p class="lede">${P.hero.sub}</p>
+      <p class="lede">${loc.swap(P.hero.sub, P.hero.online.sub)}</p>
+      ${loc.toggle("dur loc hero-loc")}
       <div class="ctas">
         <a class="btn btn-red" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label}</a>
         <a class="link-arrow" href="${P.hero.secondary.href}">${P.hero.secondary.label} →</a>
       </div>
-      <ul class="hero-points" role="list">
+      <ul class="hero-points" role="list" ${loc.at("in-person")}>
         <li>1:1 personal training</li><li>30, 45 or 60 minutes</li><li>Evolt 360 scans included</li>
+      </ul>
+      <ul class="hero-points" role="list" ${loc.at("online")}>
+        <li>Anywhere in Australia</li><li>My PT Hub app</li><li>Weekly check-ins</li>
       </ul>
     </div>
     <div class="hero-visual" data-hero-bg>
@@ -60,8 +64,8 @@ PPPT.boot({
     <div class="head reveal"><p class="eyebrow">Services</p><h2>How we can help</h2></div>
     <div class="svc-grid">
       ${P.services.map((s, i) => html`
-      <article class="svc reveal reveal-d${i % 3}">
-        <span class="svc-n">${String(i + 1).padStart(2, "0")}</span>
+      <article class="svc reveal reveal-d${i % 3}" ${loc.at(s.where)}>
+        <span class="svc-n">${s.n}</span>
         <h3>${s.name}</h3>
         <p class="svc-short">${s.short}</p>
         <p>${s.blurb}</p>
@@ -104,6 +108,9 @@ PPPT.boot({
 
 <section class="section alt" id="memberships">
   <div class="wrap">
+    <div class="loc-bar reveal"><span>Where do you train?</span>${loc.toggle()}</div>
+    <div ${loc.at("online")}>${online({ button: "btn btn-red", buttonAlt: "btn btn-outline" })}</div>
+    <div ${loc.at("in-person")}>
     <div class="head center reveal"><p class="eyebrow">${m.heading}</p><h2>${m.tagline}</h2><p class="body">${m.note}</p></div>
     <div class="dur-wrap reveal"><span>Session length</span>${price.durationToggle()}</div>
     ${special.banner({ button: "btn btn-red" })}
@@ -131,6 +138,7 @@ PPPT.boot({
       <tr><th>10-session pack (${price.live(price.packEach())} a session) ${price.buy(m.payg.products.pack)}</th><td>${price.live(m.payg.pack)}</td></tr>
       <tr><th>Evolt 360 scan on demand, with written report ${price.buy(m.payg.products.scan)}</th><td>${price.money(m.payg.scan)}</td></tr>
     </table>
+    </div>
   </div>
 </section>
 
