@@ -128,14 +128,16 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
 .extras p { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px dotted var(--line); font-size: 14px; color: var(--body); }
 .extras b { color: var(--ink); font-weight: 600; }
 
-.tt { border-top: 1px solid var(--line); }
-.tt-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line); transition: background .2s; }
-.tt-row:hover { background: rgba(255,255,255,.02); }
-.tt-row time { font-size: 13px; color: var(--red); letter-spacing: .06em; }
-.tt-row b { font-family: var(--serif); font-weight: 400; font-size: 21px; }
-.tt-row span { display: flex; gap: 6px; }
-.tt-row i { font-style: normal; font-size: 11px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); border: 1px solid transparent; }
-.tt-row i.on { color: var(--ink); border-color: var(--line); background: rgba(255,255,255,.04); }
+/* ---- opening special and myPTHub links ---------------------------------- */
+
+:root { --sp-bg: var(--bg); --sp-fg: var(--ink); --sp-muted: #A8A49E; --sp-accent: var(--red); --sp-font: var(--serif); --sp-border: 1px solid var(--line); }
+.sp-banner { margin: 8px 0 32px; border-left: 2px solid var(--red); }
+.sp-card { border-top-width: 2px; }
+.sp-head { font-weight: 400; letter-spacing: -.01em; }
+.sp-kicker { font-weight: 400; font-size: 11px; letter-spacing: .3em; }
+.sp-plan { font-weight: 400; font-size: 14px; margin-top: 6px; }
+.buy { color: var(--ink); font-weight: 400; text-underline-offset: 4px; text-decoration-color: var(--red); }
+.tier-price .buy { display: block; margin-top: 12px; border: 0; padding: 0; font-size: 13px; letter-spacing: 0; text-transform: none; }
 
 .gallery .part-grid { margin-bottom: 48px; align-items: end; }
 .gallery .part-label { position: static; }
@@ -223,9 +225,6 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
   .brand span { display: none; }
   .method, .tier, .svc-body, .extras, .visit-grid, .cf-row { grid-template-columns: 1fr; }
   .method li, .method li + li { padding: 22px 0; }
-  .tt-row { grid-template-columns: 1fr auto; }
-  .tt-row time { grid-column: 1 / -1; }
-  .tt-row i { width: 22px; height: 22px; font-size: 10px; }
   .hero-kicker { white-space: normal; letter-spacing: .28em; }
   .strip-item { height: 52vh; }
 }

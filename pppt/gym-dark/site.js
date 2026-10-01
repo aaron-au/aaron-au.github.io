@@ -3,13 +3,14 @@
 PPPT.boot({
   variant: "gym-dark",
 
-  render: (P, { html, raw, pulse, price, contactForm }) => {
-    const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["timetable", "Classes"], ["contact", "Contact"]];
+  specialButton: "btn btn-red",
+
+  render: (P, { html, raw, pulse, price, contactForm, special }) => {
+    const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
     // "Train more. Save more. Get better results." split into its three lines.
     const tag = P.memberships.tagline.replace(/\.$/, "").split(". ");
     const ticker = Array(6).fill(P.brand.tagline.map((t) => html`<span>${t}</span><i>✚</i>`));
     const m = P.memberships;
-    const t = P.timetable;
 
     return html`
 <header class="hdr" data-header>
@@ -75,6 +76,7 @@ PPPT.boot({
     </div>
     ${price.durationToggle()}
   </div>
+  ${special.banner({ button: "btn btn-red" })}
   <div class="plan-grid">
     ${m.plans.map((p, i) => html`
     <article class="plan ${p.featured ? "plan-hot" : ""} ${p.value ? "plan-value" : ""} reveal reveal-d${i}">
@@ -84,32 +86,23 @@ PPPT.boot({
       <p class="plan-price">${price.live(p.prices)}<small>/wk</small></p>
       <p class="plan-each">${price.live(price.perSession(p))} a session</p>
       <p class="plan-save">${price.live(price.saving(p), "save")}</p>
+      ${special.plan(p)}
       <ul role="list">
         <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
         <li>${m.includes}</li>
       </ul>
       <a class="btn ${p.featured ? "btn-white" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
+      ${price.buy(p.products, "Or sign up online")}
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.
     Already decided? <a class="signup" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
   <div class="payg reveal">
     <div class="payg-head"><h3>${m.payg.heading}</h3><p>${m.payg.blurb}</p></div>
-    <div class="payg-item"><span>Casual session</span><b>${price.live(m.payg.casual)}</b><small>One ${price.durLabel()} session</small></div>
-    <div class="payg-item"><span>10-session pack</span><b>${price.live(m.payg.pack)}</b><small>${price.live(price.packEach())} a session</small></div>
-    <div class="payg-item"><span>Evolt 360 scan</span><b>${price.money(m.payg.scan)}</b><small>On demand, with written report</small></div>
+    <div class="payg-item"><span>Casual session</span><b>${price.live(m.payg.casual)}</b><small>One ${price.durLabel()} session</small>${price.buy(m.payg.products.casual)}</div>
+    <div class="payg-item"><span>10-session pack</span><b>${price.live(m.payg.pack)}</b><small>${price.live(price.packEach())} a session</small>${price.buy(m.payg.products.pack)}</div>
+    <div class="payg-item"><span>Evolt 360 scan</span><b>${price.money(m.payg.scan)}</b><small>On demand, with written report</small>${price.buy(m.payg.products.scan)}</div>
   </div>
-</section>
-
-<section class="timetable" id="timetable">
-  <h2 class="display section-title reveal">Class <em>times</em></h2>
-  <div class="tt-wrap reveal">
-    <table class="tt">
-      <thead><tr><th></th>${t.days.map((d) => html`<th>${d}</th>`)}</tr></thead>
-      <tbody>${t.rows.map(([time, name, days]) => html`<tr><th>${time}</th>${t.days.map((_, d) => days.includes(d) ? html`<td><span>${name}</span></td>` : html`<td></td>`)}</tr>`)}</tbody>
-    </table>
-  </div>
-  <p class="fine">${t.note}</p>
 </section>
 
 <section class="gallery" id="gallery">
@@ -128,12 +121,12 @@ PPPT.boot({
   </div>
   <div class="prod-grid">
     ${P.merch.products.map((p, i) => html`
-    <a class="prod reveal reveal-d${i}" href="${P.merch.shopUrl}" target="_blank" rel="noopener">
+    <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
       <div class="prod-img"><img src="${P.brand.logo}" alt=""><span>${p.tag}</span></div>
       <h3>${p.name}</h3><b>${p.price}</b>
     </a>`)}
   </div>
-  <a class="btn btn-red btn-lg reveal" href="${P.merch.shopUrl}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
+  <a class="btn btn-red btn-lg reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 </section>
 
 <section class="faq" id="faq">

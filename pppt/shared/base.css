@@ -51,10 +51,58 @@ section[id] { scroll-margin-top: 72px; }
   100% { clip-path: inset(-50% 0 -50% 100%); }
 }
 
+/* ---- opening special --------------------------------------------------
+   The banner sits above the plans, .sp-plan inside each plan, and the card
+   in the bottom-right corner. Designs restyle them through these variables. */
+
+:root {
+  --sp-bg: #111;
+  --sp-fg: #fff;
+  --sp-muted: rgba(255, 255, 255, .7);
+  --sp-accent: var(--pulse-red);
+  --sp-font: inherit;
+  --sp-radius: 0;
+  --sp-border: 0;
+}
+
+.sp-banner { display: flex; align-items: center; justify-content: space-between; gap: 18px 32px; flex-wrap: wrap;
+  background: var(--sp-bg); color: var(--sp-fg); border: var(--sp-border); border-left: 6px solid var(--sp-accent); border-radius: var(--sp-radius);
+  padding: 22px 28px; margin-bottom: 32px; }
+.sp-banner > div { flex: 1 1 420px; }
+.sp-kicker { font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--sp-accent); }
+.sp-head { font-family: var(--sp-font); font-size: clamp(22px, 2.4vw, 30px); line-height: 1.15; margin: 4px 0 6px; }
+.sp-terms { font-size: 13px; line-height: 1.5; color: var(--sp-muted); max-width: 640px; }
+.sp-banner .sp-terms { font-size: 14px; }
+.sp-plan { font-size: 13px; font-weight: 700; color: var(--sp-accent); margin: 2px 0 4px; }
+
+.sp-card { position: fixed; right: 16px; bottom: 16px; z-index: 900; width: min(360px, calc(100vw - 32px));
+  background: var(--sp-bg); color: var(--sp-fg); border: var(--sp-border); border-top: 5px solid var(--sp-accent); border-radius: var(--sp-radius);
+  padding: 20px 22px 18px; box-shadow: 0 24px 60px -18px rgba(0, 0, 0, .55);
+  transform: translateY(calc(100% + 32px)); visibility: hidden; transition: transform .45s cubic-bezier(.2, .8, .2, 1), visibility 0s .45s; }
+.sp-card.in { transform: none; visibility: visible; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.sp-card.in.away { transform: translateY(calc(100% + 32px)); visibility: hidden; transition: transform .45s cubic-bezier(.2, .8, .2, 1), visibility 0s .45s; }
+.sp-card .sp-head { font-size: 24px; padding-right: 20px; }
+.sp-card .sp-kicker { margin-right: 30px; }
+.sp-x { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border: 0; background: none; color: var(--sp-muted); font-size: 22px; line-height: 1; }
+.sp-x:hover { color: var(--sp-fg); }
+.sp-actions { display: flex; align-items: center; gap: 18px; margin-top: 14px; flex-wrap: wrap; }
+.sp-more { font-size: 14px; font-weight: 600; color: var(--sp-fg); }
+@media (max-width: 700px) {
+  .sp-card { right: 12px; left: 12px; bottom: 12px; width: auto; padding: 16px 18px 14px; }
+  .sp-card .sp-head { font-size: 21px; }
+  .sp-card .sp-terms { display: none; }
+  .sp-card .sp-actions { margin-top: 10px; }
+  .sp-banner { padding: 20px; }
+}
+
+/* myPTHub "buy online" links. Designs can restyle .buy. */
+.buy { display: inline-block; font-size: 13px; font-weight: 600; margin-top: 6px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .pulse-line, .pulse-line.loop { animation: none; clip-path: none; }
+  .sp-card, .sp-card.in, .sp-card.in.away { transition: none; }
 }
 
 /* ---- lightbox ---------------------------------------------------------- */

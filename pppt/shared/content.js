@@ -77,7 +77,7 @@ window.PPPT = {
       name: "Small Group Training",
       short: "Max 5 per class",
       blurb: "The energy of a class with the attention of a coach. Strength and conditioning in groups of five or fewer.",
-      points: ["Five people at most", "Scaled for every level", "Morning & evening times"],
+      points: ["Five people at most", "Scaled for every level", "Ask us about times"],
     },
   ],
 
@@ -102,12 +102,15 @@ window.PPPT = {
     defaultDuration: 1,          // index into durations: 45 minutes
     includes: "Evolt 360 scan every 12 weeks included",
     // Memberships are bought and managed in myPTHub; the site only links out.
-    signup: { label: "Sign up through myPTHub", href: "https://example.com/mypthub" }, // [real myPTHub link]
+    signup: { label: "Sign up through myPTHub", href: "https://pulseperformancept.mypthub.net/" }, // [check this is the right landing page]
+    /* `products` are myPTHub product page numbers, one per session length
+       (see `store` below). null means there's no product for that length
+       yet, and the "buy online" link hides itself. */
     plans: [
-      { name: "Consistency", perWeek: 1, prices: [55, 80, 100], cta: "Start 1× weekly" },
-      { name: "Progress", perWeek: 2, prices: [105, 150, 190], cta: "Start 2× weekly", featured: true, badge: "Most popular" },
-      { name: "Transformation", perWeek: 3, prices: [150, 210, 270], cta: "Start 3× weekly" },
-      { name: "Performance", perWeek: 4, prices: [190, 260, 340], cta: "Start 4× weekly", value: true, badge: "Best value" },
+      { name: "Consistency", perWeek: 1, prices: [55, 80, 100], products: [null, null, null], cta: "Start 1× weekly" },
+      { name: "Progress", perWeek: 2, prices: [105, 150, 190], products: [null, null, null], cta: "Start 2× weekly", featured: true, badge: "Most popular" },
+      { name: "Transformation", perWeek: 3, prices: [150, 210, 270], products: [null, null, null], cta: "Start 3× weekly" },
+      { name: "Performance", perWeek: 4, prices: [190, 260, 340], products: [null, null, null], cta: "Start 4× weekly", value: true, badge: "Best value" },
     ],
     // Pay as you go: the secondary option, no commitment.
     payg: {
@@ -116,22 +119,35 @@ window.PPPT = {
       casual: [65, 90, 110],
       pack: [550, 800, 1000],     // 10 sessions
       scan: 30,                   // Evolt 360 scan on demand
+      products: {
+        casual: [null, null, null],
+        pack: [null, null, 239353], // 10 × 60 min is live; Matt still has to add the rest
+        scan: null,
+      },
     },
   },
 
-  timetable: {
-    note: "Sample timetable",
-    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    // [time, class, days it runs (indexes into days)]
-    rows: [
-      ["5:30am", "Strength", [0, 2, 4]],
-      ["5:30am", "Conditioning", [1, 3]],
-      ["6:30am", "Strength & Conditioning", [0, 1, 2, 3, 4]],
-      ["7:00am", "Saturday Sweat", [5]],
-      ["9:30am", "Mobility & Core", [1, 3]],
-      ["5:30pm", "Strength", [0, 1, 2, 3]],
-      ["6:30pm", "Conditioning", [0, 2]],
-    ],
+  /* Matt's myPTHub storefront. Every product has its own public page at
+     `product` + number, which handles payment. Product numbers change
+     rarely, so they're typed in here rather than looked up. */
+  store: {
+    home: "https://pulseperformancept.mypthub.net/", // [check this is the right landing page]
+    product: "https://pulseperformancept.mypthub.net/p/",
+    buyLabel: "Buy online",
+  },
+
+  /* Opening special. Shows from `start` to `end` inclusive, by the
+     visitor's own date. Add ?special=on or ?special=off to a page's
+     address to preview it either way. {end} in the text becomes the
+     end date, e.g. "31 December". */
+  special: {
+    start: "2026-10-01",
+    end: "2026-12-31", // [Matt to set]
+    percent: 10,
+    title: "Opening special",
+    headline: "10% off your membership. For life.",
+    terms: "For weekly memberships started by {end}. The 10% stays for as long as you're a member, and ends if your membership is cancelled or paused for 3 months or more.",
+    cta: "Claim 10% off",
   },
 
   testimonials: [
@@ -143,13 +159,14 @@ window.PPPT = {
   merch: {
     heading: "Wear the pulse",
     blurb: "Training gear and supplements from the Pulse store.",
-    shopUrl: "https://example.myshopify.com", // [swap for the real Shopify store]
     shopLabel: "Visit the store",
+    // Sold through myPTHub too. `product` is its page number; without one
+    // the tile links to the store's home page.
     products: [
-      { name: "Pulse Tee", price: "$45", tag: "Apparel" },
-      { name: "Performance Hoodie", price: "$89", tag: "Apparel" },
-      { name: "Pulse Shaker", price: "$20", tag: "Gear" },
-      { name: "Training Cap", price: "$35", tag: "Apparel" },
+      { name: "Pulse Tee", price: "$45", tag: "Apparel", product: null },
+      { name: "Performance Hoodie", price: "$89", tag: "Apparel", product: null },
+      { name: "Pulse Shaker", price: "$20", tag: "Gear", product: null },
+      { name: "Training Cap", price: "$35", tag: "Apparel", product: null },
     ],
   },
 
