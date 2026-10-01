@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-solid",
 
-  render: (P, { html, pulse, price, contactForm, special }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
     const nav = [["method", "Method"], ["services", "Services"], ["memberships", "Membership"], ["gallery", "Studio"], ["shop", "Store"], ["contact", "Visit"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -33,7 +33,8 @@ PPPT.boot({
     <img class="hero-logo" src="${P.brand.logo}" alt="${P.brand.name}">
     <p class="hero-kicker">${P.brand.tagline.join("  ·  ")}</p>
     <h1>${P.hero.headline}</h1>
-    <p class="hero-sub">${P.hero.sub}</p>
+    <p class="hero-sub">${loc.swap(P.hero.sub, P.hero.online.sub)}</p>
+    ${loc.toggle("dur loc hero-loc")}
     <div class="hero-ctas">
       <a class="btn btn-solid" href="${P.hero.primary.href}" data-enquire="Free consult">${P.hero.primary.label}</a>
       <a class="btn btn-line" href="${P.hero.secondary.href}">${P.hero.secondary.label}</a>
@@ -55,7 +56,7 @@ ${part("method", "01", "Method", html`
 ${part("services", "02", "Services", html`
   <div class="svc-list">
     ${P.services.map((s) => html`
-    <details class="svc reveal">
+    <details class="svc reveal" ${loc.at(s.where)}>
       <summary><h3>${s.name}</h3><span>${s.short}</span></summary>
       <div class="svc-body"><div><p>${s.blurb}</p>${s.sample ? html`<a class="svc-sample" href="${s.sample.href}" target="_blank" rel="noopener">${s.sample.label} ↗</a>` : ""}</div><ul role="list">${s.points.map((p) => html`<li>${p}</li>`)}</ul></div>
     </details>`)}
@@ -75,6 +76,9 @@ ${part("coach", "03", "Coach", html`
 `)}
 
 ${part("memberships", "04", "Membership", html`
+  <div class="loc-bar reveal"><span>Where do you train?</span>${loc.toggle()}</div>
+  <div ${loc.at("online")}>${online({ button: "btn btn-solid", buttonAlt: "btn btn-line", title: "big" })}</div>
+  <div ${loc.at("in-person")}>
   <p class="big reveal">${m.tagline}</p>
   <div class="tiers-top reveal"><p class="body">${m.heading}. ${m.includes}.</p>${price.durationToggle()}</div>
   ${special.banner({ button: "btn btn-solid" })}
@@ -96,6 +100,7 @@ ${part("memberships", "04", "Membership", html`
     <p><span>Casual session, ${price.durLabel()} ${price.buy(m.payg.products.casual)}</span><b>${price.live(m.payg.casual)}</b></p>
     <p><span>10-session pack, ${price.live(price.packEach())} a session ${price.buy(m.payg.products.pack)}</span><b>${price.live(m.payg.pack)}</b></p>
     <p><span>Evolt 360 scan on demand ${price.buy(m.payg.products.scan)}</span><b>${price.money(m.payg.scan)}</b></p>
+  </div>
   </div>
 `, "alt")}
 

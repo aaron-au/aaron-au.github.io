@@ -17,6 +17,22 @@ window.PPPT = {
     sub: "Coaching built around your numbers, not guesswork. We scan, we plan, we train, and we measure again.",
     primary: { label: "Book a free consult", href: "#contact" },
     secondary: { label: "See memberships", href: "#memberships" },
+    // Swapped in when the visitor picks "Online".
+    online: {
+      kicker: "Online coaching · anywhere in Australia",
+      sub: "Personalised programming, professional coaching and accountability, wherever you train.",
+    },
+  },
+
+  /* In person | Online switch. It changes the hero line, the services and
+     the pricing. The choice is remembered, and ?loc=online in a link opens
+     the site on the online side. */
+  locations: {
+    default: "in-person",
+    options: [
+      { id: "in-person", label: "In person" },
+      { id: "online", label: "Online" },
+    ],
   },
 
   stats: [
@@ -40,10 +56,12 @@ window.PPPT = {
     },
   },
 
-  // Personal training leads; group training sits last.
+  /* `where` is the location a service shows under: "in-person", "online",
+     or leave it out for both. Personal training leads; group sits last. */
   services: [
     {
       id: "pt",
+      where: "in-person",
       name: "Personal Training",
       short: "30, 45 or 60 minutes",
       blurb: "One coach, one plan, your goals. Programs written for you and adjusted every session.",
@@ -51,6 +69,7 @@ window.PPPT = {
     },
     {
       id: "scan",
+      where: "in-person",
       name: "Evolt 360 Body Scans",
       short: "In-depth analysis",
       blurb: "Muscle, fat, visceral fat and metabolism in under a minute, with a coach's written report.",
@@ -59,25 +78,36 @@ window.PPPT = {
       sample: { label: "See an example report", href: "../examples/example-scan-report.pdf" },
     },
     {
-      id: "online",
-      name: "Online Coaching",
-      short: "30-minute Zoom calls",
-      blurb: "Coaching wherever you train. A 30-minute video call to review your training and plan what's next, with written feedback after every call.",
-      points: ["30-minute Zoom call", "Written feedback after the call", "$45 a call"], // [price is a guess]
-    },
-    {
-      id: "nutrition",
-      name: "Nutrition Coaching",
-      short: "30-minute Zoom calls",
-      blurb: "Practical advice on eating for your training, built on the numbers from your scan. A 30-minute video call, then written feedback with your targets.",
-      points: ["Calorie & protein targets", "Written feedback after the call", "$45 a call"], // [price is a guess]
-    },
-    {
       id: "group",
+      where: "in-person",
       name: "Small Group Training",
       short: "Max 5 per class",
       blurb: "The energy of a class with the attention of a coach. Strength and conditioning in groups of five or fewer.",
       points: ["Five people at most", "Scaled for every level", "Ask us about times"],
+    },
+    {
+      id: "online",
+      where: "online",
+      name: "Online Coaching",
+      short: "Programming and a coach",
+      blurb: "Your program is designed around your goals, experience, equipment and schedule. Your coach tracks your progress and adjusts your training as you go.",
+      points: ["Program in the My PT Hub app", "Weekly check-ins", "Monthly video call"],
+    },
+    {
+      id: "complete",
+      where: "online",
+      name: "Complete Online Coaching",
+      short: "Training and nutrition",
+      blurb: "Online coaching with nutrition built in: practical targets and accountability that fit your training and lifestyle.",
+      points: ["Calorie & protein targets", "Meal structure guidance", "Weekly accountability"],
+    },
+    {
+      id: "one-off",
+      where: "online",
+      name: "One-off Program or Consult",
+      short: "No membership",
+      blurb: "A personalised program to run yourself, or a single 30-minute call for technique, programming or goals.",
+      points: ["$119 personalised program", "$55 consultation", "Upgrade any time"],
     },
   ],
 
@@ -127,6 +157,81 @@ window.PPPT = {
     },
   },
 
+  /* Online coaching, shown when the visitor picks "Online". Monthly plans
+     come first; one-offs are the secondary option. A `product` number sends
+     the button to that myPTHub product; until then it opens the enquiry
+     form. Add more plans or one-offs to these lists as Matt launches them. */
+  online: {
+    kicker: "Online coaching · anywhere in Australia",
+    heading: ["Professional coaching.", "Wherever you train."],
+    intro: [
+      "Pulse Online Coaching gives you personalised programming, professional coaching and accountability wherever you train.",
+      "Whether you're training at home, in a commercial gym or for your sport, your program is designed around your goals, experience, equipment and schedule. Your coach monitors your progress, supports you along the way and adjusts your training as you develop.",
+    ],
+    plans: [
+      {
+        name: "Online Coaching",
+        price: 149,
+        per: "month",
+        featured: true,
+        badge: "Recommended",
+        blurb: "Everything you need for ongoing remote coaching.",
+        includes: [
+          "Personalised training program",
+          "My PT Hub app with exercise demonstrations",
+          "Weekly check-ins",
+          "Progress tracking",
+          "Ongoing coach support",
+          "Program adjustments and a monthly review",
+          "1 × 30-minute video call a month",
+          "General healthy eating guidance",
+        ],
+        cta: "Start online coaching",
+        product: null,
+      },
+      {
+        name: "Complete Online Coaching",
+        price: 199,
+        per: "month",
+        blurb: "Training and nutrition coaching together.",
+        includes: [
+          "Everything in Online Coaching",
+          "Nutrition coaching and accountability",
+          "Calorie and protein targets where appropriate",
+          "Guidance on meal structure and everyday food",
+          "Nutrition adjustments as you progress",
+          "Evolt scan data used where available",
+        ],
+        cta: "Start complete coaching",
+        product: null,
+      },
+    ],
+    note: "Monthly plans renew each month until you cancel. Messages are answered within business hours. Video calls are booked ahead, and unused calls don't carry over to the next month.",
+    oneOffs: {
+      heading: "One-off options",
+      blurb: "No membership. Upgrade to coaching whenever you're ready.",
+      items: [
+        {
+          name: "Personalised Training Program",
+          price: 119,
+          unit: "one-off",
+          blurb: "A program built for your goals, equipment and schedule, delivered in the My PT Hub app with a 30-minute walkthrough call. No ongoing coaching.",
+          cta: "Get your program",
+          product: null,
+        },
+        {
+          name: "Online Consultation",
+          price: 55,
+          unit: "30 minutes",
+          blurb: "One video call for technique, a program review, training advice, goal setting or a progress check.",
+          cta: "Book a consultation",
+          product: null,
+        },
+      ],
+    },
+    suits: ["General fitness", "Strength", "Muscle building", "Fat loss", "Sports and football off-season", "Home or commercial gym training"],
+  },
+
   /* Matt's myPTHub storefront. Every product has its own public page at
      `product` + number, which handles payment. Product numbers change
      rarely, so they're typed in here rather than looked up. */
@@ -173,8 +278,9 @@ window.PPPT = {
   faq: [
     { q: "I'm new to training. Is this for me?", a: "Yes. Every program starts from where you are, and the first session is mostly about getting to know how you move." },
     { q: "What is an Evolt 360 scan?", a: "A bioelectrical impedance scan that measures muscle, fat, visceral fat, water and metabolic rate in about 60 seconds. You stand on it barefoot and hold two handles." },
-    { q: "Is there a contract?", a: "Weekly memberships have a 12-week minimum, paid by automatic weekly debit, then continue on a rolling basis. If you'd rather not commit, book casual sessions or a 10-session pack." },
+    { q: "Is there a contract?", a: "In-person weekly memberships have a 12-week minimum, paid by automatic weekly debit, then continue on a rolling basis. Online coaching is month to month. If you'd rather not commit, book casual sessions, a 10-session pack, or a one-off online program or consultation." },
     { q: "Can I just get a scan?", a: "Yes. An Evolt 360 scan with a written coach's report is $30 on demand. Members get one every 12 weeks included." },
+    { q: "I'm not local. Can you still coach me?", a: "Yes. Online coaching works anywhere in Australia. Your program lives in the My PT Hub app, and you check in with your coach every week." },
   ],
 
   contact: {

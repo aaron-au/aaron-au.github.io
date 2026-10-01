@@ -147,6 +147,25 @@ body { background: var(--paper); color: var(--ink); font-size: 16px; }
 
 /* ---- opening special and myPTHub links ---------------------------------- */
 
+:root { --oc-bg: var(--white); --oc-fg: var(--ink); --oc-muted: #3A3A3A; --oc-line: rgba(0, 0, 0, .2); --oc-font: var(--display); --oc-case: uppercase;
+  --oc-border: var(--b); --oc-shadow: var(--shadow);
+  --oc-feature-bg: var(--yellow); --oc-feature-fg: var(--ink); --oc-feature-muted: #3A3A3A; --oc-feature-line: rgba(0, 0, 0, .2); --oc-feature-check: var(--ink); }
+.oc-featured { transform: rotate(-1deg); box-shadow: 12px 12px 0 var(--ink); }
+.oc-badge { border: var(--b); font-family: var(--display); font-weight: 400; letter-spacing: 0; font-size: 13px; transform: rotate(-3deg); top: -18px; }
+.oc-title em { font-style: normal; color: var(--red); }
+.oc-plan h3 { letter-spacing: -.02em; }
+.oc-price b { font-size: 70px; letter-spacing: -.04em; }
+.oc-plan li { font-weight: 600; border-top-style: dashed; border-top-width: 2px; }
+.oc-plan li::before { content: "✔"; border: 0; transform: none; width: auto; height: auto; top: 8px; color: var(--red); }
+.oc-featured li::before { color: var(--ink); }
+.oc-plan > .btn { justify-content: center; }
+.oc-extras { gap: 3px; background: var(--ink); }
+.oc-extras-head h3 { letter-spacing: -.02em; }
+.oc-link { color: var(--ink); font-weight: 800; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.oc-suits i { border: 2px solid var(--ink); border-radius: 0; font-weight: 800; background: var(--white); }
+.loc-bar > span { font-family: var(--display); font-weight: 400; letter-spacing: 0; font-size: 16px; }
+.hero-loc { margin-top: 24px; }
+.hero-loc + .ctas { margin-top: 20px; }
 :root { --sp-bg: var(--yellow); --sp-fg: var(--ink); --sp-muted: #3A3A3A; --sp-accent: var(--red); --sp-font: var(--display); --sp-border: var(--b); }
 .sp-banner { border-left: var(--b); box-shadow: var(--shadow); margin-bottom: 44px; transform: rotate(-.6deg); }
 .sp-card { border-top: var(--b); box-shadow: 8px 8px 0 var(--ink); }

@@ -1,6 +1,6 @@
 # Pulse Performance PT demo sites
 
-**This is the github.io preview copy.** The master copy of the designs, the enquiry Worker and the handoff notes is `pppt/site` on git.realee.org, and the Cloudflare Terraform is in `pppt/infrastructure`. Make changes there first, then copy them here when Matt needs to see them.
+**This is the example site Matt reviews and tweaks.** Design changes happen here until a design is locked in. The live site, the enquiry Worker and the Cloudflare Terraform are in `pppt/site` and `pppt/infrastructure` on git.realee.org.
 
 Four designs for the same gym website. `index.html` in this folder shows all four side by side. Each design is its own folder:
 
@@ -57,7 +57,22 @@ Each extra weekly session takes $5 off every session at 45 and 60 minutes, and $
 
 A plan with `featured: true` gets the loudest card ("Most popular", 2× weekly). `value: true` gets a quieter outlined treatment ("Best value", 4× weekly). The badge text is `badge`.
 
-Online and Nutrition Coaching are 30-minute Zoom calls with written feedback afterwards. The $45 a call is a guess, set below the $65 casual 30-minute PT session because it's virtual. Matt needs to set the real price.
+## In person or online
+
+Matt's business has two sides: in-person PT at the studio, and online coaching anywhere in Australia. A switch labelled "In person | Online" sits in the hero and again at the top of the pricing. It swaps the hero line, the services list and the pricing. In-person is the default. The site remembers the visitor's choice, and a link ending `?loc=online` opens on the online side.
+
+Everything for the online side is in `online` in `content.js`:
+
+- **Monthly plans** come first. Online Coaching ($149) is the recommended plan, and Complete Online Coaching ($199) is training plus nutrition. They run month to month.
+- **One-off options** come second: a $119 personalised program and a $55 30-minute consultation.
+- Each item takes a myPTHub `product` number. With one, its button goes straight to that product page; without, it opens the enquiry form.
+- To add a plan or one-off later (football programs, over-40s strength and so on), add an entry to the list. Every design picks it up.
+
+Each service in `services` has a `where` of `"in-person"` or `"online"`, which decides which side lists it.
+
+The opening special applies to in-person memberships only, so its banner and corner card don't appear on the online side.
+
+Nutrition is worded "where appropriate" and online coaching promises support "within business hours", following Matt's notes on scope.
 
 ## Enquiry form
 
@@ -112,4 +127,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261001a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261001b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

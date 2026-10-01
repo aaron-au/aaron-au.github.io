@@ -80,6 +80,89 @@
     return raw(`<a class="${cls}" data-buy="${list.map((x) => x ?? "").join("|")}" href="${esc(productUrl(id))}" target="_blank" rel="noopener"${id ? "" : " hidden"}>${esc(label)} ↗</a>`);
   };
 
+  /* ---- in person | online --------------------------------------------
+     The choice lives on <html data-location>, and base.css hides anything
+     marked data-loc for the other location. Designs mark elements with
+     loc.at(where), swap short text with loc.swap(), and place loc.toggle(). */
+
+  const L = P.locations;
+  const LOC_KEY = "pppt-location";
+  const locIds = L.options.map((o) => o.id);
+  let where = [new URLSearchParams(location.search).get("loc"), localStorage.getItem(LOC_KEY)]
+    .find((x) => locIds.includes(x)) || L.default;
+
+  const loc = {
+    at: (w) => raw(w ? `data-loc="${esc(w)}"` : ""),
+    swap: (inPerson, online) => html`<span data-loc="in-person">${inPerson}</span><span data-loc="online">${online}</span>`,
+    toggle: (cls = "dur loc") => raw(`<div class="${cls}" role="group" aria-label="Where you train">${
+      L.options.map((o) => `<button type="button" data-loc-set="${o.id}" aria-pressed="${o.id === where}">${esc(o.label)}</button>`).join("")}</div>`),
+  };
+
+  function setLocation(w, { remember = true } = {}) {
+    where = w;
+    document.documentElement.dataset.location = w;
+    $$("[data-loc-set]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.locSet === w));
+    if (remember) localStorage.setItem(LOC_KEY, w);
+    dispatchEvent(new CustomEvent("pppt:location", { detail: w }));
+  }
+
+  function bindLocation() {
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-loc-set]");
+      if (b) setLocation(b.dataset.locSet);
+    });
+  }
+
+  // Number services within their own location, so each list reads 01, 02, 03.
+  const counts = {};
+  P.services.forEach((s) => {
+    const k = s.where || "both";
+    s.n = String(counts[k] = (counts[k] || 0) + 1).padStart(2, "0");
+  });
+
+  /* ---- online coaching -----------------------------------------------
+     One shared block, so all four designs get the same plans. Designs pass
+     their own button and heading classes; the rest is styled in base.css
+     through --oc-* variables. */
+
+  const O = P.online;
+  // A myPTHub product page if there's a number, otherwise the enquiry form.
+  const ocButton = (item, cls) => item.product
+    ? html`<a class="${cls}" href="${productUrl(item.product)}" target="_blank" rel="noopener">${item.cta} ↗</a>`
+    : html`<a class="${cls}" href="#contact" data-enquire="${item.name}">${item.cta}</a>`;
+
+  const online = ({ button = "btn", buttonAlt = button, title = "", head = true } = {}) => html`
+<div class="oc">
+  ${head ? html`<div class="oc-head reveal">
+    <p class="oc-kicker">${O.kicker}</p>
+    <h2 class="oc-title ${title}"><span>${O.heading[0]} <em>${O.heading[1]}</em></span></h2>
+    ${O.intro.map((p) => html`<p class="oc-intro">${p}</p>`)}
+  </div>` : ""}
+  <div class="oc-plans">
+    ${O.plans.map((p, i) => html`
+    <article class="oc-plan ${p.featured ? "oc-featured" : ""} reveal reveal-d${i}">
+      ${p.badge ? html`<span class="oc-badge">${p.badge}</span>` : ""}
+      <h3>${p.name}</h3>
+      <p class="oc-price"><b>${money(p.price)}</b>/${p.per}</p>
+      <p class="oc-blurb">${p.blurb}</p>
+      <ul role="list">${p.includes.map((x) => html`<li>${x}</li>`)}</ul>
+      ${ocButton(p, p.featured ? button : buttonAlt)}
+    </article>`)}
+  </div>
+  <p class="oc-note">${O.note}</p>
+  <div class="oc-extras reveal">
+    <div class="oc-extras-head"><h3>${O.oneOffs.heading}</h3><p>${O.oneOffs.blurb}</p></div>
+    ${O.oneOffs.items.map((x) => html`
+    <div class="oc-item">
+      <h4>${x.name}</h4>
+      <p class="oc-price"><b>${money(x.price)}</b> ${x.unit}</p>
+      <p>${x.blurb}</p>
+      ${ocButton(x, "oc-link")}
+    </div>`)}
+  </div>
+  <p class="oc-suits"><span>Suits</span>${O.suits.map((s) => html`<i>${s}</i>`)}</p>
+</div>`;
+
   /* ---- opening special -----------------------------------------------
      On between special.start and special.end (the visitor's local date).
      ?special=on / ?special=off in the address overrides that for previews.
@@ -114,6 +197,7 @@
     if (!specialOn || (!spForced && localStorage.getItem(key))) return;
     const card = document.createElement("aside");
     card.className = "sp-card";
+    card.dataset.loc = "in-person"; // the special is for in-person memberships
     card.setAttribute("aria-label", SP.title);
     card.innerHTML = out(html`<button class="sp-x" type="button" aria-label="Dismiss">×</button>
       <p class="sp-kicker">${SP.title} · ends ${spEnd}</p>
@@ -149,7 +233,9 @@
     ...(specialOn ? [spInterest] : []),
     "Free consult",
     ...M.plans.map((p) => `${p.name} membership (${p.perWeek}× weekly)`),
-    "10-session pack", "Casual session", "Evolt 360 scan", "Something else",
+    "10-session pack", "Casual session", "Evolt 360 scan",
+    ...O.plans.map((p) => p.name), ...O.oneOffs.items.map((p) => p.name),
+    "Something else",
   ];
   const planInterest = (p) => `${p.name} membership (${p.perWeek}× weekly)`;
 
@@ -380,8 +466,10 @@
   async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender, specialButton = "btn" }) {
     const root = $("#app");
     const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy };
-    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special }));
+    setLocation(where, { remember: false });
+    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online }));
     document.title = `${P.brand.name}`;
+    bindLocation();
     bindDurations();
     bindForm();
     specialCard(specialButton);

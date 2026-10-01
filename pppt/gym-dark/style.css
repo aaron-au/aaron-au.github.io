@@ -147,7 +147,8 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 .dur button:hover { color: #fff; }
 .dur button[aria-pressed="true"] { background: var(--red); color: #fff; }
 
-.plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+.plan-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+@media (max-width: 1180px) { .plan-grid { grid-template-columns: 1fr 1fr; gap: 28px 16px; } }
 .plan { background: var(--bg-2); border: 1px solid var(--line); padding: 34px 28px; display: flex; flex-direction: column; position: relative; transition: transform .25s, border-color .25s; }
 .plan:hover { transform: translateY(-6px); border-color: var(--red); }
 .plan-freq { font-weight: 800; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); }
@@ -184,6 +185,14 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 /* ---- opening special and myPTHub links ---------------------------------- */
 
 :root { --sp-bg: var(--bg-2); --sp-font: var(--display); }
+:root { --oc-bg: var(--bg-2); --oc-fg: var(--ink); --oc-muted: var(--muted); --oc-line: var(--line); --oc-font: var(--display); --oc-case: uppercase;
+  --oc-feature-bg: var(--red); --oc-feature-muted: rgba(255, 255, 255, .85); --oc-feature-line: rgba(255, 255, 255, .25); --oc-feature-check: #fff; }
+.oc-featured { box-shadow: 0 30px 80px -20px rgba(234, 52, 38, .55); }
+.oc-featured .oc-badge { background: #fff; color: #000; }
+.oc-title { margin-bottom: 22px; }
+.oc-plan h3 { letter-spacing: .03em; font-size: 34px; }
+.oc-price b { font-size: clamp(56px, 5.4vw, 80px); }
+.oc-suits i { color: #ddd; }
 .sp-head { text-transform: uppercase; letter-spacing: .02em; }
 @media (min-width: 701px) { .sp-card .sp-head { font-size: 30px; } }
 .sp-banner { border: 1px solid var(--line); border-left: 6px solid var(--red); }
