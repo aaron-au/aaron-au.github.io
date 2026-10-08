@@ -175,7 +175,7 @@ PPPT.boot({
   </div>
 </section>
 
-<section class="section alt" id="faq">
+<section class="section ${P.merch.show === false ? "" : "alt"}" id="faq">
   <div class="wrap faq">
     <div class="reveal"><p class="eyebrow">FAQ</p><h2>Common questions</h2></div>
     <div>${P.faq.map((f) => html`<details class="reveal"><summary>${f.q}</summary><p>${f.a}</p></details>`)}</div>

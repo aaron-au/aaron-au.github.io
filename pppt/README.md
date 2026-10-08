@@ -15,6 +15,8 @@ Plain HTML, CSS and JavaScript, no build step. The fonts are self-hosted OFL fil
 
 The site is about personal training, so there's no class timetable. Small group training is still listed as a service.
 
+The merch shop is switched off while Matt finds a new supplier. Setting `merch.show` to `true` in `content.js` brings back the section and its menu link in all four designs.
+
 ## Changing the words
 
 All text, prices, links and contact details live in `shared/content.js`. Every design renders from that one file, so an edit there shows up in all four. Anything in `[square brackets]` is a placeholder.
@@ -27,7 +29,9 @@ Every myPTHub product has a public page, for example https://pulseperformancept.
 - `payg.products.scan` and each merch item's `product` take a single number.
 - `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
 
-Only the 60-minute 10-pack has a real number so far, so the "Buy online" link appears there when 60 min is selected. When Matt adds or changes a product in myPTHub, update its number here. That should happen about once a year.
+All 12 weekly memberships and the three 10-packs have numbers. Casual sessions, the on-demand scan, the online plans and merch don't have products in myPTHub yet. When Matt adds or changes a product, update its number here. That should happen about once a year.
+
+myPTHub has no copy-link button. To find a product's number, open https://pulseperformancept.mypthub.net/p/ (it works logged out), click the package, and take the number from the address bar.
 
 Buying online sits alongside the enquiry form rather than replacing it. The main button on each plan still opens the form, and "Or sign up online" appears under it once that plan has product numbers.
 
@@ -127,4 +131,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261001b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261009b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
