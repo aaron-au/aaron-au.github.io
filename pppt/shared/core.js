@@ -469,6 +469,12 @@
     setLocation(where, { remember: false });
     root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online }));
     document.title = `${P.brand.name}`;
+    // Merch can be switched off in content.js; take out the section and
+    // every link to it.
+    if (P.merch.show === false) {
+      $("#shop")?.remove();
+      $$('a[href="#shop"]').forEach((a) => a.remove());
+    }
     bindLocation();
     bindDurations();
     bindForm();

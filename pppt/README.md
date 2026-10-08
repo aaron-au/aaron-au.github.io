@@ -15,6 +15,8 @@ Plain HTML, CSS and JavaScript, no build step. The fonts are self-hosted OFL fil
 
 The site is about personal training, so there's no class timetable. Small group training is still listed as a service.
 
+The merch shop is switched off while Matt finds a new supplier. Setting `merch.show` to `true` in `content.js` brings back the section and its menu link in all four designs.
+
 ## Changing the words
 
 All text, prices, links and contact details live in `shared/content.js`. Every design renders from that one file, so an edit there shows up in all four. Anything in `[square brackets]` is a placeholder.
@@ -129,4 +131,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261009a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261009b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

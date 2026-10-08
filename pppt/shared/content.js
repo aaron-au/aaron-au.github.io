@@ -266,6 +266,9 @@ window.PPPT = {
     heading: "Wear the pulse",
     blurb: "Training gear and supplements from the Pulse store.",
     shopLabel: "Visit the store",
+    // Off while Matt finds a new supplier. true brings back the shop
+    // section and its menu link in every design.
+    show: false,
     // Sold through myPTHub too. `product` is its page number; without one
     // the tile links to the store's home page.
     products: [

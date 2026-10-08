@@ -129,9 +129,9 @@ ${part("shop", "07", "Store", html`
   <a class="btn btn-line reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 `)}
 
-${part("faq", "08", "Questions", html`
+${part("faq", P.merch.show === false ? "07" : "08", "Questions", html`
   ${P.faq.map((f) => html`<details class="faq reveal"><summary>${f.q}</summary><p>${f.a}</p></details>`)}
-`, "alt")}
+`, P.merch.show === false ? "" : "alt")}
 
 <section class="visit" id="contact">
   <div class="visit-pulse">${pulse("loop")}</div>
