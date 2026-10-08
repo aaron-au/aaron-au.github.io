@@ -110,8 +110,9 @@ Put images in `gallery/` and they appear in every design. Nothing else needs edi
 - Files sort by name, so a number prefix sets the order: `01-squat-rack.jpg`, `02-class.jpg`.
 - The caption comes from the file name. `03-sled-push.jpg` shows as "Sled push".
 - A file whose name starts with `hero` (for example `hero-floor.jpg`) becomes the big background photo at the top of the page instead of going in the gallery.
-- The `.svg` files in there now are placeholders. Delete them once real photos arrive.
-- Resize photos to around 1600px on the long side before adding them. A phone photo straight off the camera is several megabytes.
+- Run new photos through `tools/grade-photos.py` before adding them (instructions at the top of the file). It resizes them for the web and gives them the same look as the rest: black and white with deep blacks, with reds such as the logo and punching bags kept in colour. The studio's lighting gives raw photos a blue cast that clashes with the dark designs, and this hides it. Use `--size 2400` for a hero photo.
+
+The photos in there now are 11 of Matt's 75, picked to avoid near-duplicates. `hero-pulse-hoodie.jpg` is `_MG_2250`, and the rest map to `_MG_2146`, `2267`, `2140`, `2430`, `2181`, `2162`, `2223`, `2400`, `2187` and `2320`, in gallery order. Other good ones if he wants to swap: `2152`, `2163` and `2189` (1:1 coaching), `2268` (Evolt), `2182` (hoodie logo) and `2429`–`2432` (small group).
 
 A static host can't list a folder, so the page finds the files itself. On GitHub Pages it asks the GitHub API for the contents of `pppt/gallery` (60 requests an hour per visitor, cached per tab). On the local dev server (`python3 -m http.server`) it reads the directory listing. If both fail, it falls back to a `gallery/manifest.json` holding an array of file names, if one exists.
 
@@ -131,4 +132,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261009b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261009c`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

@@ -68,7 +68,8 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
   background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(234, 52, 38, .22), transparent 70%), var(--bg);
 }
 .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
-.hero-bg.has-photo { filter: grayscale(1) contrast(1.1); }
+/* Photos are graded before upload (black and white, reds kept), so no filter here. */
+.hero-bg.has-photo { filter: none; }
 .hero-bg.has-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,.95) 20%, rgba(10,10,10,.55)), linear-gradient(0deg, var(--bg), transparent 40%); }
 .hero-inner { position: relative; width: 100%; }
 .hero-title { font-family: var(--display); font-weight: 400; text-transform: uppercase; margin: 14px 0 22px; }
@@ -204,7 +205,7 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 
 .gal { columns: 3 300px; column-gap: 14px; }
 .gal-item { display: block; width: 100%; margin: 0 0 14px; padding: 0; border: 0; background: var(--bg-2); position: relative; overflow: hidden; break-inside: avoid; }
-.gal-item img { width: 100%; transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; filter: grayscale(.4); }
+.gal-item img { width: 100%; transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
 .gal-item:hover img { transform: scale(1.05); filter: none; }
 .gal-item span { position: absolute; left: 0; bottom: 0; padding: 8px 14px; background: var(--red); color: #fff; font-weight: 800; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; transform: translateY(100%); transition: transform .3s; }
 .gal-item:hover span { transform: none; }
