@@ -180,6 +180,12 @@
   const spInterest = SP && `${SP.title} (${SP.percent}% off a membership)`;
   const discounted = (prices) => prices.map((p) => Math.round(p * (100 - SP.percent)) / 100);
 
+  // A plan's sign-up link: the 10%-off myPTHub product while the special
+  // runs, the full-price one otherwise.
+  const planBuy = (p) => specialOn && p.specialProducts
+    ? buy(p.specialProducts, `Or sign up online at ${SP.percent}% off`)
+    : buy(p.products, "Or sign up online");
+
   const special = {
     on: specialOn,
     banner: ({ button = "btn" } = {}) => specialOn ? html`<div class="sp-banner reveal">
@@ -465,7 +471,7 @@
 
   async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender, specialButton = "btn" }) {
     const root = $("#app");
-    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy };
+    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy, planBuy };
     setLocation(where, { remember: false });
     root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online }));
     document.title = `${P.brand.name}`;

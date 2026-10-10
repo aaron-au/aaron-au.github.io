@@ -96,7 +96,7 @@ PPPT.boot({
         <li>${m.includes}</li>
       </ul>
       <a class="btn ${p.featured ? "btn-white" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-      ${price.buy(p.products, "Or sign up online")}
+      ${price.planBuy(p)}
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.

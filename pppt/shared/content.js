@@ -135,13 +135,15 @@ window.PPPT = {
     signup: { label: "Sign up through myPTHub", href: "https://pulseperformancept.mypthub.net/p/" },
     /* `products` are myPTHub product page numbers, one per session length
        (see `store` below). null means there's no product for that length
-       yet, and the "buy online" link hides itself. Numbers taken from the
-       public packages page on 9 Oct 2026. */
+       yet, and the "buy online" link hides itself. `specialProducts` are
+       the "(10% Discount)" versions; the sign-up link uses them while the
+       opening special is on. Numbers taken from the public packages page
+       on 10 Oct 2026. */
     plans: [
-      { name: "Consistency", perWeek: 1, prices: [55, 80, 100], products: [239406, 239718, 239719], cta: "Start 1× weekly" },
-      { name: "Progress", perWeek: 2, prices: [105, 150, 190], products: [239418, 239717, 239720], cta: "Start 2× weekly", featured: true, badge: "Most popular" },
-      { name: "Transformation", perWeek: 3, prices: [150, 210, 270], products: [239419, 239716, 239721], cta: "Start 3× weekly" },
-      { name: "Performance", perWeek: 4, prices: [190, 260, 340], products: [239420, 239715, 239722], cta: "Start 4× weekly", value: true, badge: "Best value" },
+      { name: "Consistency", perWeek: 1, prices: [55, 80, 100], products: [239406, 239718, 239719], specialProducts: [239921, 239916, 239912], cta: "Start 1× weekly" },
+      { name: "Progress", perWeek: 2, prices: [105, 150, 190], products: [239418, 239717, 239720], specialProducts: [239920, 239915, 239911], cta: "Start 2× weekly", featured: true, badge: "Most popular" },
+      { name: "Transformation", perWeek: 3, prices: [150, 210, 270], products: [239419, 239716, 239721], specialProducts: [239919, 239914, 239910], cta: "Start 3× weekly" },
+      { name: "Performance", perWeek: 4, prices: [190, 260, 340], products: [239420, 239715, 239722], specialProducts: [239918, 239913, 239909], cta: "Start 4× weekly", value: true, badge: "Best value" },
     ],
     // Pay as you go: the secondary option, no commitment.
     payg: {
@@ -153,7 +155,7 @@ window.PPPT = {
       products: {
         casual: [null, null, null],
         pack: [238634, 238637, 239353],
-        scan: null,
+        scan: 239923,
       },
     },
   },
@@ -248,7 +250,7 @@ window.PPPT = {
      end date, e.g. "31 December". */
   special: {
     start: "2026-10-01",
-    end: "2026-12-31", // [Matt to set]
+    end: "2026-12-31", // the 10% products in myPTHub stop on 31 Dec too
     percent: 10,
     title: "Opening special",
     headline: "10% off your membership. For life.",
