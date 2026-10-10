@@ -29,7 +29,7 @@ Every myPTHub product has a public page, for example https://pulseperformancept.
 - `payg.products.scan` and each merch item's `product` take a single number.
 - `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
 
-All 12 weekly memberships and the three 10-packs have numbers. Casual sessions, the on-demand scan, the online plans and merch don't have products in myPTHub yet. When Matt adds or changes a product, update its number here. That should happen about once a year.
+The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three 10-packs and the Evolt scan all have numbers. Casual sessions, the online plans and merch don't have products in myPTHub yet. When Matt adds or changes a product, update its number here. That should happen about once a year.
 
 myPTHub has no copy-link button. To find a product's number, open https://pulseperformancept.mypthub.net/p/ (it works logged out), click the package, and take the number from the address bar.
 
@@ -37,7 +37,7 @@ Buying online sits alongside the enquiry form rather than replacing it. The main
 
 ## Opening special
 
-`special` in `content.js` is 10% off a weekly membership for as long as it runs. The discount ends if the membership is cancelled or paused for 3 months or more. It shows from `start` to `end` inclusive, going by the visitor's own date. The end date is a placeholder until Matt sets one.
+`special` in `content.js` is 10% off a weekly membership for as long as it runs. The discount ends if the membership is cancelled or paused for 3 months or more. It shows from `start` to `end` inclusive, going by the visitor's own date. It ends on 31 December, the same day the discounted products in myPTHub stop.
 
 While it's on:
 
@@ -47,7 +47,7 @@ While it's on:
 
 To preview it outside its dates, add `?special=on` to a page's address. `?special=off` hides it. The dates live in the page's JavaScript, so anyone determined can read them. That's fine for a promotion.
 
-Whoever handles the signup applies the discount in myPTHub. The website only advertises it.
+Matt set up a "(10% Discount)" product in myPTHub for every membership. While the special is on, each plan's "Or sign up online at 10% off" link goes to that product. After 31 December the link goes back to the full-price product, with no edit needed. If the special is extended or rerun, change `end` here and the end date in myPTHub together.
 
 A full-screen popup was the other option. I went with the corner card because it doesn't block the page, only shows once, and moves out of the way on its own.
 
@@ -132,4 +132,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261009c`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261010a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

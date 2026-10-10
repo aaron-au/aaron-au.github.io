@@ -86,7 +86,7 @@ PPPT.boot({
       ${special.plan(p)}
       <ul role="list"><li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li><li>${m.includes}</li></ul>
       <a class="btn ${p.featured ? "btn-black" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-      ${price.buy(p.products, "Or sign up online")}
+      ${price.planBuy(p)}
     </article>`)}
   </div>
   <div class="extras card reveal">

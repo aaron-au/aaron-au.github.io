@@ -90,7 +90,7 @@ ${part("memberships", "04", "Membership", html`
         <p>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</p>
       </div>
       <div><ul role="list"><li>${price.live(price.perSession(p))} a session</li><li>${price.live(price.saving(p), "save")}</li></ul>${special.plan(p)}</div>
-      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span><a href="#contact" data-enquire="${price.planInterest(p)}">${p.cta} →</a>${price.buy(p.products, "Or sign up online")}</div>
+      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span><a href="#contact" data-enquire="${price.planInterest(p)}">${p.cta} →</a>${price.planBuy(p)}</div>
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.

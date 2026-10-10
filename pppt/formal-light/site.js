@@ -128,7 +128,7 @@ PPPT.boot({
           <li>${m.includes}</li>
         </ul>
         <a class="btn ${p.featured ? "btn-red" : "btn-outline"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-        ${price.buy(p.products, "Or sign up online")}
+        ${price.planBuy(p)}
       </article>`)}
     </div>
     <p class="plans-note reveal">Savings are against a casual session of the same length. Already decided? <a class="link-arrow" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
