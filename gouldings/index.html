@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Goulding's Gardening: website designs</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="logo-olive.png">
+<link rel="stylesheet" href="shared/base.css?v=20261013a">
+<style>
+  body { background: #F4F2E6; color: #1F2614; min-height: 100vh; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 56px) 60px; }
+  header { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+  header img { width: 72px; }
+  h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  header p { color: #5F6652; margin-top: 6px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .card { display: block; text-decoration: none; background: #fff; border: 1px solid #DCD9C8; border-radius: 12px; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .card:hover { transform: translateY(-4px); border-color: var(--olive); box-shadow: 0 20px 50px -20px rgba(53, 71, 21, .4); }
+  /* Live preview: a 1440x900 page scaled into the card. */
+  .frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #ddd; }
+  .frame iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; }
+  .meta h2 { font-size: 17px; font-weight: 800; }
+  .meta p { font-size: 13px; color: #5F6652; margin-top: 2px; }
+  .meta span { flex: none; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--olive); }
+  footer { margin-top: 44px; color: #5F6652; font-size: 13px; max-width: 760px; line-height: 1.7; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="logo-olive.png" alt="Goulding's Gardening">
+  <div>
+    <h1>Goulding's Gardening: four website designs</h1>
+    <p>The same words and photos in four styles. Open one, scroll through it, and use the bar in the bottom-left corner to switch designs without losing your place.</p>
+  </div>
+</header>
+
+<main class="grid">
+  <a class="card" href="clean/"><div class="frame"><iframe src="clean/" loading="lazy" scrolling="no" tabindex="-1" title="Clean preview"></iframe></div>
+    <div class="meta"><div><h2>Clean</h2><p>Lots of white space, one typeface, the work up front.</p></div><span>Open →</span></div></a>
+  <a class="card" href="professional/"><div class="frame"><iframe src="professional/" loading="lazy" scrolling="no" tabindex="-1" title="Professional preview"></iframe></div>
+    <div class="meta"><div><h2>Professional</h2><p>Serif headings, a full-screen photo, projects you can browse.</p></div><span>Open →</span></div></a>
+  <a class="card" href="fun/"><div class="frame"><iframe src="fun/" loading="lazy" scrolling="no" tabindex="-1" title="Fun preview"></iframe></div>
+    <div class="meta"><div><h2>Fun</h2><p>Rounded and friendly, with sunshine yellow and tap-to-flip makeovers.</p></div><span>Open →</span></div></a>
+  <a class="card" href="bold/"><div class="frame"><iframe src="bold/" loading="lazy" scrolling="no" tabindex="-1" title="Bold preview"></iframe></div>
+    <div class="meta"><div><h2>Bold</h2><p>Huge type, solid blocks of colour, one job at a time.</p></div><span>Open →</span></div></a>
+</main>
+
+<footer>
+  Photos are from the Goulding's Gardening Facebook page. Phone number, hours and anything else in [square brackets] are placeholders.
+  The quote form is a demo and doesn't send anything.
+</footer>
+
+<script>
+  // Scale each 1440px-wide preview to fit its card.
+  const fit = () => document.querySelectorAll(".frame").forEach((f) => {
+    f.querySelector("iframe").style.transform = `scale(${f.clientWidth / 1440})`;
+  });
+  addEventListener("resize", fit);
+  fit();
+</script>
+</body>
+</html>

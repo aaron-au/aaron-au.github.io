@@ -1,0 +1,129 @@
+/* Shared by every Gouldings demo: fonts, reset, reveals, the before and
+   after comparison, the quote form skeleton, lightbox, demo switcher.
+   Each design layers its own style.css on top. */
+
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(fonts/inter-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 800; font-display: swap; src: url(fonts/inter-latin-800-normal.woff2) format("woff2"); }
+@font-face { font-family: "Fraunces"; font-weight: 400; font-display: swap; src: url(fonts/fraunces-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Fraunces"; font-weight: 600; font-display: swap; src: url(fonts/fraunces-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Fraunces"; font-weight: 400; font-style: italic; font-display: swap; src: url(fonts/fraunces-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Archivo Black"; font-display: swap; src: url(fonts/archivo-black-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 400; font-display: swap; src: url(fonts/bricolage-grotesque-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 600; font-display: swap; src: url(fonts/bricolage-grotesque-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 800; font-display: swap; src: url(fonts/bricolage-grotesque-latin-800-normal.woff2) format("woff2"); }
+
+:root {
+  /* Sampled from the logo. */
+  --olive: #354715;
+  --cream: #FFFDE8;
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3, h4, p, ul, ol, figure, blockquote, dl, dd { margin: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+button { font: inherit; cursor: pointer; }
+[hidden] { display: none !important; }
+section[id] { scroll-margin-top: 72px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Scroll reveal: core.js adds .in when an element enters the viewport. */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .08s; } .reveal-d2 { transition-delay: .16s; } .reveal-d3 { transition-delay: .24s; }
+
+/* ---- before and after slider ---------------------------------------------
+   Designs set --ba-line (handle colour), --ba-radius and tag styling. */
+
+.ba { position: relative; overflow: hidden; aspect-ratio: 1; background: #ddd; border-radius: var(--ba-radius, 0); user-select: none; touch-action: pan-y; }
+.ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ba-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--ba-line, #fff); pointer-events: none; }
+.ba-handle::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; translate: -50% -50%;
+  border-radius: 50%; background: var(--ba-line, #fff); box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
+  /* Two small chevrons, drawn rather than typed so they sit dead centre. */
+  background-image:
+    linear-gradient(135deg, transparent 45%, var(--ba-arrow, #222) 45% 55%, transparent 55%),
+    linear-gradient(45deg, transparent 45%, var(--ba-arrow, #222) 45% 55%, transparent 55%),
+    linear-gradient(45deg, transparent 45%, var(--ba-arrow, #222) 45% 55%, transparent 55%),
+    linear-gradient(135deg, transparent 45%, var(--ba-arrow, #222) 45% 55%, transparent 55%);
+  background-size: 7px 7px; background-repeat: no-repeat;
+  background-position: 9px 13px, 9px 20px, 24px 13px, 24px 20px;
+}
+.ba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; }
+.ba:has(.ba-range:focus-visible) { outline: 3px solid var(--ba-line, #fff); outline-offset: 3px; }
+.ba-tag { position: absolute; top: 12px; padding: 4px 10px; font: 600 12px/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: #fff; background: rgba(0, 0, 0, .55); border-radius: var(--ba-tag-radius, 3px); pointer-events: none; transition: opacity .2s; }
+.ba-tag-before { left: 12px; }
+.ba-tag-after { right: 12px; }
+
+/* ---- tap-to-flip card ---------------------------------------------------- */
+
+.flip-btn { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #ddd; aspect-ratio: 1; overflow: hidden; border-radius: inherit; }
+.flip-btn img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .45s ease; }
+.flip-after { opacity: 0; }
+.flip-btn[aria-pressed="true"] .flip-after { opacity: 1; }
+.flip-tag { position: absolute; left: 12px; top: 12px; }
+.flip-tag-after, .flip-btn[aria-pressed="true"] .flip-tag-before { display: none; }
+.flip-btn[aria-pressed="true"] .flip-tag-after { display: inline; }
+
+/* ---- quote form skeleton ------------------------------------------------- */
+
+.quote { display: grid; gap: 14px; }
+.quote .q-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.quote label { display: grid; gap: 6px; }
+.quote label span { font-size: 13px; font-weight: 600; }
+.quote input, .quote select, .quote textarea { font: inherit; font-size: 16px; width: 100%; padding: 12px 14px; }
+.quote textarea { resize: vertical; }
+.quote .q-note { font-size: 14px; }
+@media (max-width: 560px) { .quote .q-row { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .flip-btn img { transition: none; }
+}
+
+/* ---- lightbox ------------------------------------------------------------ */
+
+#gg-lightbox {
+  border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh;
+  width: 100vw; height: 100vh; color: #fff;
+}
+#gg-lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; }
+#gg-lightbox::backdrop { background: rgba(10, 14, 4, .92); }
+#gg-lightbox figure { grid-column: 2; display: grid; justify-items: center; gap: 12px; }
+#gg-lightbox img { max-height: 82vh; width: auto; object-fit: contain; }
+#gg-lightbox figcaption { font: 600 14px var(--sans); letter-spacing: .02em; opacity: .85; }
+#gg-lightbox button { background: none; border: 0; color: #fff; font-size: 44px; line-height: 1; padding: 12px; opacity: .7; }
+#gg-lightbox button:hover { opacity: 1; }
+#gg-lightbox .lb-close { position: fixed; top: 8px; right: 12px; }
+#gg-lightbox .lb-prev { grid-column: 1; }
+#gg-lightbox .lb-next { grid-column: 3; }
+
+/* ---- demo switcher ------------------------------------------------------- */
+
+#gg-switcher {
+  position: fixed; z-index: 100; left: 12px; bottom: 12px;
+  display: flex; align-items: center; gap: 2px; max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none;
+  padding: 4px; border-radius: 999px;
+  background: rgba(24, 30, 14, .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .3); border: 1px solid rgba(255, 255, 255, .12);
+  font: 600 11px/1 var(--sans); letter-spacing: .01em; white-space: nowrap;
+}
+#gg-switcher a { color: #ddd; text-decoration: none; padding: 7px 10px; border-radius: 999px; }
+#gg-switcher a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+#gg-switcher a[aria-current] { background: var(--cream); color: var(--olive); }
+#gg-switcher .sw-home { color: #aaa; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 10px; }
+#gg-switcher button { background: none; border: 0; color: #aaa; font-size: 18px; padding: 2px 10px 4px; }
+#gg-switcher button:hover { color: #fff; }
+@media (max-width: 560px) { #gg-switcher .sw-home { display: none; } }
