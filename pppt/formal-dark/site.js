@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-solid",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
     const nav = [["method", "Method"], ["services", "Services"], ["memberships", "Membership"], ["gallery", "Studio"], ["shop", "Store"], ["contact", "Visit"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -122,9 +122,10 @@ ${part("shop", "07", "Store", html`
   <p class="big reveal">${P.merch.blurb}</p>
   <div class="prods">
     ${P.merch.products.map((p, i) => html`
-    <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
-      <div><img src="${P.brand.logo}" alt=""></div><h3>${p.name}</h3><span>${p.price}</span>
-    </a>`)}
+    <article class="prod reveal reveal-d${i}">
+      <div class="prod-media">${shop.media(p)}</div><h3>${p.name}</h3><span>${p.price}</span>
+      ${shop.buy(p)}
+    </article>`)}
   </div>
   <a class="btn btn-line reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 `)}

@@ -167,6 +167,17 @@ html[data-location="in-person"] [data-loc="online"] { display: none !important; 
   .sp-banner { padding: 20px; }
 }
 
+/* Merch tiles: a photo (or the logo) and a row of size buttons, one per
+   myPTHub product. Designs set the media box's shape; these keep the photo
+   filling it and the buttons readable on any background. */
+.prod-media { position: relative; overflow: hidden; }
+.prod-photo { position: absolute; inset: 0; width: 100% !important; height: 100%; object-fit: cover; opacity: 1 !important; transform: none !important; }
+.sizes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+.sizes-label { font-size: 11px !important; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-right: 4px; }
+.size { min-width: 40px; padding: 7px 8px; text-align: center; font-size: 12px; font-weight: 700; line-height: 1; text-decoration: none; color: inherit; border: 1px solid currentColor; transition: background .15s, color .15s, border-color .15s; }
+.size:hover { background: var(--pulse-red); border-color: var(--pulse-red); color: #fff; }
+.size-buy { padding: 8px 12px; }
+
 /* myPTHub "buy online" links. Designs can restyle .buy. */
 .buy { display: inline-block; font-size: 13px; font-weight: 600; margin-top: 6px; }
 

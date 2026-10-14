@@ -171,7 +171,9 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
 .quote-list blockquote { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.35; max-width: 860px; }
 .quote-list figcaption { margin-top: 14px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
 
-.prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0 40px; }
+.prods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0 40px; }
+.prod .size { border-color: var(--line); font-weight: 400; letter-spacing: .08em; }
+.prod .size:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .prod { text-decoration: none; }
 .prod div { aspect-ratio: 4 / 5; background: var(--bg-2); display: grid; place-items: center; margin-bottom: 14px; transition: background .3s; }
 .prod:hover div { background: #1E1F23; }
@@ -233,13 +235,12 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
   .tier-price { grid-column: 1 / -1; text-align: left; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .tier-price > span { margin: 0 auto 0 0; }
   .tier.featured::before, .tier.value::before { left: -14px; }
-  .prods { grid-template-columns: 1fr 1fr; }
   .visit-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
   .hdr-cta { display: none; }
   .brand span { display: none; }
-  .method, .tier, .svc-body, .extras, .visit-grid, .cf-row { grid-template-columns: 1fr; }
+  .method, .tier, .svc-body, .extras, .visit-grid, .cf-row, .prods { grid-template-columns: 1fr; }
   .method li, .method li + li { padding: 22px 0; }
   .hero-kicker { white-space: normal; letter-spacing: .28em; }
   .strip-item { height: 52vh; }

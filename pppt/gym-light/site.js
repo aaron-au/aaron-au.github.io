@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
     const nav = [["services", "Training"], ["memberships", "Pricing"], ["gallery", "Photos"], ["shop", "Merch"], ["contact", "Contact"]];
     const m = P.memberships;
     const marquee = Array(8).fill(html`<span>${P.brand.tagline.join(" ✦ ")} ✦</span>`);
@@ -116,10 +116,11 @@ PPPT.boot({
   <h2 class="title reveal"><span>${P.merch.heading}</span></h2>
   <div class="prods">
     ${P.merch.products.map((p, i) => html`
-    <a class="prod card reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
-      <div class="prod-img"><img src="${P.brand.logo}" alt=""></div>
+    <article class="prod card reveal reveal-d${i}">
+      <div class="prod-img prod-media">${shop.media(p)}</div>
       <div class="prod-info"><h3>${p.name}</h3><b>${p.price}</b></div>
-    </a>`)}
+      <div class="prod-sizes">${shop.buy(p)}</div>
+    </article>`)}
   </div>
   <a class="btn btn-black btn-lg reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 </section>
