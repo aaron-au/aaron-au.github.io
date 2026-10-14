@@ -190,7 +190,7 @@ window.PPPT = {
           "General healthy eating guidance",
         ],
         cta: "Start online coaching",
-        product: null,
+        product: 240186,
       },
       {
         name: "Complete Online Coaching",
@@ -206,7 +206,7 @@ window.PPPT = {
           "Evolt scan data used where available",
         ],
         cta: "Start complete coaching",
-        product: null,
+        product: 240187,
       },
     ],
     note: "Monthly plans renew each month until you cancel. Messages are answered within business hours. Video calls are booked ahead, and unused calls don't carry over to the next month.",
@@ -266,18 +266,24 @@ window.PPPT = {
 
   merch: {
     heading: "Wear the pulse",
-    blurb: "Training gear and supplements from the Pulse store.",
+    blurb: "Pulse hoodies, tanks and caps, ordered through the Pulse store.",
     shopLabel: "Visit the store",
-    // Off while Matt finds a new supplier. true brings back the shop
-    // section and its menu link in every design.
-    show: false,
-    // Sold through myPTHub too. `product` is its page number; without one
-    // the tile links to the store's home page.
+    // false hides the shop section and its menu link in every design.
+    show: true,
+    /* Sold through myPTHub, which has one product per size. `sizes` pairs
+       each size with its product number; an item with no sizes uses
+       `product`. `image` is optional; without one the tile shows the logo.
+       Numbers taken from the public packages page on 14 Oct 2026. */
     products: [
-      { name: "Pulse Tee", price: "$45", tag: "Apparel", product: null },
-      { name: "Performance Hoodie", price: "$89", tag: "Apparel", product: null },
-      { name: "Pulse Shaker", price: "$20", tag: "Gear", product: null },
-      { name: "Training Cap", price: "$35", tag: "Apparel", product: null },
+      {
+        name: "Pulse Hoodie", price: "$70", tag: "Apparel", image: "../shared/merch/hoodie.jpg",
+        sizes: [["S", 240125], ["M", 240126], ["L", 240127], ["XL", 240128], ["2XL", 240129], ["3XL", 240131]],
+      },
+      {
+        name: "Pulse Tank Top", price: "$40", tag: "Apparel",
+        sizes: [["S", 240132], ["M", 240133], ["L", 240134], ["XL", 240136], ["2XL", 240137], ["3XL", 240138]],
+      },
+      { name: "Pulse Cap", price: "$30", tag: "Headwear", image: "../shared/merch/cap.jpg", product: 240139 },
     ],
   },
 

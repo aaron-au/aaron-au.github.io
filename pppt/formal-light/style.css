@@ -210,7 +210,9 @@ h3 { font-weight: 600; font-size: 18px; }
 
 .shop { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
 .shop .btn { margin-top: 28px; }
-.prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.prods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.prod .size { border-radius: 3px; border-color: var(--line); color: var(--ink); }
+.prod .size:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 .prod { text-decoration: none; }
 .prod div { aspect-ratio: 3 / 4; background: var(--paper); border-radius: 4px; display: grid; place-items: center; margin-bottom: 12px; border: 1px solid var(--line); transition: border-color .25s; }
 .prod:hover div { border-color: var(--ink); }
@@ -278,7 +280,7 @@ h3 { font-weight: 600; font-size: 18px; }
   .hdr-cta { display: none; }
   .svc-grid, .plans, .quotes, .details, .cf-row { grid-template-columns: 1fr; }
   .dur-wrap { flex-direction: column; gap: 8px; }
-  .prods { grid-template-columns: 1fr 1fr; }
+  .prods { grid-template-columns: 1fr; }
   .gal { grid-template-columns: 1fr 1fr; }
   .hero-visual { aspect-ratio: 1; }
 }

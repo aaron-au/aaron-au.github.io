@@ -5,7 +5,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, raw, pulse, price, contactForm, special, loc, online }) => {
+  render: (P, { html, raw, pulse, price, contactForm, special, loc, online, shop }) => {
     const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
     // "Train more. Save more. Get better results." split into its three lines.
     const tag = P.memberships.tagline.replace(/\.$/, "").split(". ");
@@ -126,10 +126,11 @@ PPPT.boot({
   </div>
   <div class="prod-grid">
     ${P.merch.products.map((p, i) => html`
-    <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
-      <div class="prod-img"><img src="${P.brand.logo}" alt=""><span>${p.tag}</span></div>
+    <article class="prod reveal reveal-d${i}">
+      <div class="prod-img prod-media">${shop.media(p)}<span>${p.tag}</span></div>
       <h3>${p.name}</h3><b>${p.price}</b>
-    </a>`)}
+      ${shop.buy(p)}
+    </article>`)}
   </div>
   <a class="btn btn-red btn-lg reveal" href="${P.store.home}" target="_blank" rel="noopener">${P.merch.shopLabel} ↗</a>
 </section>

@@ -80,6 +80,22 @@
     return raw(`<a class="${cls}" data-buy="${list.map((x) => x ?? "").join("|")}" href="${esc(productUrl(id))}" target="_blank" rel="noopener"${id ? "" : " hidden"}>${esc(label)} ↗</a>`);
   };
 
+  /* ---- merch ---------------------------------------------------------
+     myPTHub has one product per size, so a sized item gets a row of size
+     buttons, each linking to its own product page. Items without sizes get
+     a single "Buy online" button. media() is the item's photo, or the logo
+     when there isn't one. */
+
+  const shop = {
+    media: (p) => p.image
+      ? html`<img class="prod-photo" src="${p.image}" alt="${p.name}" loading="lazy">`
+      : html`<img src="${P.brand.logo}" alt="">`,
+    buy: (p) => p.sizes
+      ? html`<p class="sizes"><span class="sizes-label">Size</span>${p.sizes.map(([label, id]) =>
+          html`<a class="size" href="${productUrl(id)}" target="_blank" rel="noopener" aria-label="${p.name}, size ${label}">${label}</a>`)}</p>`
+      : html`<p class="sizes"><a class="size size-buy" href="${productUrl(p.product)}" target="_blank" rel="noopener">${S.buyLabel} ↗</a></p>`,
+  };
+
   /* ---- in person | online --------------------------------------------
      The choice lives on <html data-location>, and base.css hides anything
      marked data-loc for the other location. Designs mark elements with
@@ -473,7 +489,7 @@
     const root = $("#app");
     const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy, planBuy };
     setLocation(where, { remember: false });
-    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online }));
+    root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online, shop }));
     document.title = `${P.brand.name}`;
     // Merch can be switched off in content.js; take out the section and
     // every link to it.

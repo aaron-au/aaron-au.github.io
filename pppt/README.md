@@ -15,7 +15,11 @@ Plain HTML, CSS and JavaScript, no build step. The fonts are self-hosted OFL fil
 
 The site is about personal training, so there's no class timetable. Small group training is still listed as a service.
 
-The merch shop is switched off while Matt finds a new supplier. Setting `merch.show` to `true` in `content.js` brings back the section and its menu link in all four designs.
+The merch shop sells the hoodie, tank top and cap through myPTHub. Setting `merch.show` to `false` in `content.js` hides the section and its menu link in all four designs.
+
+myPTHub has one product per size, so a sized item lists each size with its own product number (`sizes`), and the tile shows a row of size buttons. An item with no sizes, like the cap, uses `product` and gets one "Buy online" button. `image` points at a photo in `shared/merch/`; leave it out and the tile shows the logo. The hoodie and cap photos are crops from Matt's shoot, graded like the gallery. There's no photo of the Pulse tank top yet, so it shows the logo.
+
+`shared/logo.png` is a 400 px version of Matt's high-resolution logo, padded to a square and reduced to a 256-colour palette (17 KB). `shared/logo-full.png` is the full-size original, for anything that needs more.
 
 ## Changing the words
 
@@ -29,7 +33,9 @@ Every myPTHub product has a public page, for example https://pulseperformancept.
 - `payg.products.scan` and each merch item's `product` take a single number.
 - `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
 
-The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three 10-packs and the Evolt scan all have numbers. Casual sessions, the online plans and merch don't have products in myPTHub yet. When Matt adds or changes a product, update its number here. That should happen about once a year.
+The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three 10-packs, the Evolt scan, both online plans and every merch size have numbers. Casual sessions, the $119 program and the $55 online consultation don't have products in myPTHub yet, so those still go to the enquiry form.
+
+The quickest way to read every product number is the page's own data: https://pulseperformancept.mypthub.net/p/ loads it from `api.mypthub.net/v4/trainers/172594/packages`. Each package there has its `id` (the product number), title, price in cents, billing interval and `available_until` date. When Matt adds or changes a product, update its number here. That should happen about once a year.
 
 myPTHub has no copy-link button. To find a product's number, open https://pulseperformancept.mypthub.net/p/ (it works logged out), click the package, and take the number from the address bar.
 
@@ -132,4 +138,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261010a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261014a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

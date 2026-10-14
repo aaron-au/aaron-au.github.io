@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
     const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["gallery", "Studio"], ["shop", "Shop"], ["contact", "Contact"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -168,9 +168,10 @@ PPPT.boot({
     </div>
     <div class="prods">
       ${P.merch.products.map((p, i) => html`
-      <a class="prod reveal reveal-d${i}" href="${P.productUrl(p.product)}" target="_blank" rel="noopener">
-        <div><img src="${P.brand.logo}" alt=""></div><h3>${p.name}</h3><span>${p.price}</span>
-      </a>`)}
+      <article class="prod reveal reveal-d${i}">
+        <div class="prod-media">${shop.media(p)}</div><h3>${p.name}</h3><span>${p.price}</span>
+        ${shop.buy(p)}
+      </article>`)}
     </div>
   </div>
 </section>
