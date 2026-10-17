@@ -85,8 +85,8 @@ PPPT.boot({
       <p class="plan-save">${price.live(price.saving(p), "save")}</p>
       ${special.plan(p)}
       <ul role="list"><li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li><li>${m.includes}</li></ul>
-      <a class="btn ${p.featured ? "btn-black" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-      ${price.planBuy(p)}
+      ${price.planCta(p, `btn ${p.featured ? "btn-black" : "btn-red"}`)}
+      ${price.planAsk(p)}
     </article>`)}
   </div>
   <div class="extras card reveal">
@@ -136,7 +136,7 @@ PPPT.boot({
   <div class="contact-form card reveal">${contactForm({ button: "btn btn-black btn-lg" })}</div>
   <div class="info">
     <div class="card reveal"><h3>Where</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
-    <div class="card reveal reveal-d1"><h3>Call</h3><p>${P.contact.phone}</p></div>
+    <div class="card reveal reveal-d1"><h3>Call</h3><p>${P.contact.owner}</p><p><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></p></div>
     <div class="card reveal reveal-d2"><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p><b>${d}</b> ${h}</p>`)}</div>
     <div class="card reveal reveal-d3"><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
   </div>

@@ -90,7 +90,7 @@ ${part("memberships", "04", "Membership", html`
         <p>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</p>
       </div>
       <div><ul role="list"><li>${price.live(price.perSession(p))} a session</li><li>${price.live(price.saving(p), "save")}</li></ul>${special.plan(p)}</div>
-      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span><a href="#contact" data-enquire="${price.planInterest(p)}">${p.cta} →</a>${price.planBuy(p)}</div>
+      <div class="tier-price"><b>${price.live(p.prices)}</b><span>per week</span>${price.planCta(p, "tier-cta")}${price.planAsk(p)}</div>
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.
@@ -143,7 +143,7 @@ ${part("faq", P.merch.show === false ? "07" : "08", "Questions", html`
     <div class="visit-form reveal">${contactForm({ button: "btn btn-solid" })}</div>
     <div class="visit-grid reveal">
       <div><h3>Address</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
-      <div><h3>Phone</h3><p>${P.contact.phone}</p></div>
+      <div><h3>Phone</h3><p>${P.contact.owner}</p><p><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></p></div>
       <div><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p>${d} <span>${h}</span></p>`)}</div>
       <div><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
     </div>

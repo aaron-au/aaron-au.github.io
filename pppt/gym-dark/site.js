@@ -95,8 +95,8 @@ PPPT.boot({
         <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
         <li>${m.includes}</li>
       </ul>
-      <a class="btn ${p.featured ? "btn-white" : "btn-red"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-      ${price.planBuy(p)}
+      ${price.planCta(p, `btn ${p.featured ? "btn-white" : "btn-red"}`)}
+      ${price.planAsk(p)}
     </article>`)}
   </div>
   <p class="fine">${m.note} Savings are against a casual session of the same length.
@@ -147,7 +147,7 @@ PPPT.boot({
   <div class="contact-form reveal">${contactForm({ button: "btn btn-red btn-lg" })}</div>
   <div class="contact-grid reveal">
     <div><h3>Find us</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
-    <div><h3>Call</h3><p>${P.contact.phone}</p></div>
+    <div><h3>Call</h3><p>${P.contact.owner}</p><p><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></p></div>
     <div><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p><span>${d}</span> ${h}</p>`)}</div>
     <div><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
   </div>
