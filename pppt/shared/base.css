@@ -171,6 +171,7 @@ html[data-location="in-person"] [data-loc="online"] { display: none !important; 
    myPTHub product. Designs set the media box's shape; these keep the photo
    filling it and the buttons readable on any background. */
 .prod-media { position: relative; overflow: hidden; }
+.prod-full { position: absolute; inset: 0; display: block; cursor: zoom-in; }
 .prod-photo { position: absolute; inset: 0; width: 100% !important; height: 100%; object-fit: cover; opacity: 1 !important; transform: none !important; }
 .sizes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
 .sizes-label { font-size: 11px !important; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-right: 4px; }

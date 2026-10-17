@@ -49,7 +49,7 @@ window.PPPT = {
       "Every member starts with an Evolt 360 body scan. We use it to set honest targets, build a program around them, and check back every 12 weeks, so progress is something we can show you rather than something we hope for.",
     ],
     coach: {
-      name: "[Coach name]",
+      name: "Matt D'Angelo",
       role: "Founder & head coach",
       bio: "[A few lines about the coach: qualifications, years coaching, what they love to train and why they started Pulse.]",
       credentials: ["Cert IV in Fitness", "[Accreditation]", "[Speciality]"],
@@ -276,14 +276,14 @@ window.PPPT = {
        Numbers taken from the public packages page on 14 Oct 2026. */
     products: [
       {
-        name: "Pulse Hoodie", price: "$70", tag: "Apparel", image: "../shared/merch/hoodie.jpg",
+        name: "Pulse Hoodie", price: "$70", tag: "Apparel", image: "../shared/merch/hoodie.jpg", full: "../shared/merch/hoodie-full.jpg",
         sizes: [["S", 240125], ["M", 240126], ["L", 240127], ["XL", 240128], ["2XL", 240129], ["3XL", 240131]],
       },
       {
-        name: "Pulse Tank Top", price: "$40", tag: "Apparel",
+        name: "Pulse Tank Top", price: "$40", tag: "Apparel", image: "../shared/merch/tank.jpg", full: "../shared/merch/tank-full.jpg",
         sizes: [["S", 240132], ["M", 240133], ["L", 240134], ["XL", 240136], ["2XL", 240137], ["3XL", 240138]],
       },
-      { name: "Pulse Cap", price: "$30", tag: "Headwear", image: "../shared/merch/cap.jpg", product: 240139 },
+      { name: "Pulse Cap", price: "$30", tag: "Headwear", image: "../shared/merch/cap.jpg", full: "../shared/merch/cap-full.jpg", product: 240139 },
     ],
   },
 
@@ -306,22 +306,19 @@ window.PPPT = {
       action: "/api/enquiry",
       // The Worker is routed on the custom domain only, not *.pages.dev.
       liveHosts: ["pulseperformancept.com.au"],
-      turnstileSiteKey: "", // [Cloudflare Turnstile site key; public, safe to commit]
+      turnstileSiteKey: "0x4AAAAAAFKIIPskZSmbfcel", // public; same widget as the coming-soon page
       submit: "Send enquiry",
       sent: "Thanks. We'll be in touch soon.",
       failed: "That didn't send. Please try again, or message us on Instagram.",
       demo: "Demo only: this form isn't connected yet, so nothing was sent.",
     },
-    address: ["[Street address]", "[Suburb STATE 0000]"],
-    phone: "[0400 000 000]",
-    hours: [
-      ["Mon–Fri", "5:00am – 8:00pm"],
-      ["Sat", "6:30am – 12:00pm"],
-      ["Sun", "Member access only"],
-    ],
+    address: ["7 Percy St", "Heidelberg West VIC 3081"],
+    phone: "+61 418 557 213",
+    owner: "Matt D'Angelo",
+    // No opening hours: every session is a booked time slot.
+    sessions: ["By appointment only.", "Every session is a booked time slot."],
     social: [
-      { label: "Instagram", href: "#" },
-      { label: "Facebook", href: "#" },
+      { label: "Instagram", href: "https://www.instagram.com/pulseperformance_pt/" },
     ],
   },
 

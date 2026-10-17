@@ -127,8 +127,8 @@ PPPT.boot({
           <li>${p.perWeek} × ${price.durLabel()} session${p.perWeek > 1 ? "s" : ""} a week</li>
           <li>${m.includes}</li>
         </ul>
-        <a class="btn ${p.featured ? "btn-red" : "btn-outline"}" href="#contact" data-enquire="${price.planInterest(p)}">${p.cta}</a>
-        ${price.planBuy(p)}
+        ${price.planCta(p, `btn ${p.featured ? "btn-red" : "btn-outline"}`)}
+        ${price.planAsk(p)}
       </article>`)}
     </div>
     <p class="plans-note reveal">Savings are against a casual session of the same length. Already decided? <a class="link-arrow" href="${m.signup.href}" target="_blank" rel="noopener">${m.signup.label} ↗</a></p>
@@ -193,8 +193,8 @@ PPPT.boot({
     </div>
     <dl class="details reveal">
       <div><dt>Address</dt>${P.contact.address.map((l) => html`<dd>${l}</dd>`)}</div>
-      <div><dt>Phone</dt><dd>${P.contact.phone}</dd></div>
-      <div><dt>Opening hours</dt>${P.contact.hours.map(([d, h]) => html`<dd><span>${d}</span>${h}</dd>`)}</div>
+      <div><dt>Phone</dt><dd>${P.contact.owner}</dd><dd><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></dd></div>
+      <div><dt>Sessions</dt>${P.contact.sessions.map((l) => html`<dd>${l}</dd>`)}</div>
       <div><dt>Social</dt>${P.contact.social.map((s) => html`<dd><a href="${s.href}">${s.label}</a></dd>`)}</div>
     </dl>
   </div>

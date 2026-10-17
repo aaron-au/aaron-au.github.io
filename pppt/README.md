@@ -17,7 +17,7 @@ The site is about personal training, so there's no class timetable. Small group 
 
 The merch shop sells the hoodie, tank top and cap through myPTHub. Setting `merch.show` to `false` in `content.js` hides the section and its menu link in all four designs.
 
-myPTHub has one product per size, so a sized item lists each size with its own product number (`sizes`), and the tile shows a row of size buttons. An item with no sizes, like the cap, uses `product` and gets one "Buy online" button. `image` points at a photo in `shared/merch/`; leave it out and the tile shows the logo. The hoodie and cap photos are crops from Matt's shoot, graded like the gallery. There's no photo of the Pulse tank top yet, so it shows the logo.
+myPTHub has one product per size, so a sized item lists each size with its own product number (`sizes`), and the tile shows a row of size buttons. An item with no sizes, like the cap, uses `product` and gets one "Buy online" button. `image` points at a photo in `shared/merch/`; leave it out and the tile shows the logo. The three tile photos are crops of Matt's product graphics. `full` points at the whole graphic (sizes, features), which opens in a new tab when someone clicks the photo.
 
 `shared/logo.png` is a 400 px version of Matt's high-resolution logo, padded to a square and reduced to a 256-colour palette (17 KB). `shared/logo-full.png` is the full-size original, for anything that needs more.
 
@@ -39,7 +39,7 @@ The quickest way to read every product number is the page's own data: https://pu
 
 myPTHub has no copy-link button. To find a product's number, open https://pulseperformancept.mypthub.net/p/ (it works logged out), click the package, and take the number from the address bar.
 
-Buying online sits alongside the enquiry form rather than replacing it. The main button on each plan still opens the form, and "Or sign up online" appears under it once that plan has product numbers.
+Each plan's main "Start X× weekly" button goes straight to its myPTHub product for the selected session length, at Matt's request. The small "Questions first? Book a free consult" link under it opens the enquiry form with that plan filled in.
 
 ## Opening special
 
@@ -53,7 +53,7 @@ While it's on:
 
 To preview it outside its dates, add `?special=on` to a page's address. `?special=off` hides it. The dates live in the page's JavaScript, so anyone determined can read them. That's fine for a promotion.
 
-Matt set up a "(10% Discount)" product in myPTHub for every membership. While the special is on, each plan's "Or sign up online at 10% off" link goes to that product. After 31 December the link goes back to the full-price product, with no edit needed. If the special is extended or rerun, change `end` here and the end date in myPTHub together.
+Matt set up a "(10% Discount)" product in myPTHub for every membership. While the special is on, each plan's "Start X× weekly" button goes to that product. After 31 December the button goes back to the full-price product, with no edit needed. If the special is extended or rerun, change `end` here and the end date in myPTHub together.
 
 A full-screen popup was the other option. I went with the corner card because it doesn't block the page, only shows once, and moves out of the way on its own.
 
@@ -138,4 +138,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261014a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261017b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.

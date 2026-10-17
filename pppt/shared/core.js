@@ -87,9 +87,10 @@
      when there isn't one. */
 
   const shop = {
-    media: (p) => p.image
-      ? html`<img class="prod-photo" src="${p.image}" alt="${p.name}" loading="lazy">`
-      : html`<img src="${P.brand.logo}" alt="">`,
+    // With `full`, the photo opens Matt's full product graphic in a new tab.
+    media: (p) => !p.image ? html`<img src="${P.brand.logo}" alt="">`
+      : p.full ? html`<a class="prod-full" href="${p.full}" target="_blank" rel="noopener" aria-label="${p.name}: product details"><img class="prod-photo" src="${p.image}" alt="${p.name}" loading="lazy"></a>`
+      : html`<img class="prod-photo" src="${p.image}" alt="${p.name}" loading="lazy">`,
     buy: (p) => p.sizes
       ? html`<p class="sizes"><span class="sizes-label">Size</span>${p.sizes.map(([label, id]) =>
           html`<a class="size" href="${productUrl(id)}" target="_blank" rel="noopener" aria-label="${p.name}, size ${label}">${label}</a>`)}</p>`
@@ -196,11 +197,12 @@
   const spInterest = SP && `${SP.title} (${SP.percent}% off a membership)`;
   const discounted = (prices) => prices.map((p) => Math.round(p * (100 - SP.percent)) / 100);
 
-  // A plan's sign-up link: the 10%-off myPTHub product while the special
-  // runs, the full-price one otherwise.
-  const planBuy = (p) => specialOn && p.specialProducts
-    ? buy(p.specialProducts, `Or sign up online at ${SP.percent}% off`)
-    : buy(p.products, "Or sign up online");
+  // A plan's main button goes straight to myPTHub: the 10%-off product while
+  // the special runs, the full-price one otherwise. It follows the 30/45/60
+  // toggle like every other buy link.
+  const planCta = (p, cls) => buy(specialOn && p.specialProducts ? p.specialProducts : p.products, p.cta, cls);
+  // The small link under it keeps the enquiry form one click away.
+  const planAsk = (p) => html`<a class="buy" href="#contact" data-enquire="${planInterest(p)}">Questions first? Book a free consult</a>`;
 
   const special = {
     on: specialOn,
@@ -487,7 +489,7 @@
 
   async function boot({ variant, render, galleryItem, galleryEmpty, onGallery, afterRender, specialButton = "btn" }) {
     const root = $("#app");
-    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy, planBuy };
+    const price = { money, live, perSession, saving, packEach, durLabel, durationToggle, planInterest, buy, planCta, planAsk };
     setLocation(where, { remember: false });
     root.innerHTML = out(render(P, { html, raw, esc, pulse, price, contactForm, special, loc, online, shop }));
     document.title = `${P.brand.name}`;
