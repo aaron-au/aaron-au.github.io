@@ -137,7 +137,7 @@ PPPT.boot({
   <div class="info">
     <div class="card reveal"><h3>Where</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
     <div class="card reveal reveal-d1"><h3>Call</h3><p>${P.contact.owner}</p><p><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></p></div>
-    <div class="card reveal reveal-d2"><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p><b>${d}</b> ${h}</p>`)}</div>
+    <div class="card reveal reveal-d2"><h3>Sessions</h3>${P.contact.sessions.map((l) => html`<p>${l}</p>`)}</div>
     <div class="card reveal reveal-d3"><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
   </div>
 </section>

@@ -315,14 +315,10 @@ window.PPPT = {
     address: ["7 Percy St", "Heidelberg West VIC 3081"],
     phone: "+61 418 557 213",
     owner: "Matt D'Angelo",
-    hours: [
-      ["Mon–Fri", "5:00am – 8:00pm"],
-      ["Sat", "6:30am – 12:00pm"],
-      ["Sun", "Member access only"],
-    ],
+    // No opening hours: every session is a booked time slot.
+    sessions: ["By appointment only.", "Every session is a booked time slot."],
     social: [
-      { label: "Instagram", href: "#" },
-      { label: "Facebook", href: "#" },
+      { label: "Instagram", href: "https://www.instagram.com/pulseperformance_pt/" },
     ],
   },
 

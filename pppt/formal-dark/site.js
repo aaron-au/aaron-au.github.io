@@ -144,7 +144,7 @@ ${part("faq", P.merch.show === false ? "07" : "08", "Questions", html`
     <div class="visit-grid reveal">
       <div><h3>Address</h3>${P.contact.address.map((l) => html`<p>${l}</p>`)}</div>
       <div><h3>Phone</h3><p>${P.contact.owner}</p><p><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></p></div>
-      <div><h3>Hours</h3>${P.contact.hours.map(([d, h]) => html`<p>${d} <span>${h}</span></p>`)}</div>
+      <div><h3>Sessions</h3>${P.contact.sessions.map((l) => html`<p>${l}</p>`)}</div>
       <div><h3>Follow</h3>${P.contact.social.map((s) => html`<p><a href="${s.href}">${s.label}</a></p>`)}</div>
     </div>
   </div>

@@ -194,7 +194,7 @@ PPPT.boot({
     <dl class="details reveal">
       <div><dt>Address</dt>${P.contact.address.map((l) => html`<dd>${l}</dd>`)}</div>
       <div><dt>Phone</dt><dd>${P.contact.owner}</dd><dd><a href="tel:${P.contact.phone.replace(/\s/g, "")}">${P.contact.phone}</a></dd></div>
-      <div><dt>Opening hours</dt>${P.contact.hours.map(([d, h]) => html`<dd><span>${d}</span>${h}</dd>`)}</div>
+      <div><dt>Sessions</dt>${P.contact.sessions.map((l) => html`<dd>${l}</dd>`)}</div>
       <div><dt>Social</dt>${P.contact.social.map((s) => html`<dd><a href="${s.href}">${s.label}</a></dd>`)}</div>
     </dl>
   </div>

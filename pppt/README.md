@@ -138,4 +138,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261017a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261017b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
