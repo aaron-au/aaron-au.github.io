@@ -96,8 +96,8 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
 .svc-sample { display: inline-block; margin-top: 16px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--red); padding-bottom: 3px; }
 .svc-body li { padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 
-.coach { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(30px, 5vw, 70px); align-items: end; }
-.coach-photo { aspect-ratio: 3 / 4; background: linear-gradient(170deg, #26272B, #1A1B1E); position: relative; }
+.coach { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(30px, 5vw, 70px); align-items: start; }
+.coach-photo { aspect-ratio: 3 / 4; background: radial-gradient(circle at 50% 40%, #4A4B50, #26272B 45%, #1A1B1E 80%); position: relative; }
 .coach-photo span { position: absolute; left: 16px; bottom: 14px; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
 .role { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--red); }
 .coach .timeline { --tl-line: var(--line); --tl-text: var(--body); }

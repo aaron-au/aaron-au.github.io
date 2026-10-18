@@ -23,7 +23,7 @@ myPTHub has one product per size, so a sized item lists each size with its own p
 
 ## Changing the words
 
-Matt's bio is `about.coach` in `content.js`: a short intro, three highlights (`credentials`) and a career `timeline`, taken from his own write-up. Every design shows it in a coach section with his portrait, `shared/coach.jpg` (a graded crop of `_MG_2461`).
+Matt's bio is `about.coach` in `content.js`: a short intro, three highlights (`credentials`) and a career `timeline`, taken from his own write-up. Every design shows it in a coach section with his portrait, `shared/coach.webp`. It's Matt's studio portrait cut out of its white background, so each design puts its own backdrop behind it.
 
 All text, prices, links and contact details live in `shared/content.js`. Every design renders from that one file, so an edit there shows up in all four. Anything in `[square brackets]` is a placeholder.
 
@@ -140,4 +140,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261018a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261018b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
