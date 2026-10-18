@@ -5,8 +5,8 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, raw, pulse, price, contactForm, special, loc, online, shop }) => {
-    const nav = [["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
+  render: (P, { html, raw, pulse, price, contactForm, special, loc, online, shop, coach }) => {
+    const nav = [["coach", "Coach"], ["services", "Train"], ["memberships", "Pricing"], ["gallery", "Gallery"], ["shop", "Shop"], ["contact", "Contact"]];
     // "Train more. Save more. Get better results." split into its three lines.
     const tag = P.memberships.tagline.replace(/\.$/, "").split(". ");
     const ticker = Array(6).fill(P.brand.tagline.map((t) => html`<span>${t}</span><i>✚</i>`));
@@ -52,6 +52,17 @@ PPPT.boot({
   </div>
   <div class="process">
     ${P.process.map((s, i) => html`<div class="step reveal reveal-d${i}"><span class="step-n">0${i + 1}</span><h3>${s.step}</h3><p>${s.text}</p></div>`)}
+  </div>
+</section>
+
+<section class="coach" id="coach">
+  <div class="coach-photo reveal">${coach.photo(P.about.coach)}</div>
+  <div class="coach-text reveal">
+    <p class="eyebrow">${P.about.coach.role}</p>
+    <h2 class="display">${P.about.coach.name.split(" ")[0]} <em>${P.about.coach.name.split(" ").slice(1).join(" ")}</em></h2>
+    <p class="coach-bio">${P.about.coach.bio}</p>
+    <ul class="creds" role="list">${P.about.coach.credentials.map((x) => html`<li>${x}</li>`)}</ul>
+    ${coach.timeline(P.about.coach)}
   </div>
 </section>
 

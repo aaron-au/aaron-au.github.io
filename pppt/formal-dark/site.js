@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-solid",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop, coach }) => {
     const nav = [["method", "Method"], ["services", "Services"], ["memberships", "Membership"], ["gallery", "Studio"], ["shop", "Store"], ["contact", "Visit"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -65,12 +65,13 @@ ${part("services", "02", "Services", html`
 
 ${part("coach", "03", "Coach", html`
   <div class="coach">
-    <div class="coach-photo reveal"><span>Portrait</span></div>
+    <div class="coach-photo reveal">${coach.photo(c)}</div>
     <div class="reveal">
       <p class="role">${c.role}</p>
       <h3 class="coach-name">${c.name}</h3>
       <p class="body">${c.bio}</p>
       <p class="creds">${c.credentials.join("  /  ")}</p>
+      ${coach.timeline(c)}
     </div>
   </div>
 `)}

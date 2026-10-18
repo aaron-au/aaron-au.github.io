@@ -100,6 +100,8 @@ body { background: var(--bg); color: var(--ink); font-size: 16px; font-weight: 4
 .coach-photo { aspect-ratio: 3 / 4; background: linear-gradient(170deg, #26272B, #1A1B1E); position: relative; }
 .coach-photo span { position: absolute; left: 16px; bottom: 14px; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
 .role { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--red); }
+.coach .timeline { --tl-line: var(--line); --tl-text: var(--body); }
+.coach .timeline b { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .coach-name { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4vw, 56px); margin: 10px 0 18px; }
 .creds { margin-top: 24px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: pre-wrap; }
 
