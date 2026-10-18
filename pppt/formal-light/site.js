@@ -6,7 +6,7 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop, coach }) => {
     const nav = [["services", "Services"], ["approach", "Approach"], ["memberships", "Memberships"], ["gallery", "Studio"], ["shop", "Shop"], ["contact", "Contact"]];
     const m = P.memberships;
     const c = P.about.coach;
@@ -96,12 +96,13 @@ PPPT.boot({
 
 <section class="section" id="coach">
   <div class="wrap coach">
-    <div class="coach-photo reveal"><img src="${P.brand.logo}" alt=""><span>Coach portrait</span></div>
+    <div class="coach-photo reveal">${coach.photo(c)}</div>
     <div class="reveal">
       <p class="eyebrow">${c.role}</p>
       <h2>${c.name}</h2>
       <p class="body">${c.bio}</p>
       <ul class="creds" role="list">${c.credentials.map((x) => html`<li>${x}</li>`)}</ul>
+      ${coach.timeline(c)}
     </div>
   </div>
 </section>

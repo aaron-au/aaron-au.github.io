@@ -51,8 +51,18 @@ window.PPPT = {
     coach: {
       name: "Matt D'Angelo",
       role: "Founder & head coach",
-      bio: "[A few lines about the coach: qualifications, years coaching, what they love to train and why they started Pulse.]",
-      credentials: ["Cert IV in Fitness", "[Accreditation]", "[Speciality]"],
+      photo: "../shared/coach.jpg",
+      // From Matt's own write-up, Oct 2026.
+      bio: "I've been coaching since 2005, as a gym instructor, personal trainer, studio owner, gym manager and football strength and conditioning coach. Pulse Performance PT brings more than 20 years of that experience together, with one goal: helping people reach their health and fitness goals.",
+      credentials: ["20+ years coaching", "PT studio owner since 2011", "Football strength & conditioning"],
+      timeline: [
+        ["2005", "Started as a gym instructor and personal trainer at Veneto Club Gym, with part-time roles at YMCA Macleod and Diamond Valley Leisure Centre."],
+        ["2008", "Set up my first personal training business, Super Health & Fitness, building my own client base."],
+        ["2011", "Opened Super Health Fitness PT Studio, my own dedicated training facility."],
+        ["2015", "Moved into gym management and personal training at Bodyworx Gym."],
+        ["Football", "Strength and conditioning coach for Old Paradians Football Club and Old Yarra Cobras."],
+        ["2026", "Founded Pulse Performance PT."],
+      ],
     },
   },
 
@@ -220,7 +230,7 @@ window.PPPT = {
           unit: "one-off",
           blurb: "A program built for your goals, equipment and schedule, delivered in the My PT Hub app with a 30-minute walkthrough call. No ongoing coaching.",
           cta: "Get your program",
-          product: null,
+          product: 240417,
         },
         {
           name: "Online Consultation",
@@ -228,7 +238,7 @@ window.PPPT = {
           unit: "30 minutes",
           blurb: "One video call for technique, a program review, training advice, goal setting or a progress check.",
           cta: "Book a consultation",
-          product: null,
+          product: 240418,
         },
       ],
     },

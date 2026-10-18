@@ -6,8 +6,8 @@ PPPT.boot({
 
   specialButton: "btn btn-red",
 
-  render: (P, { html, pulse, price, contactForm, special, loc, online, shop }) => {
-    const nav = [["services", "Training"], ["memberships", "Pricing"], ["gallery", "Photos"], ["shop", "Merch"], ["contact", "Contact"]];
+  render: (P, { html, pulse, price, contactForm, special, loc, online, shop, coach }) => {
+    const nav = [["coach", "Coach"], ["services", "Training"], ["memberships", "Pricing"], ["gallery", "Photos"], ["shop", "Merch"], ["contact", "Contact"]];
     const m = P.memberships;
     const marquee = Array(8).fill(html`<span>${P.brand.tagline.join(" ✦ ")} ✦</span>`);
     const words = P.hero.headlineGym.replace(/\.$/, "").split(" ");
@@ -65,6 +65,20 @@ PPPT.boot({
   <ol class="steps" role="list">
     ${P.process.map((s, i) => html`<li class="card reveal reveal-d${i}"><b>${i + 1}</b><h3>${s.step}</h3><p>${s.text}</p></li>`)}
   </ol>
+</section>
+
+<section class="sec yellow" id="coach">
+  <h2 class="title reveal"><span>Meet your coach</span></h2>
+  <div class="coach">
+    <div class="coach-photo card reveal">${coach.photo(P.about.coach)}</div>
+    <div class="coach-text card reveal">
+      <p class="plan-freq">${P.about.coach.role}</p>
+      <h3>${P.about.coach.name}</h3>
+      <p class="coach-bio">${P.about.coach.bio}</p>
+      <ul class="creds" role="list">${P.about.coach.credentials.map((x) => html`<li>${x}</li>`)}</ul>
+      ${coach.timeline(P.about.coach)}
+    </div>
+  </div>
 </section>
 
 <section class="sec" id="memberships">
