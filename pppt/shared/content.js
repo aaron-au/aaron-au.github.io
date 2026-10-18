@@ -51,7 +51,7 @@ window.PPPT = {
     coach: {
       name: "Matt D'Angelo",
       role: "Founder & head coach",
-      photo: "../shared/coach.jpg",
+      photo: "../shared/coach.webp", // cut out of its white background; designs supply the backdrop
       // From Matt's own write-up, Oct 2026.
       bio: "I've been coaching since 2005, as a gym instructor, personal trainer, studio owner, gym manager and football strength and conditioning coach. Pulse Performance PT brings more than 20 years of that experience together, with one goal: helping people reach their health and fitness goals.",
       credentials: ["20+ years coaching", "PT studio owner since 2011", "Football strength & conditioning"],

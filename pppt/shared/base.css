@@ -181,7 +181,8 @@ html[data-location="in-person"] [data-loc="online"] { display: none !important; 
 
 /* Coach photo and career timeline (markup from core.js). */
 .coach-photo { overflow: hidden; }
-.coach-img { position: absolute; inset: 0; width: 100% !important; height: 100%; object-fit: cover; opacity: 1 !important; filter: none !important; }
+/* The portrait is a cut-out, so it sits on the design's own backdrop, anchored to the bottom. */
+.coach-img { position: absolute; inset: 6% 0 0; width: 100% !important; height: 94%; object-fit: contain; object-position: 50% 100%; opacity: 1 !important; filter: none !important; }
 .timeline { list-style: none; padding: 0; margin: 26px 0 0; border-left: 2px solid var(--tl-line, rgba(127, 127, 127, .3)); }
 .timeline li { position: relative; display: grid; grid-template-columns: 76px 1fr; gap: 14px; padding: 0 0 16px 20px; font-size: 15px; line-height: 1.5; }
 .timeline li::before { content: ""; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--tl-accent, var(--pulse-red)); }

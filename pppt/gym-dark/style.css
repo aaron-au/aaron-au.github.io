@@ -118,7 +118,7 @@ section { padding: clamp(72px, 11vw, 150px) var(--pad); position: relative; }
 /* ---- coach ------------------------------------------------------------- */
 
 .coach { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(40px, 6vw, 90px); align-items: start; border-top: 1px solid var(--line); }
-.coach-photo { position: relative; aspect-ratio: 4 / 5; background: var(--bg-2); border-bottom: 4px solid var(--red); position: sticky; top: 100px; }
+.coach-photo { position: relative; aspect-ratio: 4 / 5; background: radial-gradient(circle at 50% 38%, rgba(234, 52, 38, .55), rgba(234, 52, 38, .08) 55%, var(--bg-2) 75%); border-bottom: 4px solid var(--red); position: sticky; top: 100px; }
 .coach-text .display { font-size: clamp(48px, 6vw, 88px); margin: 14px 0 22px; }
 .coach-bio { color: #c4c4c4; font-size: 18px; max-width: 620px; }
 .creds { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
