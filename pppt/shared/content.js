@@ -139,7 +139,7 @@ window.PPPT = {
     tagline: "Train more. Save more. Get better results.",
     note: "12-week minimum commitment, paid by automatic weekly debit. After the first 12 weeks it continues on a rolling basis.",
     durations: [30, 45, 60],     // minutes
-    defaultDuration: 1,          // index into durations: 45 minutes
+    defaultDuration: 0,          // index into durations: 30 minutes (Matt's choice)
     includes: "Evolt 360 scan every 12 weeks included",
     // Memberships are bought and managed in myPTHub; the site only links out.
     signup: { label: "Sign up through myPTHub", href: "https://pulseperformancept.mypthub.net/p/" },

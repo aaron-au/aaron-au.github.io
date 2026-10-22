@@ -63,7 +63,7 @@ A full-screen popup was the other option. I went with the corner card because it
 
 Prices come from Matt's price list and live in `memberships` in `content.js`. Each price is an array with one value per session length (30, 45 and 60 minutes). The page works out everything else: the price per session, the saving against a casual session, and the per-session price of a 10-session pack. Change a weekly price and all of those follow.
 
-The 30 / 45 / 60 toggle switches every price on the page at once. The default length is `defaultDuration`.
+The 30 / 45 / 60 toggle switches every price on the page at once. The default length is `defaultDuration`, set to 30 minutes at Matt's request.
 
 Each extra weekly session takes $5 off every session at 45 and 60 minutes, and $2.50 at 30. Matt's list had 4× weekly at $280 and $360, which priced a session the same as 3× weekly and broke that pattern. The site uses $260 and $340 ($65 and $85 a session) instead. Aaron made that call, and Matt still needs to confirm it.
 
@@ -140,4 +140,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261018b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261022a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
