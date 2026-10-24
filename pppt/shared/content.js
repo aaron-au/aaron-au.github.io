@@ -163,7 +163,7 @@ window.PPPT = {
       pack: [550, 800, 1000],     // 10 sessions
       scan: 30,                   // Evolt 360 scan on demand
       products: {
-        casual: [null, null, null],
+        casual: [240673, 240672, 240676],
         pack: [238634, 238637, 239353],
         scan: 239923,
       },

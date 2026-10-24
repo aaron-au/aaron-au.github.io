@@ -35,7 +35,7 @@ Every myPTHub product has a public page, for example https://pulseperformancept.
 - `payg.products.scan` and each merch item's `product` take a single number.
 - `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
 
-The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three 10-packs, the Evolt scan, both online plans and every merch size have numbers. Casual sessions, the $119 program and the $55 online consultation don't have products in myPTHub yet, so those still go to the enquiry form.
+The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three casual sessions, the three 10-packs, the Evolt scan, both online plans, the $119 program, the $55 online consultation and every merch size have numbers. Every product on the site now links to myPTHub.
 
 The quickest way to read every product number is the page's own data: https://pulseperformancept.mypthub.net/p/ loads it from `api.mypthub.net/v4/trainers/172594/packages`. Each package there has its `id` (the product number), title, price in cents, billing interval and `available_until` date. When Matt adds or changes a product, update its number here. That should happen about once a year.
 
