@@ -35,7 +35,7 @@ Every myPTHub product has a public page, for example https://pulseperformancept.
 - `payg.products.scan` and each merch item's `product` take a single number.
 - `null` means there's no product yet. That "Buy online" link hides itself, and a merch tile links to the store home (`store.home`) instead.
 
-The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three 10-packs, the Evolt scan, both online plans and every merch size have numbers. Casual sessions, the $119 program and the $55 online consultation don't have products in myPTHub yet, so those still go to the enquiry form.
+The 12 weekly memberships, their 12 "(10% Discount)" versions (`specialProducts`), the three casual sessions, the three 10-packs, the Evolt scan, both online plans, the $119 program, the $55 online consultation and every merch size have numbers. Every product on the site now links to myPTHub.
 
 The quickest way to read every product number is the page's own data: https://pulseperformancept.mypthub.net/p/ loads it from `api.mypthub.net/v4/trainers/172594/packages`. Each package there has its `id` (the product number), title, price in cents, billing interval and `available_until` date. When Matt adds or changes a product, update its number here. That should happen about once a year.
 
@@ -63,7 +63,7 @@ A full-screen popup was the other option. I went with the corner card because it
 
 Prices come from Matt's price list and live in `memberships` in `content.js`. Each price is an array with one value per session length (30, 45 and 60 minutes). The page works out everything else: the price per session, the saving against a casual session, and the per-session price of a 10-session pack. Change a weekly price and all of those follow.
 
-The 30 / 45 / 60 toggle switches every price on the page at once. The default length is `defaultDuration`.
+The 30 / 45 / 60 toggle switches every price on the page at once. The default length is `defaultDuration`, set to 30 minutes at Matt's request.
 
 Each extra weekly session takes $5 off every session at 45 and 60 minutes, and $2.50 at 30. Matt's list had 4× weekly at $280 and $360, which priced a session the same as 3× weekly and broke that pattern. The site uses $260 and $340 ($65 and $85 a session) instead. Aaron made that call, and Matt still needs to confirm it.
 
@@ -140,4 +140,4 @@ This is a copy, not a link. Fixes made in `pulse-performance-pt` need copying ov
 
 ## Cache-buster
 
-The design pages and `index.html` load their CSS and JS with `?v=20261018b`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
+The design pages and `index.html` load their CSS and JS with `?v=20261022a`. The builder is on `?v=20260930a`. After changing anything, bump the string in every page that loads the changed file, so the CDN doesn't serve a mix of old and new files.
