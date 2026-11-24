@@ -75,6 +75,7 @@ are in the `<svg>` block near the top; script tags (load order + shared
 | `.githooks/pre-commit` | cache-buster guard (`git config core.hooksPath .githooks` on fresh clones) |
 | `pppt/` | Pulse Performance PT demo sites and scan builder: a preview copy for Matt, not linked from the homepage. Has its own `?v=` string. Master copy and handoff notes are in `pppt/site` on git.realee.org (`~/development/pppt`). |
 | `gouldings/` | Goulding's Gardening demo sites: four designs for a friend's gardening business, not linked from the homepage. Same pattern as `pppt/` (shared `content.js`, demo switcher bar). Has its own `?v=` string. The Facebook originals in `gouldings/landscapes/` are gitignored; see `gouldings/README.md`. |
+| `jag/` | JAG Landscaping and Maintenance demo sites: Goulding's rebranded, four designs built around the new logo. Forks the `gouldings/` shared code and reuses `gouldings/photos/` (don't delete that folder without moving the photos). Has its own `?v=` string. Logo cut-outs come from `jag/tools/prepare-logo.py`; see `jag/README.md`. |
 
 Storage/session key names are load-bearing — the list lives under "Known
 quirks" below.

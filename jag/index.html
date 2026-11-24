@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAG Landscaping and Maintenance: website designs</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="logo/favicon.png">
+<link rel="stylesheet" href="shared/base.css?v=20261121a">
+<style>
+  body { background: #000; color: #F2F2EE; min-height: 100vh; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 56px) 60px; }
+  header { display: flex; align-items: center; gap: 28px; margin-bottom: 44px; flex-wrap: wrap; }
+  header img { width: 170px; }
+  h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  h1 em { font-style: normal; color: var(--lime); }
+  header p { color: #A3A39C; margin-top: 8px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .card { display: block; text-decoration: none; background: #111; border: 1px solid #262626; border-radius: 12px; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .card:hover { transform: translateY(-4px); border-color: var(--lime); box-shadow: 0 20px 50px -24px rgba(199, 234, 70, .45); }
+  /* Live preview: a 1440x900 page scaled into the card. */
+  .frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #1a1a1a; }
+  .frame iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; }
+  .meta h2 { font-size: 17px; font-weight: 800; }
+  .meta p { font-size: 13px; color: #A3A39C; margin-top: 2px; }
+  .meta span { flex: none; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); }
+  footer { margin-top: 44px; color: #8A8A84; font-size: 13px; max-width: 760px; line-height: 1.7; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="logo/logo-dark.png" alt="JAG Landscaping and Maintenance">
+  <div>
+    <h1>Four website designs, <em>built around the new logo</em></h1>
+    <p>The same words and photos in four styles. Open one, scroll through it, and use the bar in the bottom-left corner to switch designs without losing your place.</p>
+  </div>
+</header>
+
+<main class="grid">
+  <a class="card" href="midnight/"><div class="frame"><iframe src="midnight/" loading="lazy" scrolling="no" tabindex="-1" title="Midnight preview"></iframe></div>
+    <div class="meta"><div><h2>Midnight</h2><p>Black and lime like the logo, condensed italic headings, photos edge to edge.</p></div><span>Open →</span></div></a>
+  <a class="card" href="daylight/"><div class="frame"><iframe src="daylight/" loading="lazy" scrolling="no" tabindex="-1" title="Daylight preview"></iframe></div>
+    <div class="meta"><div><h2>Daylight</h2><p>Bright and clean, the logo on a black bar, lime used as a highlighter.</p></div><span>Open →</span></div></a>
+  <a class="card" href="velocity/"><div class="frame"><iframe src="velocity/" loading="lazy" scrolling="no" tabindex="-1" title="Velocity preview"></iframe></div>
+    <div class="meta"><div><h2>Velocity</h2><p>Takes its slant from the letters: angled edges, heavy italics, lime stripes.</p></div><span>Open →</span></div></a>
+  <a class="card" href="grounds/"><div class="frame"><iframe src="grounds/" loading="lazy" scrolling="no" tabindex="-1" title="Grounds preview"></iframe></div>
+    <div class="meta"><div><h2>Grounds</h2><p>Calm and premium, with mowing-stripe texture and the ribbon as a motif.</p></div><span>Open →</span></div></a>
+</main>
+
+<footer>
+  Photos are of jobs from the Goulding's Gardening Facebook page. Phone number, hours and anything else in [square brackets] are placeholders.
+  The quote form is a demo and doesn't send anything.
+</footer>
+
+<script>
+  // Scale each 1440px-wide preview to fit its card.
+  const fit = () => document.querySelectorAll(".frame").forEach((f) => {
+    f.querySelector("iframe").style.transform = `scale(${f.clientWidth / 1440})`;
+  });
+  addEventListener("resize", fit);
+  fit();
+</script>
+</body>
+</html>
