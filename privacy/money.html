@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>money: privacy</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         background: #faf9f7; color: #1d1d1f; padding: clamp(28px, 6vw, 72px) clamp(18px, 5vw, 56px); }
+  main { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 28px; letter-spacing: -.01em; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 32px 0 6px; }
+  p, li { margin: 0 0 10px; }
+  ul { padding-left: 20px; }
+  .updated { color: #6e6e73; font-size: 14px; margin-bottom: 28px; }
+  a { color: #0a66c2; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1c1c1e; color: #f2f2f7; }
+    .updated { color: #a1a1a6; }
+    a { color: #6cb4ff; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>money: privacy</h1>
+  <p class="updated">Last updated 25 November 2026</p>
+
+  <p>money is a personal finance tracker that Aaron Lees wrote for himself. It
+  is not a public service. The only person who can connect accounts to it is
+  Aaron, and the only accounts it reads are his own.</p>
+
+  <h2>What it reads</h2>
+  <p>Through openfeed, under Australia's Consumer Data Right, money reads the
+  accounts Aaron chooses to share: account names and balances, transactions,
+  and energy accounts, bills and usage. It never sees a bank password.</p>
+
+  <h2>What it does with it</h2>
+  <ul>
+    <li>Matches bills to the payments that settled them, and tracks spending
+      and balances.</li>
+    <li>Stores the data on Aaron's own server in Australia. It is not sent to
+      any other service.</li>
+    <li>Nothing is sold, shared, used for advertising or sent to analytics.</li>
+  </ul>
+
+  <h2>Stopping and deleting</h2>
+  <p>Revoking money's access in openfeed stops any new data at once. Data
+  already fetched stays on Aaron's server until he deletes it, and he can
+  delete it at any time.</p>
+
+  <h2>Contact</h2>
+  <p><a href="https://www.linkedin.com/in/aaron-lees">LinkedIn</a> or
+  <a href="https://github.com/aaron-au">GitHub</a>.</p>
+</main>
+</body>
+</html>
